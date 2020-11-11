@@ -10,7 +10,6 @@ const ContentDiv = styled.div`
   height: 100vh;
 
 `
-
 class Content extends React.Component {
   render () {
     return (
