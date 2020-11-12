@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { createGlobalStyle } from 'styled-components'
 import Dashboard from './pages/dashboard/Dashboard'
 
 const theme = {
@@ -15,9 +14,6 @@ const theme = {
   secondaryColor: 'rgba(96, 125, 139, 0.7)',
   thirdColor: 'rgba(255, 191, 91, 0.9)',
 }
-
-// rgba(96, 125, 139, 0.7) = #607D8B
-// rgba(255, 191, 91) = #ffbf5b
 
 class App extends React.Component {
   render () {

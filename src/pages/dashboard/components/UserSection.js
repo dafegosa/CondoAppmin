@@ -9,7 +9,7 @@ export const UserTopBarDiv = styled.div`
   box-sizing: border-box;
 `
 
-export const WelcomeMsg = styled.h3`
+export const WelcomeMsg = styled.p`
   color: white;
   font-size: 12px;
 `
