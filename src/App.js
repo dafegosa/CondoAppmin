@@ -3,7 +3,7 @@ import {
   Route,
   Switch,
   Link,
-  Redirect
+  Redirect,
 } from 'react-router-dom'
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
@@ -16,12 +16,12 @@ const theme = {
 }
 
 class App extends React.Component {
-  render () {
+  render() {
     return (
       <Router>
         <Switch>
           <ThemeProvider theme={theme}>
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path='/dashboard' component={Dashboard} />
           </ThemeProvider>
         </Switch>
       </Router>
