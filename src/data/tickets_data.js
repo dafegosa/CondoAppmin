@@ -8,7 +8,7 @@ export const tickets_data = [
     body: "Hay un mal olor en toda la torre y proviene del shuy de basura...",
   },
   {
-    title: "101-T2 (1654-84-1)",
+    title: "101-T2 (1024-54-0)",
     body:
       "He solicitado en reiteradas ocaciones que arreglen el parque delos niños. Mis hijos van a jugar y no puede...",
   },
