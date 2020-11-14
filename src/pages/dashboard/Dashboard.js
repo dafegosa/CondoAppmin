@@ -4,12 +4,18 @@ import TopBar from './components/TopBar'
 import Content from './components/Content'
 
 
-export const DashboardDiv = styled.div`
+const DashboardDiv = styled.div`
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template: repeat(8, 1fr) / repeat(12, 1fr);
+  grid-gap: 0px;
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+
+  @media (max-width: 500px) {
+    grid-template: repeat(12, 1fr) / repeat(8, 1fr);
+  }
 
 `
 
