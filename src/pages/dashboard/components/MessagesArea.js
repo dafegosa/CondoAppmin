@@ -1,19 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { messages_data } from "../data/messages_data.js";
-import { tickets_data } from "../data/tickets_data.js";
+import { messages_data } from "../../../data/messages_data.js";
+import { tickets_data } from "../../../data/tickets_data.js";
 
-const ContenedorMensajes = styled.div`
+const MessageContainer = styled.div`
+  grid-area: 2 / 11 / 9 / 13;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  margin-left: 80%;
-  margin-top: 4.8%;
+  justify-content: space-between;
+  margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
-  position: absolute;
-  width: 20%;
-  height: 90vh;
+  width: 100%;
+  height: 100%;
   .secction-title {
     color: rgba(255, 191, 91, 0.9);
   }
@@ -27,11 +26,8 @@ const ContenedorMensajes = styled.div`
   }
 `;
 
-const Message1 = styled.div`
-  /* grid-column: 2 / 2;
-  grid-row: 4/ 4; */
+const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
-  position: relative;
   width: 90%;
   height: 12%;
   border-radius: 10px;
@@ -62,26 +58,27 @@ const Message1 = styled.div`
 class MessagesArea extends React.Component {
   render() {
     return (
-      <ContenedorMensajes>
+      <MessageContainer>
         <p className="secction-title top-title">
+          <br />
           <strong>TICKETS</strong>
         </p>
         {tickets_data.map((tickets) => (
-          <Message1>
+          <Message>
             <h3> {tickets.title} </h3>
             <p>{tickets.body}</p>
-          </Message1>
+          </Message>
         ))}
         <p className="secction-title top-title">
           <strong>MENSAJES</strong>
         </p>
         {messages_data.map((messages) => (
-          <Message1>
+          <Message>
             <h3> {messages.title} </h3>
             <p>{messages.body}</p>
-          </Message1>
+          </Message>
         ))}
-      </ContenedorMensajes>
+      </MessageContainer>
     );
   }
 }

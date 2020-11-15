@@ -10,6 +10,6 @@ export const tickets_data = [
   {
     title: "101-T2 (1024-54-0)",
     body:
-      "He solicitado en reiteradas ocaciones que arreglen el parque delos niños. Mis hijos van a jugar y no puede...",
+      "He solicitado en reiteradas ocaciones que arreglen el parque delos niños. Mis ...",
   },
 ];
