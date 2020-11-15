@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { messages_data } from "../../../data/messages_data.js";
-import { tickets_data } from "../../../data/tickets_data.js";
+import { messagesData } from "../../../data/messagesData.js";
+import { ticketsData } from "../../../data/ticketsData.js";
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -63,19 +63,22 @@ class MessagesArea extends React.Component {
           <br />
           <strong>TICKETS</strong>
         </p>
-        {tickets_data.map((tickets) => (
-          <Message>
-            <h3> {tickets.title} </h3>
-            <p>{tickets.body}</p>
-          </Message>
-        ))}
+        {ticketsData.map(
+          (tickets) =>
+            ticketsData && (
+              <Message key={ticketsData.id}>
+                <h3> {!!tickets.id && tickets.body && tickets.title} </h3>
+                <p>{!!tickets.id && tickets.title && tickets.body}</p>
+              </Message>
+            )
+        )}
         <p className="secction-title top-title">
           <strong>MENSAJES</strong>
         </p>
-        {messages_data.map((messages) => (
-          <Message>
-            <h3> {messages.title} </h3>
-            <p>{messages.body}</p>
+        {messagesData.map((messages) => (
+          <Message key={messagesData.id}>
+            <h3> {!!messages.id && messages.body && messages.title} </h3>
+            <p>{!!messages.id && messages.title && messages.body}</p>
           </Message>
         ))}
       </MessageContainer>
