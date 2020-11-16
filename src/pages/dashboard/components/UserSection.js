@@ -67,7 +67,7 @@ class UserSection extends React.Component {
 
     this.setState({
       renderOptions: !renderOptions
-    }, () => console.log('current', this.state))
+    })
     
   }
 
