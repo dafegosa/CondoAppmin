@@ -11,8 +11,6 @@ const MessageContainer = styled.div`
   justify-content: space-between;
   margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
-  width: 100%;
-  height: 100%;
   .secction-title {
     color: rgba(255, 191, 91, 0.9);
   }
@@ -28,8 +26,6 @@ const MessageContainer = styled.div`
 
 const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
-  width: 90%;
-  height: 12%;
   border-radius: 10px;
   color: white;
   box-shadow: 0px 1px 8px 0px white;
@@ -69,13 +65,8 @@ class MessagesArea extends React.Component {
             (tickets) =>
               ticketsData && (
                 <Message>
-                  <h3 key={tickets.id}>
-                    {" "}
-                    {!!tickets.id && tickets.body && tickets.title}{" "}
-                  </h3>
-                  <p key={tickets.id}>
-                    {!!tickets.id && tickets.title && tickets.body}
-                  </p>
+                  <h3 key={tickets.title}> {tickets.title} </h3>
+                  <p key={tickets.id}>{tickets.body}</p>
                 </Message>
               )
           )}
@@ -86,13 +77,8 @@ class MessagesArea extends React.Component {
           messagesData.length > 0 &&
           messagesData.map((messages) => (
             <Message>
-              <h3 key={messages.id}>
-                {" "}
-                {!!messages.id && messages.body && messages.title}{" "}
-              </h3>
-              <p key={messages.id}>
-                {!!messages.id && messages.title && messages.body}
-              </p>
+              <h3 key={messages.title}> {messages.title} </h3>
+              <p key={messages.id}>{messages.body}</p>
             </Message>
           ))}
       </MessageContainer>

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { usersData } from "../data/usersData";
 
-const Contenedor = styled.form`
+const Container = styled.form`
   padding: 1% 0;
   text-align: center;
   margin-bottom: 30vh;
@@ -35,7 +36,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Radio__label = styled.label`
+const RadioLabel = styled.label`
   color: #90a4ae;
   &:hover {
     color: white;
@@ -68,54 +69,92 @@ const Paragraph = styled.p`
   background: #282c34;
 `;
 
-function Login({ email, password, user, userValidation, handleInputChange }) {
-  return (
-    <div>
-      <Contenedor onSubmit={userValidation}>
-        <div onChange={handleInputChange}>
-          <input type="radio" id="admin" name="user" value={user} required />
-          <Radio__label htmlFor="admin">Administrador</Radio__label>
+class Login extends Component {
+  state = {
+    email: "",
+    password: "",
+    type: "",
+    users: usersData,
+  };
 
-          <input type="radio" id="resident" name="user" value={user} />
-          <Radio__label htmlFor="resident">Residente</Radio__label>
-        </div>
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
-        <label htmlFor="email"></label>
-        <br />
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={handleInputChange}
-          placeholder="email"
-          required
-        />
+  userValidation = (e) => {
+    console.log("ok");
+    e.preventDefault();
+    const { email, password, type } = this.state;
+    const validUser = {
+      email,
+      password,
+      type,
+    };
+    console.log(validUser);
+    const result = this.state.users.filter(
+      (thisUser) =>
+        thisUser.type === validUser.type &&
+        thisUser.email === validUser.email &&
+        thisUser.password === validUser.password
+    );
 
-        <br />
-        <label htmlFor="password"></label>
-        <br />
-        <Input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handleInputChange}
-          placeholder="Password"
-          required
-        />
+    console.log(result);
 
-        <br />
-        <br />
-        <Boton>Ingresar</Boton>
-        <Paragraph>
-          ¿No tienes una cuenta?{" "}
-          <Link to="/register" className="Register-link">
-            Registrarme
-          </Link>
-        </Paragraph>
-      </Contenedor>
-    </div>
-  );
+    if (result.length > 0) {
+      this.props.history.push("/dashboard");
+    }
+  };
+  render() {
+    const { email, password } = this.state;
+    return (
+      <div>
+        <Container onSubmit={this.userValidation}>
+          <div onChange={this.handleInputChange}>
+            <input type="radio" id="admin" name="type" value="admin" required />
+            <RadioLabel htmlFor="admin">Administrador</RadioLabel>
+
+            <input type="radio" id="resident" name="type" value="resident" />
+            <RadioLabel htmlFor="resident">Residente</RadioLabel>
+          </div>
+
+          <label htmlFor="email"></label>
+          <br />
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={this.handleInputChange}
+            placeholder="email"
+            required
+          />
+
+          <br />
+          <label htmlFor="password"></label>
+          <br />
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={this.handleInputChange}
+            placeholder="Password"
+            required
+          />
+
+          <br />
+          <br />
+          <Boton>Ingresar</Boton>
+          <Paragraph>
+            ¿No tienes una cuenta?{" "}
+            <Link to="/register" className="Register-link">
+              Registrarme
+            </Link>
+          </Paragraph>
+        </Container>
+      </div>
+    );
+  }
 }
 export default Login;

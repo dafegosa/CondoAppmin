@@ -2,31 +2,31 @@ export const usersData = [
   {
     email: "danielgomez.s@hotmail.com",
     password: "123",
-    user: "admin",
+    type: "admin",
   },
   {
     email: "prometheus1985@gmail.com",
     password: "mypassword1",
-    user: "admin",
+    type: "admin",
   },
   {
     email: "alejo.alfaro@hotmail.com",
     password: "mypassword2",
-    user: "admin",
+    type: "admin",
   },
   {
     email: "residente1@hotmail.com",
     password: "mypassword2",
-    user: "resident",
+    type: "resident",
   },
   {
     email: "residente1@hotmail.com",
     password: "mypassword2",
-    user: "resident",
+    type: "resident",
   },
   {
     email: "residente1@hotmail.com",
     password: "mypassword2",
-    user: "resident",
+    type: "resident",
   },
 ];

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { usersData } from "../data/usersData";
 
 const Container = styled.form`
   padding: 1% 0;
@@ -35,7 +36,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Radio__label = styled.label`
+const RadioLabel = styled.label`
   color: #90a4ae;
   &:hover {
     color: white;
@@ -68,54 +69,88 @@ const Paragraph = styled.p`
   background: #282c34;
 `;
 
-function Register({ email, password, user, createUser, handleInputChange }) {
-  return (
-    <div>
-      <Container onSubmit={createUser}>
-        <div onChange={handleInputChange}>
-          <input type="radio" id="admin" name="user" value={user} required />
-          <Radio__label htmlFor="admin">Administrador</Radio__label>
+class Register extends Component {
+  state = {
+    email: "",
+    password: "",
+    type: "",
+    users: usersData,
+  };
 
-          <input type="radio" id="resident" name="user" value={user} />
-          <Radio__label htmlFor="resident">Residente</Radio__label>
-        </div>
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
-        <label htmlFor="email"></label>
-        <br />
-        <Input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={handleInputChange}
-          placeholder="email"
-          required
-        />
+  createUser = (e) => {
+    e.preventDefault();
 
-        <br />
-        <label htmlFor="password"></label>
-        <br />
-        <Input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handleInputChange}
-          placeholder="Password"
-          required
-        />
+    const { email, password, type } = this.state;
+    const newUser = {
+      email,
+      password,
+      type,
+    };
 
-        <br />
-        <br />
-        <Boton>Registrarme</Boton>
-        <Paragraph>
-          ¿Ya tienes una cuenta?{" "}
-          <Link to="/login" className="Register-link">
-            Ingresar
-          </Link>
-        </Paragraph>
-      </Container>
-    </div>
-  );
+    this.setState(
+      {
+        users: [...this.state.users, newUser],
+      },
+      () => console.log("current", this.state)
+    );
+
+    console.log(this.state.users);
+  };
+  render() {
+    const { email, password } = this.state;
+    return (
+      <div>
+        <Container onSubmit={this.createUser}>
+          <div onChange={this.handleInputChange}>
+            <input type="radio" id="admin" name="type" value="admin" required />
+            <RadioLabel htmlFor="admin">Administrador</RadioLabel>
+
+            <input type="radio" id="resident" name="type" value="resident" />
+            <RadioLabel htmlFor="resident">Residente</RadioLabel>
+          </div>
+
+          <label htmlFor="email"></label>
+          <br />
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={this.handleInputChange}
+            placeholder="email"
+            required
+          />
+
+          <br />
+          <label htmlFor="password"></label>
+          <br />
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={this.handleInputChange}
+            placeholder="Password"
+            required
+          />
+
+          <br />
+          <br />
+          <Boton>Registrarme</Boton>
+          <Paragraph>
+            ¿Ya tienes una cuenta?{" "}
+            <Link to="/login" className="Register-link">
+              Ingresar
+            </Link>
+          </Paragraph>
+        </Container>
+      </div>
+    );
+  }
 }
 export default Register;
