@@ -63,24 +63,38 @@ class MessagesArea extends React.Component {
           <br />
           <strong>TICKETS</strong>
         </p>
-        {ticketsData.map(
-          (tickets) =>
-            ticketsData && (
-              <Message key={ticketsData.id}>
-                <h3> {!!tickets.id && tickets.body && tickets.title} </h3>
-                <p>{!!tickets.id && tickets.title && tickets.body}</p>
-              </Message>
-            )
-        )}
+        {!!ticketsData &&
+          ticketsData.length > 0 &&
+          ticketsData.map(
+            (tickets) =>
+              ticketsData && (
+                <Message>
+                  <h3 key={tickets.id}>
+                    {" "}
+                    {!!tickets.id && tickets.body && tickets.title}{" "}
+                  </h3>
+                  <p key={tickets.id}>
+                    {!!tickets.id && tickets.title && tickets.body}
+                  </p>
+                </Message>
+              )
+          )}
         <p className="secction-title top-title">
           <strong>MENSAJES</strong>
         </p>
-        {messagesData.map((messages) => (
-          <Message key={messagesData.id}>
-            <h3> {!!messages.id && messages.body && messages.title} </h3>
-            <p>{!!messages.id && messages.title && messages.body}</p>
-          </Message>
-        ))}
+        {!!messagesData &&
+          messagesData.length > 0 &&
+          messagesData.map((messages) => (
+            <Message>
+              <h3 key={messages.id}>
+                {" "}
+                {!!messages.id && messages.body && messages.title}{" "}
+              </h3>
+              <p key={messages.id}>
+                {!!messages.id && messages.title && messages.body}
+              </p>
+            </Message>
+          ))}
       </MessageContainer>
     );
   }
