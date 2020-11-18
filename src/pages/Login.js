@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { usersData } from "../data/usersData";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { usersData } from '../data/usersData';
 
 const Container = styled.form`
   padding: 1% 0;
@@ -71,9 +71,9 @@ const Paragraph = styled.p`
 
 class Login extends Component {
   state = {
-    email: "",
-    password: "",
-    type: "",
+    email: '',
+    password: '',
+    type: '',
     users: usersData,
   };
 
@@ -83,7 +83,7 @@ class Login extends Component {
   };
 
   userValidation = (e) => {
-    console.log("ok");
+    console.log('ok');
     e.preventDefault();
     const { email, password, type } = this.state;
     const validUser = {
@@ -102,7 +102,7 @@ class Login extends Component {
     console.log(result);
 
     if (result.length > 0) {
-      this.props.history.push("/dashboard");
+      this.props.history.push('/dashboard');
     }
   };
   render() {
@@ -111,35 +111,35 @@ class Login extends Component {
       <div>
         <Container onSubmit={this.userValidation}>
           <div onChange={this.handleInputChange}>
-            <input type="radio" id="admin" name="type" value="admin" required />
-            <RadioLabel htmlFor="admin">Administrador</RadioLabel>
+            <input type='radio' id='admin' name='type' value='admin' required />
+            <RadioLabel htmlFor='admin'>Administrador</RadioLabel>
 
-            <input type="radio" id="resident" name="type" value="resident" />
-            <RadioLabel htmlFor="resident">Residente</RadioLabel>
+            <input type='radio' id='resident' name='type' value='resident' />
+            <RadioLabel htmlFor='resident'>Residente</RadioLabel>
           </div>
 
-          <label htmlFor="email"></label>
+          <label htmlFor='email'></label>
           <br />
           <Input
-            type="email"
-            id="email"
-            name="email"
+            type='email'
+            id='email'
+            name='email'
             value={email}
             onChange={this.handleInputChange}
-            placeholder="email"
+            placeholder='email'
             required
           />
 
           <br />
-          <label htmlFor="password"></label>
+          <label htmlFor='password'></label>
           <br />
           <Input
-            type="password"
-            id="password"
-            name="password"
+            type='password'
+            id='password'
+            name='password'
             value={password}
             onChange={this.handleInputChange}
-            placeholder="Password"
+            placeholder='Password'
             required
           />
 
@@ -147,8 +147,8 @@ class Login extends Component {
           <br />
           <Boton>Ingresar</Boton>
           <Paragraph>
-            ¿No tienes una cuenta?{" "}
-            <Link to="/register" className="Register-link">
+            ¿No tienes una cuenta?{' '}
+            <Link to='/register' className='Register-link'>
               Registrarme
             </Link>
           </Paragraph>

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { messagesData } from "../../../data/messagesData.js";
-import { ticketsData } from "../../../data/ticketsData.js";
+import React from 'react';
+import styled from 'styled-components';
+import { messagesData } from '../../../data/messagesData.js';
+import { ticketsData } from '../../../data/ticketsData.js';
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -55,7 +55,7 @@ class MessagesArea extends React.Component {
   render() {
     return (
       <MessageContainer>
-        <p className="secction-title top-title">
+        <p className='secction-title top-title'>
           <br />
           <strong>TICKETS</strong>
         </p>
@@ -70,7 +70,7 @@ class MessagesArea extends React.Component {
                 </Message>
               )
           )}
-        <p className="secction-title top-title">
+        <p className='secction-title top-title'>
           <strong>MENSAJES</strong>
         </p>
         {!!messagesData &&
