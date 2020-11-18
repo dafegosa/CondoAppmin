@@ -9,7 +9,6 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import Home from './pages/home/Home'
 import Dashboard from './pages/dashboard/Dashboard'
-import Login from './pages/login/Login'
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -85,12 +84,12 @@ class App extends React.Component {
             <Route exact path='/'>
               <Home />
             </Route>
-            <Route exact path='/login'>
+            {/* <Route exact path='/login'>
               <Login 
                 user={this.state.login} 
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit} />
-            </Route>
+            </Route> */}
             <Route exact path='/dashboard'>
               <Dashboard name='Alejandro'/>
             </Route> 
