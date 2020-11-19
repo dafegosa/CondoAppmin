@@ -8,6 +8,7 @@ import {
 import React from 'react'
 import /* styled, */ { ThemeProvider } from 'styled-components'
 import Dashboard from './pages/dashboard/Dashboard'
+import axios from 'axios'
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -16,6 +17,8 @@ const theme = {
 };
 
 class App extends React.Component {
+
+  
   render() {
     return (
     <ThemeProvider theme={theme}>
@@ -29,12 +32,8 @@ class App extends React.Component {
           </Route>
         </Switch>
       </Router>
-<<<<<<< HEAD
     </ThemeProvider>
     )
-=======
-    );
->>>>>>> 8df92a3149a649228272d977ffbdd0672e00204e
   }
 }
 

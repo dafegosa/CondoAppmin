@@ -28,13 +28,9 @@ const DashboardDiv = styled.div`
 function Dashboard (props) {
 return (
       <DashboardDiv>
-<<<<<<< HEAD
         {console.log('Dashboard', props)}
         {console.log('Theme', props.theme)}
         <TopBar name={"Alejandro"} />
-=======
-        <TopBar name={'Alejandro'} />
->>>>>>> 8df92a3149a649228272d977ffbdd0672e00204e
         <MessagesArea />
         <Content content={props.match.url}/>
       </DashboardDiv>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ResidentsForm = styled.form`
+const UnitsForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@ class AddResidentForm extends React.Component {
   render () {
     const { unit, building } = this.state
     return (
-      <ResidentsForm onSubmit={this.handleSubmit}>
+      <UnitsForm onSubmit={this.handleSubmit}>
         <div>
           <label htmlFor="unit">Apartamento</label>
           <input
@@ -53,7 +53,7 @@ class AddResidentForm extends React.Component {
           />
         </div>
         <button type="submit">Submit</button>
-      </ResidentsForm>
+      </UnitsForm>
     )
   }
 }

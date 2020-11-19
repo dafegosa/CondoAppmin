@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ContentAddResident from "./add-residents/ContentAddResident"
 import ContentAddUnits from "./add-units/ContentAddUnit"
+import ContentAddCondos from "./add-condo/ContentAddCondo"
 
 const ContentDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.05);
@@ -29,6 +30,9 @@ class Content extends React.Component {
         break;
       case 'addunit':
         return <ContentAddUnits />
+        break;
+      case 'addcondo':
+        return <ContentAddCondos />
         break;
     
       default:
