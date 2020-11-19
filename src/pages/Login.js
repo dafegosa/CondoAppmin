@@ -83,7 +83,6 @@ class Login extends Component {
   };
 
   userValidation = (e) => {
-    console.log('ok');
     e.preventDefault();
     const { email, password, type } = this.state;
     const validUser = {
@@ -91,15 +90,12 @@ class Login extends Component {
       password,
       type,
     };
-    console.log(validUser);
     const result = this.state.users.filter(
       (thisUser) =>
         thisUser.type === validUser.type &&
         thisUser.email === validUser.email &&
         thisUser.password === validUser.password
     );
-
-    console.log(result);
 
     if (result.length > 0) {
       this.props.history.push('/dashboard');

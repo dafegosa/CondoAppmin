@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import TopBar from './components/TopBar';
 import Content from './components/Content';
 import MessagesArea from './components/MessagesArea';
-import LeftMenu from './components/LeftMenu';
 const DashboardDiv = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -23,7 +22,6 @@ class Dashboard extends React.Component {
     return (
       <DashboardDiv>
         <TopBar name={'Alejandro'} />
-        <LeftMenu />
         <MessagesArea />
         <Content />
       </DashboardDiv>

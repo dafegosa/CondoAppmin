@@ -92,14 +92,9 @@ class Register extends Component {
       type,
     };
 
-    this.setState(
-      {
-        users: [...this.state.users, newUser],
-      },
-      () => console.log('current', this.state)
-    );
-
-    console.log(this.state.users);
+    this.setState({
+      users: [...this.state.users, newUser],
+    });
   };
   render() {
     const { email, password } = this.state;

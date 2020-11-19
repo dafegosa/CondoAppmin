@@ -61,15 +61,12 @@ class MessagesArea extends React.Component {
         </p>
         {!!ticketsData &&
           ticketsData.length > 0 &&
-          ticketsData.map(
-            (tickets) =>
-              ticketsData && (
-                <Message>
-                  <h3 key={tickets.title}> {tickets.title} </h3>
-                  <p key={tickets.id}>{tickets.body}</p>
-                </Message>
-              )
-          )}
+          ticketsData.map((tickets) => (
+            <Message>
+              <h3 key={tickets.id}> {tickets.title} </h3>
+              <p key={tickets.id}>{tickets.body}</p>
+            </Message>
+          ))}
         <p className='secction-title top-title'>
           <strong>MENSAJES</strong>
         </p>
@@ -77,7 +74,7 @@ class MessagesArea extends React.Component {
           messagesData.length > 0 &&
           messagesData.map((messages) => (
             <Message>
-              <h3 key={messages.title}> {messages.title} </h3>
+              <h3 key={messages.id}> {messages.title} </h3>
               <p key={messages.id}>{messages.body}</p>
             </Message>
           ))}
