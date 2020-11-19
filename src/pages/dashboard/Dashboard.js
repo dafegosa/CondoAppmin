@@ -18,6 +18,7 @@ const DashboardDiv = styled.div`
   }
 `;
 
+
 class Dashboard extends React.Component {
   render() {
     return (
