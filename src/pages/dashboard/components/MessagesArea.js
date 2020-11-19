@@ -5,7 +5,9 @@ import { ticketsData } from '../../../data/ticketsData.js';
 
 let lastThreeMessages = [];
 let unreadMessages = [];
-
+unreadMessages = ticketsData.filter(
+  (messageUnread) => messageUnread.read === false
+);
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
   display: flex;
@@ -60,29 +62,34 @@ const Message = styled.div`
 
 class MessagesArea extends React.Component {
   ReadMessage = (e) => {
-    console.log(e);
-    // this.e.read = true;
+    unreadMessages[e].read = true;
+
+    console.log(unreadMessages);
   };
 
-  render() {
-    unreadMessages = ticketsData.filter(
+  componentDidUpdate(prevProps, prevState) {
+    unreadMessages = unreadMessages.filter(
       (messageUnread) => messageUnread.read === false
     );
-    lastThreeMessages = ticketsData.slice(
-      ticketsData.length - 8,
-      ticketsData.length
-    );
-    console.log(lastThreeMessages);
+  }
+  render() {
+    // lastThreeMessages = ticketsData.slice(
+    //   ticketsData.length - 8,
+    //   ticketsData.length
+    // );
+    // unreadMessages = unreadMessages.filter(
+    //   (messageUnread) => messageUnread.read === false
+    // );
     return (
       <MessageContainer>
         <p className="secction-title top-title">
           <br />
           <strong>TICKETS</strong>
         </p>
-        {!!lastThreeMessages &&
-          lastThreeMessages.length > 0 &&
-          lastThreeMessages.map((tickets, indx) => (
-            <Message onClick={this.ReadMessage.bind(this.indx)}>
+        {!!unreadMessages &&
+          unreadMessages.length > 0 &&
+          unreadMessages.map((tickets, indx) => (
+            <Message onClick={this.ReadMessage.bind(tickets, indx)}>
               <h3 key={tickets.title}> {tickets.title} </h3>
               <p key={tickets.id}>
                 {tickets.body.length > 35 &&
