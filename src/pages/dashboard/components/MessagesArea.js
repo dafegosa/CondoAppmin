@@ -55,7 +55,7 @@ class MessagesArea extends React.Component {
   render() {
     return (
       <MessageContainer>
-        <p className='secction-title top-title'>
+        <p className="secction-title top-title">
           <br />
           <strong>TICKETS</strong>
         </p>
@@ -67,7 +67,7 @@ class MessagesArea extends React.Component {
               <p key={tickets.id}>{tickets.body}</p>
             </Message>
           ))}
-        <p className='secction-title top-title'>
+        <p className="secction-title top-title">
           <strong>MENSAJES</strong>
         </p>
         {!!messagesData &&

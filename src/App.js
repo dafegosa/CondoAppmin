@@ -15,13 +15,13 @@ const theme = {
 class App extends React.Component {
   render() {
     return (
-      <header className='App-header'>
+      <header className="App-header">
         <Router>
           <Switch>
             <ThemeProvider theme={theme}>
-              <Route exact path='/dashboard' component={Dashboard} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/login' component={Login} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
             </ThemeProvider>
           </Switch>
         </Router>
