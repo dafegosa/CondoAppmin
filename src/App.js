@@ -9,6 +9,8 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import Home from './pages/home/Home'
 import Dashboard from './pages/dashboard/Dashboard'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -78,24 +80,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          <ThemeProvider theme={theme}>
-            <Route exact path='/'>
-              <Home />
-            </Route>
-            {/* <Route exact path='/login'>
-              <Login 
-                user={this.state.login} 
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit} />
-            </Route> */}
-            <Route exact path='/dashboard'>
-              <Dashboard name='Alejandro'/>
-            </Route> 
-          </ThemeProvider>
-        </Switch>
-      </Router>
+      <header className="App-header">
+        <Router>
+          <Switch>
+            <ThemeProvider theme={theme}>
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+            </ThemeProvider>
+          </Switch>
+        </Router>
+      </header>
     );
   }
 }
