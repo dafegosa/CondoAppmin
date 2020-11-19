@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { usersData } from "../data/usersData";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { usersData } from '../data/usersData';
 
 const Container = styled.form`
   padding: 1% 0;
@@ -71,9 +71,9 @@ const Paragraph = styled.p`
 
 class Login extends Component {
   state = {
-    email: "",
-    password: "",
-    type: "",
+    email: '',
+    password: '',
+    type: '',
     users: usersData,
   };
 
@@ -83,7 +83,7 @@ class Login extends Component {
   };
 
   userValidation = (e) => {
-    console.log("ok");
+    console.log('ok');
     e.preventDefault();
     const { email, password, type } = this.state;
     const validUser = {
@@ -102,7 +102,7 @@ class Login extends Component {
     console.log(result);
 
     if (result.length > 0) {
-      this.props.history.push("/dashboard");
+      this.props.history.push('/dashboard');
     }
   };
   render() {
@@ -147,7 +147,7 @@ class Login extends Component {
           <br />
           <Boton>Ingresar</Boton>
           <Paragraph>
-            ¿No tienes una cuenta?{" "}
+            ¿No tienes una cuenta?{' '}
             <Link to="/register" className="Register-link">
               Registrarme
             </Link>

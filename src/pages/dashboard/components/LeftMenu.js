@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import logo from "../../../logo.svg";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import logo from '../../../logo.svg';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   grid-area: 1 / 1 / 9 / 3;

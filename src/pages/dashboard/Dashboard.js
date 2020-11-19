@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import TopBar from "./components/TopBar";
-import Content from "./components/Content";
-import MessagesArea from "./components/MessagesArea";
-import CentralMessagesList from "./components/CentralMessagesList";
-import LeftMenu from "./components/LeftMenu";
+import React from 'react';
+import styled from 'styled-components';
+import TopBar from './components/TopBar';
+import Content from './components/Content';
+import MessagesArea from './components/MessagesArea';
+import CentralMessagesList from './components/CentralMessagesList';
+import LeftMenu from './components/LeftMenu';
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <DashboardDiv>
-        <TopBar name={"Alejandro"} />
+        <TopBar name={'Alejandro'} />
         <LeftMenu />
         <CentralMessagesList />
         <MessagesArea />

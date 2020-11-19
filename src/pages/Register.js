@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { usersData } from "../data/usersData";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { usersData } from '../data/usersData';
 
 const Container = styled.form`
   padding: 1% 0;
@@ -71,9 +71,9 @@ const Paragraph = styled.p`
 
 class Register extends Component {
   state = {
-    email: "",
-    password: "",
-    type: "",
+    email: '',
+    password: '',
+    type: '',
     users: usersData,
   };
 
@@ -96,7 +96,7 @@ class Register extends Component {
       {
         users: [...this.state.users, newUser],
       },
-      () => console.log("current", this.state)
+      () => console.log('current', this.state)
     );
 
     console.log(this.state.users);
@@ -143,7 +143,7 @@ class Register extends Component {
           <br />
           <Boton>Registrarme</Boton>
           <Paragraph>
-            ¿Ya tienes una cuenta?{" "}
+            ¿Ya tienes una cuenta?{' '}
             <Link to="/login" className="Register-link">
               Ingresar
             </Link>
