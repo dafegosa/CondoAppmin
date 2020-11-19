@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import logo from '../../../logo.svg'
-import { Link } from 'react-router-dom'
 
 const Container = styled.div`
+  grid-area: 1 / 1 / 9 / 3;
   background-color: #ffbf5b;
   min-width: 15vw;
   min-height: 100vh;
@@ -16,32 +16,26 @@ const Logo = styled.div`
 const SideMenu = styled.div`
   padding-top: 20px;
   margin-left: 20px;
+  position: relative;
+`
+const Select = styled.div`
+  cursor: pointer;
+  display: flex;
+  padding: 10px;
+  color: #0a0f0f;
+  &:hover {
+    background-color: white;
+  }
+
+  & i {
+    color: #607d8b;
+    font-size: 1.2rem;
+  }
 
   & li {
-    padding: 16px;
-    cursor: pointer;
-    transition: 0.2s ease-in;
-
-    &:hover {
-      background-color: #607d8b;
-      color: white;
-    }
-
-    &:active {
-      font-size: 1.1rem;
-    }
-
-    & i {
-      color: #607d8b;
-      margin-right: 10px;
-    }
-
-    & span {
-      &:hover {
-        color: white;
-        text-decoration: none;
-      }
-    }
+    margin-left: 20px;
+    position: absolute;
+    left: 30px;
   }
 `
 
@@ -51,6 +45,16 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
+  const leftMenuNav = [
+    {
+      name: 'Mensajes',
+      icon: 'fas fa-envelope',
+    },
+    { name: 'Pagos', icon: 'fas fa-money-check-alt' },
+    { name: 'Eventos', icon: 'fas fa-calendar-alt' },
+    { name: 'Tickets', icon: 'fas fa-comment-dots' },
+    { name: 'Crear perfil', icon: 'fas fa-user-plus' },
+  ]
   return (
     <Container>
       <Logo>
@@ -59,36 +63,13 @@ const LeftMenu = () => {
 
       <SideMenu>
         <ul>
-          <li>
-            <Link>
-              <i className='fas fa-envelope'></i>
-              <span>Mensajes</span>
-            </Link>
-          </li>
-          <li>
-            <Link>
-              <i className='fas fa-money-check-alt'></i>
-              <span>Pagos</span>
-            </Link>
-          </li>
-          <li>
-            <Link>
-              <i className='fas fa-calendar-alt'></i>
-              <span>Eventos</span>
-            </Link>
-          </li>
-          <li>
-            <Link>
-              <i className='fas fa-comment-dots'></i>
-              <span>Tickets</span>
-            </Link>
-          </li>
-          <li>
-            <Link>
-              <i className='fas fa-user-plus'></i>
-              <span>Crear perfil</span>
-            </Link>
-          </li>
+          {leftMenuNav.map((el) => (
+            <Select>
+              <i class={el.icon}></i>
+              <li>{el.name}</li>
+              <br />
+            </Select>
+          ))}
         </ul>
       </SideMenu>
 

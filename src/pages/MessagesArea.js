@@ -1,18 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { messages_data } from "../data/messages_data.js";
-import { tickets_data } from "../data/tickets_data.js";
+import React from 'react'
+import styled from 'styled-components'
+import { messagesData } from '../data/messagesData'
+import { ticketsData } from '../data/ticketsData.js'
 
-const ContenedorMensajes = styled.div`
-  display: grid;
-  grid-template-columns: 5% 90% 5%;
-  grid-template-rows: 6% 2% 2% 12% 1% 12% 1% 12% 4% 2% 2% 12% 1% 12% 1% 12% 2% 4%;
-  margin-left: 80%;
-  margin-top: 4%;
+const MessageContainer = styled.div`
+  grid-area: 2 / 11 / 9 / 13;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
-  position: absolute;
-  width: 20%;
-  height: 91.5vh;
   .secction-title {
     color: rgba(255, 191, 91, 0.9);
   }
@@ -24,15 +22,10 @@ const ContenedorMensajes = styled.div`
     grid-column: 2 / 2;
     grid-row: 10/ 10;
   }
-`;
+`
 
-const Message1 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 4/ 4;
+const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
   border-radius: 10px;
   color: white;
   box-shadow: 0px 1px 8px 0px white;
@@ -56,205 +49,38 @@ const Message1 = styled.div`
     margin: 2% 6%;
     line-height: 1.2;
   }
-`;
-
-const Message2 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 6 / 6;
-  background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0px 1px 8px 0px white;
-  text-align: justify;
-  &:hover {
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
-    h3 {
-      color: #d6d6d2;
-    }
-    p {
-      color: white;
-    }
-  }
-  h3 {
-    margin: 2%;
-  }
-  p {
-    font-size: 12.5px;
-    color: #d6d6d2;
-    margin: 2% 6%;
-    line-height: 1.2;
-  }
-`;
-
-const Message3 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 8 / 8;
-  background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0px 1px 8px 0px white;
-  text-align: justify;
-  &:hover {
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
-    h3 {
-      color: #d6d6d2;
-    }
-    p {
-      color: white;
-    }
-  }
-  h3 {
-    margin: 2%;
-  }
-  p {
-    font-size: 12.5px;
-    color: #d6d6d2;
-    margin: 2% 6%;
-    line-height: 1.2;
-  }
-`;
-
-const Message4 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 12 / 12;
-  background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  box-shadow: 0px 1px 8px 0px white;
-  color: white;
-  text-align: justify;
-  &:hover {
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
-    h3 {
-      color: #d6d6d2;
-    }
-    p {
-      color: white;
-    }
-  }
-  h3 {
-    margin: 2%;
-  }
-  p {
-    font-size: 12.5px;
-    color: #d6d6d2;
-    margin: 2% 6%;
-    line-height: 1.2;
-  }
-`;
-
-const Message5 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 14 / 14;
-  background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0px 1px 8px 0px white;
-  text-align: justify;
-  &:hover {
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
-    h3 {
-      color: #d6d6d2;
-    }
-    p {
-      color: white;
-    }
-  }
-  h3 {
-    margin: 2%;
-  }
-  p {
-    font-size: 12.5px;
-    color: #d6d6d2;
-    margin: 2% 6%;
-    line-height: 1.2;
-  }
-`;
-
-const Message6 = styled.div`
-  grid-column: 2 / 2;
-  grid-row: 16 / 16;
-  background-color: rgba(96, 125, 139, 1);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0px 1px 8px 0px white;
-  text-align: justify;
-  &:hover {
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
-    h3 {
-      color: #d6d6d2;
-    }
-    p {
-      color: white;
-    }
-  }
-  h3 {
-    margin: 2%;
-  }
-  p {
-    font-size: 12.5px;
-    color: #d6d6d2;
-    margin: 2% 6%;
-    line-height: 1.2;
-  }
-`;
+`
 
 class MessagesArea extends React.Component {
   render() {
     return (
-      <ContenedorMensajes>
-        <p className="secction-title top-title">
+      <MessageContainer>
+        <p className='secction-title top-title'>
+          <br />
           <strong>TICKETS</strong>
         </p>
-        <Message1>
-          <h3>{tickets_data[0].title}</h3>
-          <p>{tickets_data[0].body}</p>
-        </Message1>
-        <Message2>
-          <h3>{tickets_data[1].title}</h3>
-          <p>{tickets_data[1].body}</p>
-        </Message2>
-        <Message3>
-          <h3>{tickets_data[2].title}</h3>
-          <p>{tickets_data[2].body}</p>
-        </Message3>
-        <p className="secction-title bottom-title">
+        {!!ticketsData &&
+          ticketsData.length > 0 &&
+          ticketsData.map((tickets) => (
+            <Message>
+              <h3 key={tickets.id}> {tickets.title} </h3>
+              <p key={tickets.id}>{tickets.body}</p>
+            </Message>
+          ))}
+        <p className='secction-title top-title'>
           <strong>MENSAJES</strong>
         </p>
-        <Message4>
-          <h3>{messages_data[0].title}</h3>
-          <p>{messages_data[0].body}</p>
-        </Message4>
-        <Message5>
-          <h3>{messages_data[1].title}</h3>
-          <p>{messages_data[1].body}</p>
-        </Message5>
-        <Message6>
-          <h3>{messages_data[2].title}</h3>
-          <p>{messages_data[2].body}</p>
-        </Message6>
-      </ContenedorMensajes>
-    );
+        {!!messagesData &&
+          messagesData.length > 0 &&
+          messagesData.map((messages) => (
+            <Message>
+              <h3 key={messages.id}> {messages.title} </h3>
+              <p key={messages.id}>{messages.body}</p>
+            </Message>
+          ))}
+      </MessageContainer>
+    )
   }
 }
 
-export default MessagesArea;
+export default MessagesArea
