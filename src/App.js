@@ -13,10 +13,10 @@ const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
   secondaryColor: 'rgba(96, 125, 139, 0.7)',
   thirdColor: 'rgba(255, 191, 91, 0.9)',
-}
+};
 
 class App extends React.Component {
-  render () {
+  render() {
     return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -29,9 +29,13 @@ class App extends React.Component {
           </Route>
         </Switch>
       </Router>
+<<<<<<< HEAD
     </ThemeProvider>
     )
+=======
+    );
+>>>>>>> 8df92a3149a649228272d977ffbdd0672e00204e
   }
 }
 
-export default App
+export default App;
