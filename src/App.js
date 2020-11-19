@@ -2,11 +2,11 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Link,
-  Redirect
+/*   Link,
+  Redirect */
 } from 'react-router-dom'
 import React from 'react'
-import styled, { ThemeProvider } from 'styled-components'
+import /* styled, */ { ThemeProvider } from 'styled-components'
 import Dashboard from './pages/dashboard/Dashboard'
 
 const theme = {
@@ -18,13 +18,18 @@ const theme = {
 class App extends React.Component {
   render () {
     return (
+    <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <ThemeProvider theme={theme}>
-            <Route exact path="/dashboard" component={Dashboard} />
-          </ThemeProvider>
+          <Route exact path="/dashboard/:path?">
+            <Switch>
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/dashboard/:path" component={Dashboard} />
+            </Switch>
+          </Route>
         </Switch>
       </Router>
+    </ThemeProvider>
     )
   }
 }

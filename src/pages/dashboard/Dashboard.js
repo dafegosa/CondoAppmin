@@ -1,7 +1,13 @@
 import React from "react";
+/* import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+} from 'react-router-dom' */
 import styled from "styled-components";
 import TopBar from "./components/TopBar";
-import Content from "./components/Content";
+import Content from "./components/content/Content";
 import MessagesArea from "./components/MessagesArea";
 
 const DashboardDiv = styled.div`
@@ -19,16 +25,16 @@ const DashboardDiv = styled.div`
 
 `
 
-class Dashboard extends React.Component {
-  render() {
-    return (
+function Dashboard (props) {
+return (
       <DashboardDiv>
+        {console.log('Dashboard', props)}
+        {console.log('Theme', props.theme)}
         <TopBar name={"Alejandro"} />
         <MessagesArea />
-        <Content />
+        <Content content={props.match.url}/>
       </DashboardDiv>
-    );
-  }
+    )
 }
 
 export default Dashboard;

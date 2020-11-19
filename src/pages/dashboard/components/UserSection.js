@@ -74,6 +74,7 @@ class UserSection extends React.Component {
   render () {
     return (
       <UserTopBarDiv >
+        {console.log('UserSection', this.props)}
         <WelcomeMsg>¡Bienvenido, {this.props.name}!</WelcomeMsg>
         <AccountCircleIcon />
         <IconButton
