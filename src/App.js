@@ -14,7 +14,7 @@ const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
   secondaryColor: 'rgba(96, 125, 139, 0.7)',
   thirdColor: 'rgba(255, 191, 91, 0.9)',
-}
+};
 
 let users = [
   {
