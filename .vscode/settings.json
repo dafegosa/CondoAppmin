@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
   "prettier.jsxSingleQuote": true,
-=======
->>>>>>> messages
   "prettier.singleQuote": true
 }
