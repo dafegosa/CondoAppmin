@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const HomeOuterDiv = styled.div`
-  /* border: 1px solid red; */
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
@@ -11,7 +10,6 @@ const HomeOuterDiv = styled.div`
 
 const Navbar = styled.div`
   padding: 15px;
-  /* border: 1px solid purple; */
   background-color: ${props => props.theme.mainColor};
   width: 100%;
   display: flex;
@@ -28,11 +26,10 @@ const Navbar = styled.div`
 `
 
 const LoginButtonDiv = styled.div`
-  /* border: 1px solid greenyellow; */
   padding: 10px;
   border-radius: 5px;
   margin-right: 10px;
-  background-color: ${props => props.theme.thirdColor};
+  background-color: rgb(255, 192, 91);
   transition: 300ms;
 
   & p {
@@ -50,10 +47,9 @@ const LoginButtonDiv = styled.div`
 
 `
 const SignupButtonDiv = styled.div`
-  /* border: 1px solid blue; */
   padding: 10px;
   border-radius: 5px;
-  background-color: ${props => props.theme.thirdColor};
+  background-color: rgb(255, 192, 91);
   transition: 300ms;
 
   & p {

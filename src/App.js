@@ -9,34 +9,18 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import Home from './pages/home/Home'
 import Dashboard from './pages/dashboard/Dashboard'
-import Login from './pages/Login'
-import Register from './pages/Register'
+import Login from './pages/login/Login'
+import Register from './pages/register/Register'
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
   secondaryColor: 'rgba(96, 125, 139, 0.7)',
   thirdColor: 'rgba(255, 191, 91, 0.9)',
-};
-
-let users = [
-  {
-    user: 'juan@hotmail.com',
-    password: '123456'
-  },
-  {
-    user: 'albertostyle@hotmail.com',
-    password: '123456789'
-  },
-  {
-    user: 'jbalvin@hotmail.com',
-    password: '123456908'
-  },
-]
-
+}
 
 class App extends React.Component {
 
-  state = {
+/*   state = {
     login: {
       email: '',
       password: '',
@@ -72,11 +56,11 @@ class App extends React.Component {
       email: email,
       password: password,
       message: 'Task created successfully'
-    }, () => console.log(this.state)) */
+    }, () => console.log(this.state)) 
 
     users.push({user: email, password: password})
     console.log(users)
-  }
+  } */
 
   render() {
     return (
@@ -84,6 +68,7 @@ class App extends React.Component {
         <Router>
           <Switch>
             <ThemeProvider theme={theme}>
+              <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />

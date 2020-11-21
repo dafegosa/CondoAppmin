@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { usersData } from '../data/usersData';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { usersData } from '../../data/usersData'
 
 const Container = styled.form`
   padding: 1% 0;
@@ -90,11 +90,11 @@ class Register extends Component {
       email,
       password,
       type,
-    };
+    }
 
     this.setState({
       users: [...this.state.users, newUser],
-    });
+    })
   };
   render() {
     const { email, password } = this.state;
