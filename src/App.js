@@ -1,7 +1,10 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import Dashboard from './pages/dashboard/Dashboard'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import Dashboard from './pages/dashboard/Dashboard';
+import './App.css';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -12,14 +15,18 @@ const theme = {
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <ThemeProvider theme={theme}>
-            <Route exact path='/dashboard' component={Dashboard} />
-          </ThemeProvider>
-        </Switch>
-      </Router>
-    )
+      <header className="App-header">
+        <Router>
+          <Switch>
+            <ThemeProvider theme={theme}>
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+            </ThemeProvider>
+          </Switch>
+        </Router>
+      </header>
+    );
   }
 }
 

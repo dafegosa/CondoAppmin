@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import TopBar from './components/TopBar'
-import Content from './components/Content'
-import MessagesArea from '../MessagesArea'
+import React from 'react';
+import styled from 'styled-components';
+import TopBar from './components/TopBar';
+import Content from './components/Content';
+import MessagesArea from './components/MessagesArea';
 import LeftMenu from './components/LeftMenu'
 
 const DashboardDiv = styled.div`
@@ -18,6 +18,7 @@ const DashboardDiv = styled.div`
     grid-template: repeat(12, 1fr) / repeat(8, 1fr);
   }
 `
+
 
 class Dashboard extends React.Component {
   render() {

@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { withTheme } from 'styled-components'
-import { IconButton } from '@material-ui/core'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import { CSSTransition } from 'react-transition-group'
+import React from 'react';
+import styled from 'styled-components';
+import { withTheme } from 'styled-components';
+import { IconButton } from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { CSSTransition } from 'react-transition-group';
 
 export const UserTopBarDiv = styled.div`
   position: relative;
@@ -15,21 +15,18 @@ export const UserTopBarDiv = styled.div`
   box-sizing: border-box;
 `;
 
-
 export const WelcomeMsg = styled.p`
   color: white;
   font-size: 14px;
   margin-right: 5px;
 `;
 
-
 const UserOptionsDiv = styled.div`
   width: 100%;
   position: absolute;
   top: 100%;
   left: 0%;
-  background-color: ${props => props.theme.thirdColor};
-
+  background-color: ${(props) => props.theme.thirdColor};
 
   &.transition-enter,
   &.transition-appear {
@@ -50,14 +47,12 @@ const UserOptionsDiv = styled.div`
 `;
 const UserOptionsList = styled.ul``;
 
-
 const UserOptionsListItem = styled.li`
   font-weight: 300;
   font-size: 14px;
   padding: 10px 0;
   text-align: center;
 `;
-
 
 class UserSection extends React.Component {
   state = {
@@ -73,15 +68,14 @@ class UserSection extends React.Component {
   };
 
   render() {
-
     return (
-      <UserTopBarDiv >
+      <UserTopBarDiv>
         <WelcomeMsg>¡Bienvenido, {this.props.name}!</WelcomeMsg>
         <AccountCircleIcon />
-        <IconButton style={{ padding: "0px" }}>
+        <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon
             className="arrow-drop-down-icon"
-            style={{ color: "white", fontSize: "28px" }}
+            style={{ color: 'white', fontSize: '28px' }}
             onClick={this.userSectionOptionsClick}
           />
         </IconButton>
@@ -97,7 +91,6 @@ class UserSection extends React.Component {
               <UserOptionsListItem>Profile</UserOptionsListItem>
               <UserOptionsListItem>Logout</UserOptionsListItem>
             </UserOptionsList>
-
           </UserOptionsDiv>
         </CSSTransition>
       </UserTopBarDiv>
@@ -105,6 +98,4 @@ class UserSection extends React.Component {
   }
 }
 
-
 export default withTheme(UserSection);
-
