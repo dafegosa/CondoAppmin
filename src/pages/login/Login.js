@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { usersData } from '../../data/usersData'
 
 
-const EnterFormDiv = styled.div`
+export const EnterFormDiv = styled.div`
   position: absolute;
   right: 0;
   display: flex;
@@ -16,14 +16,13 @@ const EnterFormDiv = styled.div`
   box-sizing: border-box;
 `
 
-const EnterForm = styled.form`
+export const EnterForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  padding: 30px;
+  padding: 35px 30px;
   text-align: center;
-  height: 450px;
   box-shadow: 0 0px 5px 0 #5a5a5a;
   background: #4d6470;
   border-radius: 15px;
@@ -39,26 +38,6 @@ const EnterForm = styled.form`
     justify-content: space-between;
     
   }
-  & h2, & p {
-    
-    margin-bottom: 15px;
-  }
-  & h2 {
-    font-size: 24px;
-  }
-  & div {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  & div label{
-    font-size: 14px;
-    text-align: left;
-    color: white;
-    width: 100%;
-    margin-bottom: 5px;
-  }
   .Register-link {
     color: white;
   }
@@ -67,32 +46,57 @@ const EnterForm = styled.form`
     flex-direction: row;
     align-items: baseline;
   }
-`;
+`
+export const FormHeading = styled.h2`
+  font-size: 24px;
+  margin-bottom: 30px;
+`
 
-const Input = styled.input`
+export const FormDescription = styled.p`
+  margin-bottom: 30px;
+`
+export const InputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  text-align: left;
+  color: white;
+  width: 100%;
+  margin-bottom: 5px;
+`
+export const Input = styled.input`
   color: black;
   border-radius: 5px;
   box-sizing: border-box;
   width: 100%;
   font-size: 20px;
   border: 0px;
-`;
+`
 
 const RadioLabel = styled.label`
   &:hover {
     cursor: pointer;
     text-align: center;
   }
-`;
+`
 
-const Button = styled.button`
+export const Button = styled.button`
   border: none;
   background-color: #6e92a3;
   color: #e1eef5;
   padding: 10px 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
   font-size: 16px;
   transition: 300ms;
+  box-sizing: border-box;
 
   &:hover {
     box-shadow: 0 0px 10px 0 #3f3f3f;
@@ -102,13 +106,13 @@ const Button = styled.button`
     font-size: 16px;
     cursor: pointer;
   }
-`;
+`
 
-const Paragraph = styled.p`
+export const Paragraph = styled.p`
   bottom: 0;
   font-size: 10px;
   color: #90a4ae;
-`;
+`
 
 class Login extends Component {
   state = {
@@ -116,12 +120,12 @@ class Login extends Component {
     password: '',
     type: '',
     users: usersData,
-  };
+  }
 
   handleInputChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-  };
+  }
 
   userValidation = (e) => {
     e.preventDefault();
@@ -130,26 +134,26 @@ class Login extends Component {
       email,
       password,
       type,
-    };
+    }
     const result = this.state.users.filter(
       (thisUser) =>
         thisUser.type === validUser.type &&
         thisUser.email === validUser.email &&
         thisUser.password === validUser.password
-    );
+    )
 
     if (result.length > 0) {
       this.props.history.push('/dashboard');
     }
-  };
+  }
   render() {
     const { email, password } = this.state;
     return (
       <EnterFormDiv>
         <EnterForm onSubmit={this.userValidation}>
-          <h2>Bienvenido</h2>
-          <p>Inicia sesión para seguir administrando tu conjunto</p>
-          <div onChange={this.handleInputChange} className='radioInputs'>
+          <FormHeading>Bienvenido</FormHeading>
+          <FormDescription>Inicia sesión para seguir administrando tu conjunto</FormDescription>
+          <InputDiv onChange={this.handleInputChange} className='radioInputs'>
             <div>
               <input type='radio' id='admin' name='type' value='admin' required />
               <RadioLabel htmlFor='admin'>Administrador</RadioLabel>
@@ -157,11 +161,10 @@ class Login extends Component {
             <div>
               <input type='radio' id='resident' name='type' value='resident' />
               <RadioLabel htmlFor='resident'>Residente</RadioLabel>
-
             </div>
-          </div>
-          <div>
-            <label htmlFor='email'>Email</label>
+          </InputDiv>
+          <InputDiv>
+            <Label htmlFor='email'>Email</Label>
             <Input
               type='email'
               id='email'
@@ -170,9 +173,9 @@ class Login extends Component {
               onChange={this.handleInputChange}
               required
             />
-          </div>
-          <div>
-            <label htmlFor='password'>Contraseña</label>
+          </InputDiv>
+          <InputDiv>
+            <Label htmlFor='password'>Contraseña</Label>
             <Input
               type='password'
               id='password'
@@ -181,7 +184,7 @@ class Login extends Component {
               onChange={this.handleInputChange}
               required
             />
-          </div>
+          </InputDiv>
           <Button type='submit'>Ingresar</Button>
           <Paragraph>
             ¿No tienes una cuenta?{' '}
@@ -194,4 +197,4 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default Login

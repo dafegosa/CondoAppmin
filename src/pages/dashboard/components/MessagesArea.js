@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { messagesData } from '../data/messagesData'
-import { ticketsData } from '../data/ticketsData.js'
+import { messagesData } from '../../../data/messagesData'
+import { ticketsData } from '../../../data/ticketsData.js'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
