@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import TopBar from './components/TopBar';
 import Content from './components/Content';
 import MessagesArea from './components/MessagesArea';
+import LeftMenu from './components/LeftMenu'
+
 const DashboardDiv = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -15,18 +17,20 @@ const DashboardDiv = styled.div`
   @media (max-width: 500px) {
     grid-template: repeat(12, 1fr) / repeat(8, 1fr);
   }
-`;
+`
+
 
 class Dashboard extends React.Component {
   render() {
     return (
       <DashboardDiv>
         <TopBar name={'Alejandro'} />
+        <LeftMenu />
         <MessagesArea />
         <Content />
       </DashboardDiv>
-    );
+    )
   }
 }
 
-export default Dashboard;
+export default Dashboard

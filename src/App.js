@@ -10,7 +10,7 @@ const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
   secondaryColor: 'rgba(96, 125, 139, 0.7)',
   thirdColor: 'rgba(255, 191, 91, 0.9)',
-};
+}
 
 class App extends React.Component {
   render() {
@@ -30,4 +30,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default App
