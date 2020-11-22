@@ -1,19 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { messagesData } from '../../../data/messagesData.js';
-import { ticketsData } from '../../../data/ticketsData.js';
+import axios from 'axios';
 
-let lastThreeMessages = [];
-let unreadMessages = [];
-unreadMessages = ticketsData.filter(
-  (messageUnread) => messageUnread.read === false
-);
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow-y: scroll;
   margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
   .secction-title {
@@ -22,6 +15,7 @@ const MessageContainer = styled.div`
   .secction-title.top-title {
     height: 40px;
     width: 100%;
+    padding-bottom: 10px;
     background-color: #ffbf5b;
     color: rgba(96, 125, 139, 1);
     text-align: center;
@@ -30,17 +24,28 @@ const MessageContainer = styled.div`
   }
 `;
 
+const MessageInternContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    display: none;
+  }
+  margin: 0;
+  background-color: rgba(96, 125, 139, 0.7);
+`;
+
 const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
-  /* border-radius: 10px; */
   color: white;
-  /* box-shadow: 0px 1px 8px 0px white; */
   text-align: left;
   margin: 2px;
   &:hover {
     cursor:pointer; cursor: hand,
     margin-top: 0.5%;
-    /* box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9); */
     box-shadow: 0px 1px 8px 0px white;
     h3 {
       color: rgba(255, 191, 91, 0.9);
@@ -48,6 +53,7 @@ const Message = styled.div`
     p {
       color: white;
     }
+    
   }
   h3 {
     margin: 2%;
@@ -61,56 +67,44 @@ const Message = styled.div`
 `;
 
 class MessagesArea extends React.Component {
-  ReadMessage = (e) => {
-    unreadMessages[e].read = true;
-
-    console.log(unreadMessages);
+  state = {
+    tickets: [],
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    unreadMessages = unreadMessages.filter(
-      (messageUnread) => messageUnread.read === false
-    );
+  componentDidMount() {
+    axios
+      .get('http://localhost:8080/ticket')
+      .then((list) => {
+        console.log(list.data.data);
+        this.setState({
+          tickets: list.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
   render() {
-    // lastThreeMessages = ticketsData.slice(
-    //   ticketsData.length - 8,
-    //   ticketsData.length
-    // );
-    // unreadMessages = unreadMessages.filter(
-    //   (messageUnread) => messageUnread.read === false
-    // );
     return (
       <MessageContainer>
         <p className="secction-title top-title">
           <br />
           <strong>TICKETS</strong>
         </p>
-        {!!unreadMessages &&
-          unreadMessages.length > 0 &&
-          unreadMessages.map((tickets, indx) => (
-            <Message onClick={this.ReadMessage.bind(tickets, indx)}>
-              <h3 key={tickets.title}> {tickets.title} </h3>
-              <p key={tickets.id}>
-                {tickets.body.length > 35 &&
-                  tickets.body.substring(0, 45) + ' ... '}
-              </p>
-            </Message>
-          ))}
-        {/* <p className="secction-title top-title">
-          <strong>MENSAJES</strong>
-        </p>
-        {!!messagesData &&
-          messagesData.length > 0 &&
-          messagesData.map((messages) => (
-            <Message>
-              <h3 key={messages.title}> {messages.title} </h3>
-              <p key={messages.id}>
-                {messages.body.length > 60 &&
-                  messages.body.substring(0, 45) + '...'}
-              </p>
-            </Message>
-          ))} */}
+        <MessageInternContainer>
+          {!!this.state.tickets &&
+            this.state.tickets.length > 0 &&
+            this.state.tickets.map((tickets, indx) => (
+              <Message>
+                <h3 key={tickets.subject}> {tickets.subject} </h3>
+                <p key={tickets.id}>
+                  {tickets.body.length > 35 &&
+                    tickets.body.substring(0, 45) + ' ... '}
+                </p>
+              </Message>
+            ))}
+        </MessageInternContainer>
       </MessageContainer>
     );
   }
