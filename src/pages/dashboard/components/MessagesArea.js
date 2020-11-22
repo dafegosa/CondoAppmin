@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { messagesData } from '../../../data/messagesData.js';
+// import { messagesData } from '../../../data/messagesData.js';
 import { ticketsData } from '../../../data/ticketsData.js';
 
 let lastThreeMessages = [];

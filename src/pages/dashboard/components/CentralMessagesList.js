@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { messagesData } from '../../../data/messagesData.js';
-import { ticketsData } from '../../../data/ticketsData.js';
+import axios from 'axios';
+// import { messagesData } from '../../../data/messagesData.js';
+// import { ticketsData } from '../../../data/ticketsData.js';
 
 const MessageContainer = styled.div`
   grid-area: 2 / 3 / 9 / 11;
@@ -47,24 +48,38 @@ const Message = styled.div`
 `;
 
 class MessagesArea extends React.Component {
+  state = {
+    tickets: [],
+  };
+  componentDidMount() {
+    axios
+      .get('http://localhost:8080/ticket')
+      .then((list) => {
+        console.log(list.data.data);
+        this.setState({
+          tickets: list.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <MessageContainer>
-        {!!ticketsData &&
-          ticketsData.length > 0 &&
-          ticketsData.map(
-            (tickets) =>
-              ticketsData && (
-                <Message>
-                  <h3 key={tickets.title}> {tickets.title} </h3>
-                  <p key={tickets.id}>
-                    {tickets.body.length > 35 &&
-                      tickets.body.substring(0, 255) + ' ... '}
-                  </p>
-                </Message>
-              )
-          )}
-        {!!messagesData &&
+        {!!this.state.tickets &&
+          this.state.tickets.length > 0 &&
+          this.state.tickets.map((tickets) => (
+            <Message>
+              <h3 key={tickets.subject}> {tickets.subject} </h3>
+              <p key={tickets.id}>
+                {tickets.body.length > 35 &&
+                  tickets.body.substring(0, 255) + ' ... '}
+              </p>
+            </Message>
+          ))}
+        {/* {!!messagesData &&
           messagesData.length > 0 &&
           messagesData.map((messages) => (
             <Message>
@@ -74,7 +89,7 @@ class MessagesArea extends React.Component {
                   messages.body.substring(0, 255) + '...'}
               </p>
             </Message>
-          ))}
+          ))} */}
       </MessageContainer>
     );
   }
