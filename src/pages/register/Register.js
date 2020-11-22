@@ -29,12 +29,11 @@ class Register extends Component {
 
   handleInputChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value }, console.log(this.state));
+    this.setState({ [name]: value });
   };
 
   createUser = async (e) => {
     e.preventDefault();
-    console.log(e.target)
 
     const { name, lastname, idnumber, phone, email, password } = this.state
     const newUser = {
@@ -50,15 +49,13 @@ class Register extends Component {
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8000',
-        url: '/admin',
-        data: newUser
+        url: '/admin/signup',
+        data: newUser,
       })
   
-      console.log(data.message);
-      this.setState({ ...this.state, message: data.message });
+      this.setState({ ...this.state, message: data.message })
     } catch(err)  {
-      console.log(err)
-      
+      this.setState({ ...this.state, message: 'Algo salió mal' })
     }
 
   };

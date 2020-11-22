@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { usersData } from '../../data/usersData'
+import axios from 'axios'
 
 
 export const EnterFormDiv = styled.div`
@@ -55,6 +55,7 @@ export const FormHeading = styled.h2`
 export const FormDescription = styled.p`
   margin-bottom: 30px;
 `
+
 export const InputDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,6 +71,7 @@ export const Label = styled.label`
   width: 100%;
   margin-bottom: 5px;
 `
+
 export const Input = styled.input`
   color: black;
   border-radius: 5px;
@@ -119,7 +121,7 @@ class Login extends Component {
     email: '',
     password: '',
     type: '',
-    users: usersData,
+    message: ''
   }
 
   handleInputChange = (e) => {
@@ -127,27 +129,31 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  userValidation = (e) => {
+  userValidation = async e => {
     e.preventDefault();
-    const { email, password, type } = this.state;
-    const validUser = {
+
+    const { email, password } = this.state
+    const loggingUser = {
       email,
       password,
-      type,
     }
-    const result = this.state.users.filter(
-      (thisUser) =>
-        thisUser.type === validUser.type &&
-        thisUser.email === validUser.email &&
-        thisUser.password === validUser.password
-    )
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: 'http://localhost:8000',
+        url: '/admin/signin',
+        data: loggingUser
+      })
 
-    if (result.length > 0) {
-      this.props.history.push('/dashboard');
+      localStorage.setItem('token', data.token)
+
+      this.setState({ ...this.state, message: data.message });
+    } catch (err)  {
+      this.setState({ ...this.state, message: 'Usuario o contraseña inválida' })
     }
   }
   render() {
-    const { email, password } = this.state;
+    const { email, password, message } = this.state;
     return (
       <EnterFormDiv>
         <EnterForm onSubmit={this.userValidation}>
@@ -186,6 +192,7 @@ class Login extends Component {
             />
           </InputDiv>
           <Button type='submit'>Ingresar</Button>
+          {message}
           <Paragraph>
             ¿No tienes una cuenta?{' '}
             <Link to='/register' className='Register-link'>
