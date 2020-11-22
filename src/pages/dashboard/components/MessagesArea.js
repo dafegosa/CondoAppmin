@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { messagesData } from '../../../data/messagesData.js';
-import { ticketsData } from '../../../data/ticketsData.js';
+import React from 'react'
+import styled from 'styled-components'
+import { messagesData } from '../../../data/messagesData'
+import { ticketsData } from '../../../data/ticketsData'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -22,7 +22,7 @@ const MessageContainer = styled.div`
     grid-column: 2 / 2;
     grid-row: 10/ 10;
   }
-`;
+`
 
 const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
@@ -49,13 +49,13 @@ const Message = styled.div`
     margin: 2% 6%;
     line-height: 1.2;
   }
-`;
+`
 
 class MessagesArea extends React.Component {
   render() {
     return (
       <MessageContainer>
-        <p className="secction-title top-title">
+        <p className='secction-title top-title'>
           <br />
           <strong>TICKETS</strong>
         </p>
@@ -67,7 +67,7 @@ class MessagesArea extends React.Component {
               <p key={tickets.id}>{tickets.body}</p>
             </Message>
           ))}
-        <p className="secction-title top-title">
+        <p className='secction-title top-title'>
           <strong>MENSAJES</strong>
         </p>
         {!!messagesData &&
@@ -79,8 +79,8 @@ class MessagesArea extends React.Component {
             </Message>
           ))}
       </MessageContainer>
-    );
+    )
   }
 }
 
-export default MessagesArea;
+export default MessagesArea

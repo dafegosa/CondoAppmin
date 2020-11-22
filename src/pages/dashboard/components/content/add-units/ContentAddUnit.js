@@ -4,7 +4,6 @@ import AddUnitsForm from './AddUnitForm'
 import { SectionTitle } from '../add-residents/ContentAddResident'
 
 const AddUnitDiv = styled.div`
-  /* border: 1px solid red; */
   padding: 10px;
   width: 100%;
   display: flex;

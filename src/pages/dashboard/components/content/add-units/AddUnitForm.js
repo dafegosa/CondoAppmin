@@ -7,7 +7,6 @@ const UnitsForm = styled.form`
   align-items: center;
   margin-top: 30px;
   box-sizing: border-box;
-  /* border: 1px solid blue; */
   width: 70%;
 
   & div {
@@ -24,9 +23,9 @@ class AddResidentForm extends React.Component {
   }
   handleChange = (e) => {
     e.preventDefault()
-    const { name, value, checked, type } = e.target;
+    const { name, value, checked, type } = e.target
 
-    this.setState({ [name]: value }, () => console.log(this.state))
+    this.setState({ [name]: value })
   }
   render () {
     const { unit, building } = this.state

@@ -1,44 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 
 const ResidentsForm = styled.form`
   margin-top: 30px;
   box-sizing: border-box;
-  border: 1px solid blue;
   width: 70%;
 `
 
 class AddResidentForm extends React.Component {
 
-
   state = {
     name: '',
     lastName: '',
-    idNumber: false,
+    idNumber: '',
     phone: '',
     email: '',
     password: '',
+    message: ''
   }
-  handleChange = (e) => {
 
+  handleChange = (e) => {
+    e.preventDefault()
+    const { name, value } = e.target
+
+    this.setState({ ...this.state, [name]: value })
   }
 
   handleSubmit = async (e) => {
 
-    try {
-      const { data } = await axios({
-        method: 'GET',
-        baseURL: 'http://localhost:8080',
-        url: '/resident',
-      })
-      console.log('Server stream', data)
 
-    }
-    catch (err) {
-      console.log('Unable to bring resources', err)
-    } 
-  
   }
 
   render () {

@@ -8,7 +8,6 @@ const CondosForm = styled.form`
   align-items: center;
   margin-top: 30px;
   box-sizing: border-box;
-  /* border: 1px solid blue; */
   width: 70%;
 
   & div {
@@ -27,9 +26,9 @@ class AddCondoForm extends React.Component {
   }
   handleChange = (e) => {
     e.preventDefault()
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
-    this.setState({ ...this.state, [name]: value }, () => console.log(this.state))
+    this.setState({ ...this.state, [name]: value })
   }
 
   handleSubmit = async (e) => {
@@ -42,11 +41,11 @@ class AddCondoForm extends React.Component {
         url: '/condo',
         data: { name, address }
       })
-      this.setState({...this.state, name: '', address: '', message: 'Condominio agregado satisfactoriamente'})
+      this.setState({...this.state, name: '', address: '', message: data.message})
 
     }
     catch (err) {
-      console.log('Unable to post condo', err)
+      this.setState({...this.state, message: 'No fue posible agregar el condominio'})
     } 
   }
 

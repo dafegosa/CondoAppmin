@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import AddResidentForm from './AddResidentForm'
 
 const AddResidentDiv = styled.div`
-  /* border: 1px solid red; */
   padding: 10px;
   width: 100%;
   display: flex;
