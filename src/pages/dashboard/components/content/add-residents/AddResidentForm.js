@@ -21,8 +21,9 @@ class AddResidentForm extends React.Component {
 
   handleChange = (e) => {
     e.preventDefault()
+    
     const { name, value } = e.target
-
+    
     this.setState({ ...this.state, [name]: value })
   }
 
@@ -99,6 +100,7 @@ class AddResidentForm extends React.Component {
           checked={password}
         />
         <button type="submit">Submit</button>
+        {message}
       </ResidentsForm>
     )
   }

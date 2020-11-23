@@ -20,10 +20,12 @@ class AddResidentForm extends React.Component {
   state = {
     unit: '',
     building: '',
+    message: ''
   }
   handleChange = (e) => {
     e.preventDefault()
-    const { name, value, checked, type } = e.target
+
+    const { name, value } = e.target
 
     this.setState({ [name]: value })
   }
@@ -52,6 +54,7 @@ class AddResidentForm extends React.Component {
           />
         </div>
         <button type="submit">Submit</button>
+        {message}
       </UnitsForm>
     )
   }

@@ -33,10 +33,6 @@ class ContentAddResident extends React.Component {
     password: '',
   }
 
-  handleChange = (e) => {
-
-  }
-
   render () {
     return (
       <AddResidentDiv>

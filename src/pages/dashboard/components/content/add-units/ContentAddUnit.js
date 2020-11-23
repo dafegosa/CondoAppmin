@@ -29,10 +29,6 @@ class ContentAddUnits extends React.Component {
     password: '',
   }
 
-  handleChange = (e) => {
-
-  }
-
   render () {
     return (
       <AddUnitDiv>
