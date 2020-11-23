@@ -71,6 +71,9 @@ class MessagesArea extends React.Component {
     tickets: [],
   };
 
+  ticketRead = (e) => {
+    console.log(e);
+  };
   componentDidMount() {
     axios
       .get('http://localhost:8080/ticket')
@@ -96,9 +99,9 @@ class MessagesArea extends React.Component {
           {!!this.state.tickets &&
             this.state.tickets.length > 0 &&
             this.state.tickets.map((tickets, indx) => (
-              <Message>
-                <h3 key={tickets.subject}> {tickets.subject} </h3>
-                <p key={tickets.id}>
+              <Message onClick={this.ticketRead.bind(tickets._id)}>
+                <h3 key={tickets._id}> {tickets.subject} </h3>
+                <p key={tickets._id}>
                   {tickets.body.length > 35 &&
                     tickets.body.substring(0, 45) + ' ... '}
                 </p>
