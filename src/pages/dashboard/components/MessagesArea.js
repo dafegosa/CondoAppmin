@@ -71,9 +71,21 @@ class MessagesArea extends React.Component {
     tickets: [],
   };
 
-  ticketRead = (e) => {
-    console.log(e);
+  ticketRead = (id) => {
+    console.log(id);
+
+    axios
+      .post('http://localhost:8080/ticket/' + id, {
+        _id: id,
+      })
+      .then(({ ticketRead }) => {
+        console.log(ticketRead);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
+
   componentDidMount() {
     axios
       .get('http://localhost:8080/ticket')
@@ -99,7 +111,7 @@ class MessagesArea extends React.Component {
           {!!this.state.tickets &&
             this.state.tickets.length > 0 &&
             this.state.tickets.map((tickets, indx) => (
-              <Message onClick={this.ticketRead.bind(tickets._id)}>
+              <Message onClick={this.ticketRead.bind(indx, tickets._id)}>
                 <h3 key={tickets._id}> {tickets.subject} </h3>
                 <p key={tickets._id}>
                   {tickets.body.length > 35 &&
