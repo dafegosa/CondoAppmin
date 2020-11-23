@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { withTheme } from "styled-components";
-import { IconButton } from "@material-ui/core";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { CSSTransition } from "react-transition-group";
+import React from 'react';
+import styled from 'styled-components';
+import { withTheme } from 'styled-components';
+import { IconButton } from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { CSSTransition } from 'react-transition-group';
 
 export const UserTopBarDiv = styled.div`
   position: relative;
@@ -72,10 +72,10 @@ class UserSection extends React.Component {
       <UserTopBarDiv>
         <WelcomeMsg>¡Bienvenido, {this.props.name}!</WelcomeMsg>
         <AccountCircleIcon />
-        <IconButton style={{ padding: "0px" }}>
+        <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon
             className="arrow-drop-down-icon"
-            style={{ color: "white", fontSize: "28px" }}
+            style={{ color: 'white', fontSize: '28px' }}
             onClick={this.userSectionOptionsClick}
           />
         </IconButton>

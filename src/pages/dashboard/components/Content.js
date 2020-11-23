@@ -21,7 +21,7 @@ class Content extends React.Component {
   render() {
     return (
       <ContentDiv>
-        <h1></h1>
+        <h1>Contenido de la página</h1>
       </ContentDiv>
     );
   }
