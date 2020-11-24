@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
 import axios from 'axios'
 
 
@@ -106,6 +107,7 @@ export const Button = styled.button`
     border-radius: 5px;
     color: white;
     font-size: 16px;
+
     cursor: pointer;
   }
 `
@@ -201,7 +203,7 @@ class Login extends Component {
           </Paragraph>
         </EnterForm>
       </EnterFormDiv>
-    );
+    )
   }
 }
 export default Login
