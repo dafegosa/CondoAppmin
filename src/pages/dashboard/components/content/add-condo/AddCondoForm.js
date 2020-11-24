@@ -21,7 +21,7 @@ class AddCondoForm extends React.Component {
   state = {
     name: '',
     address: '',
-    adminid: '123455678',
+    adminid: '',
     message: ''
   }
   handleChange = (e) => {
@@ -34,12 +34,13 @@ class AddCondoForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     const { name , address } = this.state
+    const { adminid } = this.props
     try {
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8080',
         url: '/condo',
-        data: { name, address }
+        data: { name, address, admin: adminid }
       })
       this.setState({...this.state, name: '', address: '', message: data.message})
 
@@ -50,27 +51,28 @@ class AddCondoForm extends React.Component {
   }
 
   render () {
-    const { name, address, message } = this.state
+    const { adminid, handleChange, addToDb, condoData } = this.props
+    const { condoName, condoAddress, condoid, message } = condoData
     return (
-      <CondosForm onSubmit={this.handleSubmit}>
+      <CondosForm onSubmit={addToDb}>
         <div>
-          <label htmlFor="name">Nombre</label>
+          <label htmlFor="condoName">Nombre</label>
           <input
-            id="name"
-            name="name"
+            id="condoName"
+            name="condoName"
             type="text"
-            onChange={this.handleChange}
-            value={name}
+            onChange={handleChange}
+            value={condoName}
           />
         </div>
         <div>
-          <label htmlFor="address">Dirección</label>
+          <label htmlFor="condoAddress">Dirección</label>
           <input
-            id="address"
-            name="address"
+            id="condoAddress"
+            name="condoAddress"
             type="text"
-            onChange={this.handleChange}
-            value={address}
+            onChange={handleChange}
+            value={condoAddress}
           />
         </div>
         <button type="submit">Submit</button>

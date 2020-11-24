@@ -24,7 +24,14 @@ const DashboardDiv = styled.div`
 class Dashboard extends React.Component {
 
   state = {
-    name: ''
+    adminName: '',
+    adminid: '',
+    condoName: '',
+    condoAddress: '',
+    condoid: '',
+    unitName: '',
+    message: '',
+
   } 
   async componentDidMount() {
     try {
@@ -38,7 +45,7 @@ class Dashboard extends React.Component {
         },
       })
 
-      this.setState({ name: data.name })
+      this.setState({ adminName: data.name, id: data.id })
 
     } catch(err) {
       
@@ -47,18 +54,69 @@ class Dashboard extends React.Component {
       
     }
   }
+  handleChange = (e) => {
+    e.preventDefault()
+
+    const { name, value } = e.target
+
+    this.setState({ [name]: value })
+  }
+  addToDatabase = (endpoint, statePart) => async (e) => {
+    
+    e.preventDefault()
+
+    
+    switch (endpoint) {
+      case 'condo':
+        const { condoName , condoAddress } = this.state
+        statePart.name = condoName
+        statePart.address = condoAddress
+        break;
+      case 'unit':
+        const { unitName } = this.state
+        statePart.name = unitName
+        break;
+      case 'resident':
+        const { residentName } = this.state
+        statePart.name = residentName
+        break;
+    
+      default:
+        break;
+    }
+
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: 'http://localhost:8080',
+        url: `/${endpoint}`,
+        data: statePart
+      })
+      /* this.setState({...this.state, name: '', address: '', message: data.message}) */
+
+    }
+    catch (err) {
+      this.setState({...this.state, message: 'No fue posible agregar el condominio'})
+    } 
+  }
+
   render() {
-    const { name } = this.state
-    const { history } = this.props
+
+    /* const { adminName, adminid, condoName, condoAddress, condoid } = this.state */
+    const { history, match } = this.props
     return ( 
       <DashboardDiv>
         <TopBar 
-          name={name} 
+          name={this.state.adminName} 
           history={history}
         />
         <LeftMenu />
         <MessagesArea />
-        <Content content={props.match.url}/>
+        <Content 
+          content={match.url} 
+          data={this.state}
+          handleChange={this.handleChange}
+          addToDb={this.addToDatabase} />
       </DashboardDiv>
     )
   }

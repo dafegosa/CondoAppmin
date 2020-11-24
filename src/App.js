@@ -30,7 +30,7 @@ class App extends React.Component {
           <ThemeProvider theme={theme}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <PrivateRoute exact path="/dashboard/:path?" render={props => <Dashboard {...props} />} >
+              <PrivateRoute exact path="/dashboard/:path?" >
                 <Switch>
                   <Route exact path="/dashboard" component={Dashboard} />
                   <Route exact path="/dashboard/:path" component={Dashboard} />
@@ -42,21 +42,6 @@ class App extends React.Component {
           </ThemeProvider>
         </Router>
        </header>
-       /*  <ThemeProvider theme={theme}>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/dashboard/:path?">
-                <Switch>
-                  <Route exact path="/dashboard" component={Dashboard} />
-                  <Route exact path="/dashboard/:path" component={Dashboard} />
-                </Switch>
-              </Route>
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-            </Switch>
-          </Router>
-    </ThemeProvider> */
     )
 
   }
