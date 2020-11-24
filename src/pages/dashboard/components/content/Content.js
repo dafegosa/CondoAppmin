@@ -23,17 +23,31 @@ const ContentDiv = styled.div`
 `;
 class Content extends React.Component {
   renderContent() {
-    const urlItems = this.props.content.split('/');
-
+    const { content, data, handleChange, addToDb } = this.props;
+    const { adminid, condoName, condoAddress, condoid, message } = data;
+    const condoData = {
+      condoName,
+      condoAddress,
+      condoid,
+      message,
+    };
+    const urlItems = content.split('/');
     switch (urlItems[2]) {
       case 'adduser':
-        return <ContentAddResident />;
+        return <ContentAddResident addToDb={addToDb} />;
         break;
       case 'addunit':
-        return <ContentAddUnits />;
+        return <ContentAddUnits addToDb={addToDb} />;
         break;
       case 'addcondo':
-        return <ContentAddCondos />;
+        return (
+          <ContentAddCondos
+            adminid={adminid}
+            condoData={condoData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
         break;
       case 'Messages':
         return <ContentMessages />;

@@ -39,10 +39,16 @@ class ContentAddCondo extends React.Component {
   }
 
   render () {
+    const { adminid, handleChange, addToDb, condoData } = this.props
     return (
       <AddCondoDiv>
         <SectionTitle>Agregar Condominio</SectionTitle>
-        <AddCondoForm />
+        <AddCondoForm 
+          adminid={adminid} 
+          condoData={condoData} 
+          handleChange={handleChange} 
+          addToDb={addToDb('condo', {name: '', address: '', admin: adminid})}
+        />
       </AddCondoDiv>
     )
   }
