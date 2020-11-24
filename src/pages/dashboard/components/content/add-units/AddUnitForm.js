@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const UnitsForm = styled.form`
   display: flex;
@@ -12,25 +12,23 @@ const UnitsForm = styled.form`
   & div {
     width: 45%;
   }
-`
+`;
 
 class AddResidentForm extends React.Component {
-
-
   state = {
     unit: '',
     building: '',
-    message: ''
-  }
+    message: '',
+  };
   handleChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
-    this.setState({ [name]: value })
-  }
-  render () {
-    const { unit, building } = this.state
+    this.setState({ [name]: value });
+  };
+  render() {
+    const { unit, building, message } = this.state;
     return (
       <UnitsForm onSubmit={this.handleSubmit}>
         <div>
@@ -56,8 +54,8 @@ class AddResidentForm extends React.Component {
         <button type="submit">Submit</button>
         {message}
       </UnitsForm>
-    )
+    );
   }
 }
 
-export default AddResidentForm
+export default AddResidentForm;

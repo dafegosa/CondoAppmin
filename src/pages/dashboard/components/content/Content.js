@@ -1,8 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import ContentAddResident from "./add-residents/ContentAddResident"
-import ContentAddUnits from "./add-units/ContentAddUnit"
-import ContentAddCondos from "./add-condo/ContentAddCondo"
+import React from 'react';
+import styled from 'styled-components';
+import ContentAddResident from './add-residents/ContentAddResident';
+import ContentAddUnits from './add-units/ContentAddUnit';
+import ContentAddCondos from './add-condo/ContentAddCondo';
+import ContentMessages from './AllMessages/CentralMessagesList';
 
 const ContentDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.05);
@@ -19,38 +20,34 @@ const ContentDiv = styled.div`
   @media (max-width: 500px) {
     grid-area: 2 / 1 / 13 / 9;
   }
-`
+`;
 class Content extends React.Component {
-  renderContent () {
-    const urlItems = this.props.content.split('/')
-    
+  renderContent() {
+    const urlItems = this.props.content.split('/');
+
     switch (urlItems[2]) {
       case 'adduser':
-        return <ContentAddResident />
+        return <ContentAddResident />;
         break;
       case 'addunit':
-        return <ContentAddUnits />
+        return <ContentAddUnits />;
         break;
       case 'addcondo':
-        return <ContentAddCondos />
+        return <ContentAddCondos />;
         break;
-    
+      case 'Messages':
+        return <ContentMessages />;
+        break;
+
       default:
-        return <h1>Bienvenido al Dashboard</h1>
+        return <h1>Bienvenido al Dashboard</h1>;
         break;
     }
   }
 
-  render () {
-    return (
-      <ContentDiv>
-        {/* {this.props.content.split('/')[2] === 'adduser' ? (
-          <ContentAddResident />
-        ) : (<h1>Bienvenido al Dashboard</h1>)} */}
-        {this.renderContent()}
-      </ContentDiv>
-    )
+  render() {
+    return <ContentDiv>{this.renderContent()}</ContentDiv>;
   }
 }
 
-export default Content
+export default Content;
