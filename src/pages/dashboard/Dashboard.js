@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import TopBar from './components/TopBar'
-import Content from './components/Content'
+import Content from "./components/content/Content"
 import MessagesArea from './components/MessagesArea'
 import LeftMenu from './components/LeftMenu'
 import axios from 'axios'
@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
         />
         <LeftMenu />
         <MessagesArea />
-        <Content />
+        <Content content={props.match.url}/>
       </DashboardDiv>
     )
   }

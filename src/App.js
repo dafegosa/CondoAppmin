@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter as Router,
   Route,
@@ -21,7 +22,7 @@ const theme = {
 }
 
 class App extends React.Component {
-
+  
   render() {
     return (
       <header className="App-header">
@@ -29,14 +30,35 @@ class App extends React.Component {
           <ThemeProvider theme={theme}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <PrivateRoute exact path="/dashboard" render={props => <Dashboard {...props} />} />
+              <PrivateRoute exact path="/dashboard/:path?" render={props => <Dashboard {...props} />} >
+                <Switch>
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/dashboard/:path" component={Dashboard} />
+                </Switch>
+              </PrivateRoute>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </Switch>
           </ThemeProvider>
         </Router>
-      </header>
-    );
+       </header>
+       /*  <ThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/dashboard/:path?">
+                <Switch>
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/dashboard/:path" component={Dashboard} />
+                </Switch>
+              </Route>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+            </Switch>
+          </Router>
+    </ThemeProvider> */
+    )
+
   }
 }
 
