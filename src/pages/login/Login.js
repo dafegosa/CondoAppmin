@@ -1,72 +1,121 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { usersData } from '../../data/usersData'
 
-const Container = styled.form`
-  padding: 1% 0;
-  text-align: center;
-  margin-bottom: 30vh;
-  width: 45%;
-  margin-left: 0%;
-  box-shadow: 0 5px 10px 0 black;
-  background: #282c34;
-  border-radius: 5px;
-  opacity: 0.6;
+import axios from 'axios'
+
+
+export const EnterFormDiv = styled.div`
   position: absolute;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.thirdColor};
+  height: 100vh;
+  width: 60vw;
+  box-sizing: border-box;
+`
+
+export const EnterForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 35px 30px;
+  text-align: center;
+  box-shadow: 0 0px 5px 0 #5a5a5a;
+  background: #4d6470;
+  border-radius: 15px;
+  opacity: 1;
   left: 27%;
-  top: 30vh;
-  &:hover {
-    opacity: 1;
+  color: white;
+  box-sizing: border-box;
+
+  & .radioInputs {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    justify-content: space-between;
+    
   }
   .Register-link {
     color: white;
   }
+  & div div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+`
+export const FormHeading = styled.h2`
+  font-size: 24px;
+  margin-bottom: 30px;
 `
 
-const Input = styled.input`
-  color: blue;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  background: #282c34;
-  border-color: #90a4ae;
-  width: 60%;
-  color: #90a4ae;
+export const FormDescription = styled.p`
+  margin-bottom: 30px;
+`
+
+export const InputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  text-align: left;
+  color: white;
+  width: 100%;
+  margin-bottom: 5px;
+`
+
+export const Input = styled.input`
+  color: black;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 100%;
   font-size: 20px;
+  border: 0px;
 `
 
 const RadioLabel = styled.label`
-  color: #90a4ae;
   &:hover {
-    color: white;
     cursor: pointer;
+    text-align: center;
   }
 `
 
-const Boton = styled.button`
-  padding: 5px 15px;
+export const Button = styled.button`
   border: none;
-  background-color: #607d8b;
-  color: #90a4ae;
-  width: 100%;
-  height: 8vh;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  background-color: #6e92a3;
+  color: #e1eef5;
+  padding: 10px 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   font-size: 16px;
+  transition: 300ms;
+  box-sizing: border-box;
+
   &:hover {
-    box-shadow: 0 5px 10px 0 #333;
+    box-shadow: 0 0px 10px 0 #3f3f3f;
     background-color: #90a4ae;
     border-radius: 5px;
     color: white;
     font-size: 16px;
+
+    cursor: pointer;
   }
 `
 
-const Paragraph = styled.p`
+export const Paragraph = styled.p`
+  bottom: 0;
   font-size: 10px;
   color: #90a4ae;
-  background: #282c34;
 `
 
 class Login extends Component {
@@ -74,82 +123,86 @@ class Login extends Component {
     email: '',
     password: '',
     type: '',
-    users: usersData,
+    message: ''
   }
 
   handleInputChange = (e) => {
-    const { name, value } = e.target
-    this.setState({ [name]: value })
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   }
 
-  userValidation = (e) => {
+  userValidation = async e => {
     e.preventDefault();
-    const { email, password, type } = this.state;
-    const validUser = {
+
+    const { email, password } = this.state
+    const loggingUser = {
       email,
       password,
-      type,
     }
-    const result = this.state.users.filter(
-      (thisUser) =>
-        thisUser.type === validUser.type &&
-        thisUser.email === validUser.email &&
-        thisUser.password === validUser.password
-    )
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: 'http://localhost:8000',
+        url: '/admin/signin',
+        data: loggingUser
+      })
 
-    if (result.length > 0) {
-      this.props.history.push('/dashboard')
+      localStorage.setItem('token', data.token)
+
+      this.setState({ ...this.state, message: data.message });
+    } catch (err)  {
+      this.setState({ ...this.state, message: 'Usuario o contraseña inválida' })
     }
   }
   render() {
-    const { email, password } = this.state;
+    const { email, password, message } = this.state;
     return (
-      <div>
-        <Container onSubmit={this.userValidation}>
-          <div onChange={this.handleInputChange}>
-            <input type='radio' id='admin' name='type' value='admin' required />
-            <RadioLabel htmlFor='admin'>Administrador</RadioLabel>
-
-            <input type='radio' id='resident' name='type' value='resident' />
-            <RadioLabel htmlFor='resident'>Residente</RadioLabel>
-          </div>
-
-          <label htmlFor='email'></label>
-          <br />
-          <Input
-            type='email'
-            id='email'
-            name='email'
-            value={email}
-            onChange={this.handleInputChange}
-            placeholder='email'
-            required
-          />
-
-          <br />
-          <label htmlFor='password'></label>
-          <br />
-          <Input
-            type='password'
-            id='password'
-            name='password'
-            value={password}
-            onChange={this.handleInputChange}
-            placeholder='Password'
-            required
-          />
-
-          <br />
-          <br />
-          <Boton>Ingresar</Boton>
+      <EnterFormDiv>
+        <EnterForm onSubmit={this.userValidation}>
+          <FormHeading>Bienvenido</FormHeading>
+          <FormDescription>Inicia sesión para seguir administrando tu conjunto</FormDescription>
+          <InputDiv onChange={this.handleInputChange} className='radioInputs'>
+            <div>
+              <input type='radio' id='admin' name='type' value='admin' required />
+              <RadioLabel htmlFor='admin'>Administrador</RadioLabel>
+            </div>
+            <div>
+              <input type='radio' id='resident' name='type' value='resident' />
+              <RadioLabel htmlFor='resident'>Residente</RadioLabel>
+            </div>
+          </InputDiv>
+          <InputDiv>
+            <Label htmlFor='email'>Email</Label>
+            <Input
+              type='email'
+              id='email'
+              name='email'
+              value={email}
+              onChange={this.handleInputChange}
+              required
+            />
+          </InputDiv>
+          <InputDiv>
+            <Label htmlFor='password'>Contraseña</Label>
+            <Input
+              type='password'
+              id='password'
+              name='password'
+              value={password}
+              onChange={this.handleInputChange}
+              required
+            />
+          </InputDiv>
+          <Button type='submit'>Ingresar</Button>
+          {message}
           <Paragraph>
             ¿No tienes una cuenta?{' '}
             <Link to='/register' className='Register-link'>
               Registrarme
             </Link>
           </Paragraph>
-        </Container>
-      </div>
+        </EnterForm>
+      </EnterFormDiv>
     )
   }
 }
