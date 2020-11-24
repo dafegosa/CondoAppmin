@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import ContentAddResident from "./add-residents/ContentAddResident"
 import ContentAddUnits from "./add-units/ContentAddUnit"
@@ -22,7 +23,7 @@ const ContentDiv = styled.div`
 `
 class Content extends React.Component {
   renderContent () {
-    const { content, data, handleChange, addToDb } = this.props
+    const { match, data, handleChange, addToDb } = this.props
     const { adminid, condoName, condoAddress, condoid, message } = data
     const condoData = {
       condoName,
@@ -30,25 +31,26 @@ class Content extends React.Component {
       condoid,
       message
     }
-    const urlItems = content.split('/')
+    const urlItems = match.url.split('/')
     switch (urlItems[2]) {
       case 'adduser':
-        return <ContentAddResident addToDb={addToDb}/>
-        break;
+        return (<ContentAddResident addToDb={addToDb}/>)
+        break
       case 'addunit':
-        return <ContentAddUnits addToDb={addToDb} />
-        break;
+        return (<ContentAddUnits addToDb={addToDb} />)
+        break
       case 'addcondo':
-        return <ContentAddCondos 
+        return (<ContentAddCondos 
                   adminid={adminid} 
                   condoData={condoData} 
                   addToDb={addToDb} 
-                  handleChange={handleChange} />
-        break;
+                  handleChange={handleChange} 
+                />)
+        break
     
       default:
         return <h1>Bienvenido al Dashboard</h1>
-        break;
+        break
     }
   }
 
@@ -61,4 +63,4 @@ class Content extends React.Component {
   }
 }
 
-export default Content
+export default withRouter(Content)
