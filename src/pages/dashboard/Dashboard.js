@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TopBar from './components/TopBar';
-import Content from './components/Content';
+import Content from './components/content/Content';
 import MessagesArea from './components/MessagesArea';
 import LeftMenu from './components/LeftMenu';
 
@@ -19,17 +19,15 @@ const DashboardDiv = styled.div`
   }
 `;
 
-class Dashboard extends React.Component {
-  render() {
-    return (
-      <DashboardDiv>
-        <TopBar name={'Alejandro'} />
-        <LeftMenu />
-        <MessagesArea />
-        <Content />
-      </DashboardDiv>
-    );
-  }
+function Dashboard(props) {
+  return (
+    <DashboardDiv>
+      <TopBar name={'Alejandro'} />
+      <LeftMenu />
+      <MessagesArea />
+      <Content content={props.match.url} />
+    </DashboardDiv>
+  );
 }
 
 export default Dashboard;

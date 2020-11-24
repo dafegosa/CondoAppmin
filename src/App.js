@@ -22,16 +22,21 @@ class App extends React.Component {
   render() {
     return (
       <header className="App-header">
-        <Router>
-          <Switch>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/dashboard/:path?">
+                <Switch>
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/dashboard/:path" component={Dashboard} />
+                </Switch>
+              </Route>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-            </ThemeProvider>
-          </Switch>
-        </Router>
+            </Switch>
+          </Router>
+        </ThemeProvider>
       </header>
     );
   }
