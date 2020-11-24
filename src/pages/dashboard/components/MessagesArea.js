@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { messagesData } from '../../../data/messagesData';
-import { ticketsData } from '../../../data/ticketsData.js';
+import axios from 'axios';
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -44,18 +43,6 @@ const Message = styled.div`
   color: white;
   text-align: left;
   margin: 2px;
-  &:hover {
-    cursor:pointer; cursor: hand,
-    margin-top: 0.5%;
-    box-shadow: 0px 1px 8px 0px white;
-    h3 {
-      color: rgba(255, 191, 91, 0.9);
-    }
-    p {
-      color: white;
-    }
-    
-  }
   h3 {
     margin: 2%;
   }
@@ -65,6 +52,18 @@ const Message = styled.div`
     margin: 2% 6%;
     line-height: 1.2;
   }
+  &:hover {
+    cursor: pointer;
+    cursor: hand;
+    margin-top: 0.5%;
+    box-shadow: 0px 1px 8px 0px white;
+    h3 {
+      color: rgba(255, 191, 91, 0.9);
+    }
+    p {
+      color: white;
+    }
+  }
 `;
 
 class MessagesArea extends React.Component {
@@ -73,33 +72,36 @@ class MessagesArea extends React.Component {
   };
 
   ticketRead = (id) => {
-    console.log(id);
-
     axios
-      .post('http://localhost:8080/ticket/' + id, {
+      .put('http://localhost:8080/ticket/', {
         _id: id,
       })
       .then(({ ticketRead }) => {
-        console.log(ticketRead);
+        this.getUsers();
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => {});
   };
 
   componentDidMount() {
+    this.getUsers();
+  }
+
+  getUsers = () => {
     axios
       .get('http://localhost:8080/ticket')
       .then((list) => {
-        console.log(list.data.data);
+        const readTicket = list.data.data.filter(
+          (ticket) => ticket.read === false
+        );
         this.setState({
-          tickets: list.data.data,
+          tickets: [],
+        });
+        this.setState({
+          tickets: readTicket,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+      .catch((err) => {});
+  };
 
   render() {
     return (
