@@ -125,14 +125,14 @@ class Login extends Component {
   }
 
   handleInputChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { name, value } = e.target
+    this.setState({ [name]: value })
   }
 
   userValidation = async e => {
     e.preventDefault();
 
-    const { email, password } = this.state
+    const { email, password, type } = this.state
     const loggingUser = {
       email,
       password,
@@ -141,13 +141,14 @@ class Login extends Component {
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8000',
-        url: '/admin/signin',
+        url: `/${type}/signin`,
         data: loggingUser
       })
 
       localStorage.setItem('token', data.token)
+      this.setState({ ...this.state, message: data.message })
+      this.props.history.push('/dashboard')
 
-      this.setState({ ...this.state, message: data.message });
     } catch (err)  {
       this.setState({ ...this.state, message: 'Usuario o contraseña inválida' })
     }

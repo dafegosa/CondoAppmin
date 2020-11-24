@@ -4,6 +4,7 @@ import TopBar from './components/TopBar'
 import Content from './components/Content'
 import MessagesArea from './components/MessagesArea'
 import LeftMenu from './components/LeftMenu'
+import axios from 'axios'
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -21,10 +22,40 @@ const DashboardDiv = styled.div`
 
 
 class Dashboard extends React.Component {
+
+  state = {
+    name: ''
+  } 
+  async componentDidMount() {
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: '/admin',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      this.setState({ name: data.name })
+
+    } catch(err) {
+      
+      localStorage.removeItem('token')
+      this.props.history.push('/login')
+      
+    }
+  }
   render() {
-    return (
+    const { name } = this.state
+    const { history } = this.props
+    return ( 
       <DashboardDiv>
-        <TopBar name={'Alejandro'} />
+        <TopBar 
+          name={name} 
+          history={history}
+        />
         <LeftMenu />
         <MessagesArea />
         <Content />

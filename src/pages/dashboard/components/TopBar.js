@@ -24,9 +24,10 @@ export const TopBarDiv = styled.div`
 class TopBar extends React.Component {
 
   render () {
+    const { history } = this.props
     return (
      <TopBarDiv>
-       <UserSection name={this.props.name}/>
+       <UserSection name={this.props.name} history={history}/>
      </TopBarDiv>
     )
   }
