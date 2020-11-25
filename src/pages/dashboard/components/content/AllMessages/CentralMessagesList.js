@@ -51,7 +51,7 @@ class MessagesArea extends React.Component {
   };
   componentDidMount() {
     axios
-      .get('http://localhost:8080/ticket', { url: '/MessagesList' })
+      .get('http://localhost:8000/ticket', { url: '/MessagesList' })
       .then((list) => {
         this.setState({
           tickets: list.data.data,

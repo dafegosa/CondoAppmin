@@ -24,7 +24,7 @@ class TopBar extends React.Component {
     const { history } = this.props;
     return (
       <TopBarDiv>
-        <UserSection name={this.props.name} history={history} />
+        <UserSection name={this.props.name} />
       </TopBarDiv>
     );
   }

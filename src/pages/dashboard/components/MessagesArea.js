@@ -73,7 +73,7 @@ class MessagesArea extends React.Component {
 
   ticketRead = (id) => {
     axios
-      .put('http://localhost:8080/ticket/', {
+      .put('http://localhost:8000/ticket/', {
         _id: id,
       })
       .then(({ ticketRead }) => {
@@ -88,7 +88,7 @@ class MessagesArea extends React.Component {
 
   getUsers = () => {
     axios
-      .get('http://localhost:8080/ticket')
+      .get('http://localhost:8000/ticket')
       .then((list) => {
         const readTicket = list.data.data.filter(
           (ticket) => ticket.read === false

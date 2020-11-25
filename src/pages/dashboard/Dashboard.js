@@ -35,14 +35,18 @@ class Dashboard extends React.Component {
       const token = localStorage.getItem('token');
       const { data } = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8080',
+        baseURL: 'http://localhost:8000',
         url: '/admin',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
       this.setState({ adminName: data.name, id: data.id });
-    } catch (err) {}
+    } catch (err) {
+      localStorage.removeItem('token');
+      this.props.history.push('/login');
+    }
   }
   handleChange = (e) => {
     e.preventDefault();
@@ -53,20 +57,30 @@ class Dashboard extends React.Component {
   };
   addToDatabase = (endpoint, statePart) => async (e) => {
     e.preventDefault();
+    const toPost = {};
 
     switch (endpoint) {
       case 'condo':
         const { condoName, condoAddress } = this.state;
-        statePart.name = condoName;
-        statePart.address = condoAddress;
+        toPost = {
+          ...statePart,
+          name: condoName,
+          address: condoAddress,
+        };
         break;
       case 'unit':
         const { unitName } = this.state;
-        statePart.name = unitName;
+        toPost = {
+          ...statePart,
+          name: unitName,
+        };
         break;
       case 'resident':
         const { residentName } = this.state;
-        statePart.name = residentName;
+        toPost = {
+          ...statePart,
+          name: residentName,
+        };
         break;
 
       default:
@@ -78,7 +92,7 @@ class Dashboard extends React.Component {
         method: 'POST',
         baseURL: 'http://localhost:8080',
         url: `/${endpoint}`,
-        data: statePart,
+        data: toPost,
       });
     } catch (err) {
       this.setState({
@@ -89,14 +103,12 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { history, match } = this.props;
     return (
       <DashboardDiv>
-        <TopBar name={this.state.adminName} history={history} />
+        <TopBar name={this.state.adminName} />
         <LeftMenu />
         <MessagesArea />
         <Content
-          content={match.url}
           data={this.state}
           handleChange={this.handleChange}
           addToDb={this.addToDatabase}

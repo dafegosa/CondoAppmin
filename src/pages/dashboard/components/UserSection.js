@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import { withTheme } from 'styled-components';
 import { IconButton } from '@material-ui/core';
@@ -45,7 +46,6 @@ const UserOptionsDiv = styled.div`
     transition: opacity 500ms;
   }
 `;
-const UserOptionsList = styled.ul``;
 
 const UserOptionsListItem = styled.li`
   font-weight: 300;
@@ -65,7 +65,7 @@ class UserSection extends React.Component {
   };
 
   userSectionOptionsClick = (e) => {
-    let { renderOptions } = this.state;
+    const { renderOptions } = this.state;
 
     this.setState({
       renderOptions: !renderOptions,
@@ -77,10 +77,15 @@ class UserSection extends React.Component {
     this.props.history.push('/');
   };
 
+  signout = (e) => {
+    localStorage.removeItem('token');
+    this.props.history.push('/');
+  };
+
   render() {
     return (
       <UserTopBarDiv>
-        <WelcomeMsg>¡Hola, {this.props.name}!</WelcomeMsg>
+        <WelcomeMsg>¡Hola!</WelcomeMsg>
         <AccountCircleIcon />
         <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon
@@ -97,12 +102,12 @@ class UserSection extends React.Component {
           appear
         >
           <UserOptionsDiv>
-            <UserOptionsList>
+            <ul>
               <UserOptionsListItem>Profile</UserOptionsListItem>
               <UserOptionsListItem onClick={this.signout}>
                 Logout
               </UserOptionsListItem>
-            </UserOptionsList>
+            </ul>
           </UserOptionsDiv>
         </CSSTransition>
       </UserTopBarDiv>
@@ -110,4 +115,4 @@ class UserSection extends React.Component {
   }
 }
 
-export default withTheme(UserSection);
+export default withRouter(withTheme(UserSection));
