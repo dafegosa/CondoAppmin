@@ -105,7 +105,6 @@ class Dashboard extends React.Component {
     }
 
     try {
-      console.log('para ingresar en db', toPost)
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8080',
