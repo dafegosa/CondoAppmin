@@ -80,7 +80,7 @@ class UserSection extends React.Component {
   render() {
     return (
       <UserTopBarDiv>
-        <WelcomeMsg>¡Hola!</WelcomeMsg>
+        <WelcomeMsg>¡Hola, {this.props.name}!</WelcomeMsg>
         <AccountCircleIcon />
         <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon

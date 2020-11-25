@@ -25,11 +25,21 @@ class Dashboard extends React.Component {
 
   state = {
     adminName: '',
-    adminid: '',
     condoName: '',
     condoAddress: '',
-    condoid: '',
+    
+    unitid: '',
     unitName: '',
+    
+    resName: '',
+    resLastname: '',
+    resIdNumber: '',
+    resPhone: '',
+    resEmail: '',
+    resPassword: '',
+
+    adminid: '',
+    condoid: '',
     message: '',
 
   } 
@@ -45,7 +55,7 @@ class Dashboard extends React.Component {
         },
       })
 
-      this.setState({ adminName: data.name, id: data.id })
+      this.setState({ adminName: data.name, adminid: data.id })
 
     } catch(err) {
       
@@ -64,7 +74,7 @@ class Dashboard extends React.Component {
   addToDatabase = (endpoint, statePart) => async (e) => {
     
     e.preventDefault()
-    const toPost = {}
+    let toPost = {}
     
     switch (endpoint) {
       case 'condo':
@@ -95,6 +105,7 @@ class Dashboard extends React.Component {
     }
 
     try {
+      console.log('para ingresar en db', toPost)
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8080',

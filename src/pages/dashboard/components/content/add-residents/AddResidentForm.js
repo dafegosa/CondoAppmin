@@ -9,72 +9,51 @@ const ResidentsForm = styled.form`
 
 class AddResidentForm extends React.Component {
 
-  state = {
-    name: '',
-    lastName: '',
-    idNumber: '',
-    phone: '',
-    email: '',
-    password: '',
-    message: ''
-  }
-
-  handleChange = (e) => {
-    e.preventDefault()
-    
-    const { name, value } = e.target
-    
-    this.setState({ ...this.state, [name]: value })
-  }
-
-  handleSubmit = async (e) => {
-
-
-  }
 
   render () {
-    const { name, lastName, idNumber, phone, email, password, message } = this.state
+    const { resData, handleChange, addToDb } = this.props
+    const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, message } = resData
     return (
-      <ResidentsForm onSubmit={this.handleSubmit}>
-        <label htmlFor="name">Nombre</label>
+      <ResidentsForm onSubmit={addToDb}>
+        <label htmlFor="resName">Nombre</label>
         <input
-          id="name"
-          name="name"
+          id="resName"
+          name="resName"
           type="text"
-          onChange={this.handleChange}
-          value={name}
+          onChange={handleChange}
+          value={resName}
         />
-        <label htmlFor="lastname">Apellido</label>
+        <label htmlFor="resLastname">Apellido</label>
         <input
-          id="lastname"
-          name="lastname"
+          id="resLastname"
+          name="resLastname"
           type="text"
-          onChange={this.handleChange}
-          value={lastName}
+          onChange={handleChange}
+          value={resLastname}
         />
-        <label htmlFor="idnumber" >Cédula</label>
+        <label htmlFor="resIdNumber" >Cédula</label>
         <input
-          id="idnumber"
-          name="idnumber"
+          id="resIdNumber"
+          name="resIdNumber"
           type="text"
-          onChange={this.handleChange}
-          checked={idNumber}
+          onChange={handleChange}
+          checked={resIdNumber}
         />
-        <label htmlFor="phone" >Teléfono</label>
+        <label htmlFor="resPhone" >Teléfono</label>
         <input
-          id="phone"
-          name="phone"
-          type="phone"
-          onChange={this.handleChange}
-          checked={phone}
+          id="resPhone"
+          name="resPhone"
+          type="resPhone"
+          onChange={handleChange}
+          checked={resPhone}
         />
-        <label htmlFor="email" >Email</label>
+        <label htmlFor="resEmail" >Email</label>
         <input
-          id="email"
-          name="email"
+          id="resEmail"
+          name="resEmail"
           type="email"
-          onChange={this.handleChange}
-          checked={email}
+          onChange={handleChange}
+          checked={resEmail}
         />
         <label htmlFor="unit" >Unidad</label>
         <select name="unit" id="service-select" required>
@@ -91,13 +70,13 @@ class AddResidentForm extends React.Component {
             08-302
           </option>
         </select>
-        <label htmlFor="password" >password</label>
+        <label htmlFor="resPassword" >password</label>
         <input
-          id="password"
-          name="password"
+          id="resPassword"
+          name="resPassword"
           type="password"
-          onChange={this.handleChange}
-          checked={password}
+          onChange={handleChange}
+          checked={resPassword}
         />
         <button type="submit">Submit</button>
         {message}

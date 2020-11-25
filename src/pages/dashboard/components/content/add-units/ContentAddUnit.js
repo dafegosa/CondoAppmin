@@ -20,20 +20,16 @@ const AddUnitDiv = styled.div`
 
 class ContentAddUnits extends React.Component {
 
-  state = {
-    name: '',
-    lastName: '',
-    idNumber: false,
-    phone: '',
-    email: '',
-    password: '',
-  }
-
   render () {
+    const { condoid, unitData, addToDb, handleChange } = this.props
     return (
       <AddUnitDiv>
         <SectionTitle>Agregar Apartamentos</SectionTitle>
-        <AddUnitsForm />
+        <AddUnitsForm 
+          unitData={unitData} 
+          handleChange={handleChange} 
+          addToDb={addToDb('unit', {name: '', condoId: condoid})}
+        />
       </AddUnitDiv>
     )
   }

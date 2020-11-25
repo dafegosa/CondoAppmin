@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 
 const CondosForm = styled.form`
   display: flex;
@@ -18,41 +17,9 @@ const CondosForm = styled.form`
 class AddCondoForm extends React.Component {
 
 
-  state = {
-    name: '',
-    address: '',
-    adminid: '',
-    message: ''
-  }
-  handleChange = (e) => {
-    e.preventDefault()
-    const { name, value } = e.target
-
-    this.setState({ ...this.state, [name]: value })
-  }
-
-  handleSubmit = async (e) => {
-    e.preventDefault()
-    const { name , address } = this.state
-    const { adminid } = this.props
-    try {
-      const { data } = await axios({
-        method: 'POST',
-        baseURL: 'http://localhost:8080',
-        url: '/condo',
-        data: { name, address, admin: adminid }
-      })
-      this.setState({...this.state, name: '', address: '', message: data.message})
-
-    }
-    catch (err) {
-      this.setState({...this.state, message: 'No fue posible agregar el condominio'})
-    } 
-  }
-
   render () {
-    const { adminid, handleChange, addToDb, condoData } = this.props
-    const { condoName, condoAddress, condoid, message } = condoData
+    const { handleChange, addToDb, condoData } = this.props
+    const { condoName, condoAddress, message } = condoData
     return (
       <CondosForm onSubmit={addToDb}>
         <div>
