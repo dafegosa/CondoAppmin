@@ -53,14 +53,11 @@ class MessagesArea extends React.Component {
     axios
       .get('http://localhost:8080/ticket', { url: '/MessagesList' })
       .then((list) => {
-        console.log(list.data.data);
         this.setState({
           tickets: list.data.data,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   render() {
@@ -69,9 +66,9 @@ class MessagesArea extends React.Component {
         {!!this.state.tickets &&
           this.state.tickets.length > 0 &&
           this.state.tickets.map((tickets) => (
-            <Message>
-              <h3 key={tickets.subject}> {tickets.subject} </h3>
-              <p key={tickets.id}>
+            <Message key={tickets.id}>
+              <h3> {tickets.subject} </h3>
+              <p>
                 {tickets.body.length > 35 &&
                   tickets.body.substring(0, 255) + ' ... '}
               </p>

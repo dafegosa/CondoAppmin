@@ -114,9 +114,12 @@ class MessagesArea extends React.Component {
           {!!this.state.tickets &&
             this.state.tickets.length > 0 &&
             this.state.tickets.map((tickets, indx) => (
-              <Message onClick={this.ticketRead.bind(indx, tickets._id)}>
-                <h3 key={tickets._id}> {tickets.subject} </h3>
-                <p key={tickets._id}>
+              <Message
+                key={tickets._id}
+                onClick={this.ticketRead.bind(indx, tickets._id)}
+              >
+                <h3> {tickets.subject} </h3>
+                <p>
                   {tickets.body.length > 35 &&
                     tickets.body.substring(0, 45) + ' ... '}
                 </p>

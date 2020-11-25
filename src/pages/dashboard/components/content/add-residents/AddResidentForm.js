@@ -28,7 +28,6 @@ class AddResidentForm extends React.Component {
 
   handleSubmit = async (e) => {};
 
-<<<<<<< HEAD
   render() {
     const {
       name,
@@ -39,10 +38,6 @@ class AddResidentForm extends React.Component {
       password,
       message,
     } = this.state;
-=======
-  render () {
-    const { name, lastName, idNumber, phone, email, password, message } = this.state
->>>>>>> 37afdb9a98e6c90bff6fce93d365342aa28de37b
     return (
       <ResidentsForm onSubmit={this.handleSubmit}>
         <label htmlFor="name">Nombre</label>

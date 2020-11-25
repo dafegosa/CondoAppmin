@@ -63,13 +63,15 @@ const LeftMenu = () => {
 
       <SideMenu>
         <ul>
-          {leftMenuNav.map((el) => (
-            <Select>
-              <i class={el.icon}></i>
-              <li>{el.name}</li>
-              <br />
-            </Select>
-          ))}
+          {!!leftMenuNav &&
+            leftMenuNav.length > 0 &&
+            leftMenuNav.map((el) => (
+              <Select>
+                <i class={el.icon}></i>
+                <li>{el.name}</li>
+                <br />
+              </Select>
+            ))}
         </ul>
       </SideMenu>
 

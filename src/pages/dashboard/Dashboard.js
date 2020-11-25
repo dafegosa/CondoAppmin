@@ -35,18 +35,14 @@ class Dashboard extends React.Component {
       const token = localStorage.getItem('token');
       const { data } = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
+        baseURL: 'http://localhost:8080',
         url: '/admin',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       this.setState({ adminName: data.name, id: data.id });
-    } catch (err) {
-      localStorage.removeItem('token');
-      this.props.history.push('/login');
-    }
+    } catch (err) {}
   }
   handleChange = (e) => {
     e.preventDefault();
@@ -84,7 +80,6 @@ class Dashboard extends React.Component {
         url: `/${endpoint}`,
         data: statePart,
       });
-      /* this.setState({...this.state, name: '', address: '', message: data.message}) */
     } catch (err) {
       this.setState({
         ...this.state,
@@ -94,7 +89,6 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    /* const { adminName, adminid, condoName, condoAddress, condoid } = this.state */
     const { history, match } = this.props;
     return (
       <DashboardDiv>
