@@ -26,7 +26,7 @@ class TopBar extends React.Component {
   render () {
     return (
      <TopBarDiv>
-       <UserSection name={this.props.name}/>
+       <UserSection name={this.props.name} />
      </TopBarDiv>
     )
   }

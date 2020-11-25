@@ -4,6 +4,7 @@ import TopBar from './components/TopBar'
 import Content from "./components/content/Content"
 import MessagesArea from './components/MessagesArea'
 import LeftMenu from './components/LeftMenu'
+import axios from 'axios'
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -20,15 +21,110 @@ const DashboardDiv = styled.div`
 `
 
 
-function Dashboard (props) {
-return (
+class Dashboard extends React.Component {
+
+  state = {
+    adminName: '',
+    adminid: '',
+    condoName: '',
+    condoAddress: '',
+    condoid: '',
+    unitName: '',
+    message: '',
+
+  } 
+  async componentDidMount() {
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: '/admin',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      this.setState({ adminName: data.name, id: data.id })
+
+    } catch(err) {
+      
+      localStorage.removeItem('token')
+      this.props.history.push('/login')
+      
+    }
+  }
+  handleChange = (e) => {
+    e.preventDefault()
+
+    const { name, value } = e.target
+
+    this.setState({ [name]: value })
+  }
+  addToDatabase = (endpoint, statePart) => async (e) => {
+    
+    e.preventDefault()
+    const toPost = {}
+    
+    switch (endpoint) {
+      case 'condo':
+        const { condoName , condoAddress } = this.state
+        toPost = {
+          ...statePart,
+          name: condoName,
+          address: condoAddress,
+        }
+        break;
+      case 'unit':
+        const { unitName } = this.state
+        toPost = {
+          ...statePart,
+          name: unitName,
+        }
+        break;
+      case 'resident':
+        const { residentName } = this.state
+        toPost = {
+          ...statePart,
+          name: residentName,
+        }
+        break;
+    
+      default:
+        break;
+    }
+
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: 'http://localhost:8080',
+        url: `/${endpoint}`,
+        data: toPost
+      })
+
+    }
+    catch (err) {
+      this.setState({...this.state, message: 'No fue posible agregar el condominio'})
+    } 
+  }
+
+  render() {
+
+    return ( 
       <DashboardDiv>
-        <TopBar name={'Alejandro'} />
+        <TopBar 
+          name={this.state.adminName} 
+        />
         <LeftMenu />
         <MessagesArea />
-        <Content content={props.match.url}/>
+        <Content 
+          data={this.state}
+          handleChange={this.handleChange}
+          addToDb={this.addToDatabase} 
+        />
       </DashboardDiv>
     )
+  }
 }
 
 export default Dashboard

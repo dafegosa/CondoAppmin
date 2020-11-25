@@ -28,8 +28,8 @@ class Register extends Component {
   };
 
   handleInputChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { name, value } = e.target
+    this.setState({ [name]: value })
   };
 
   createUser = async (e) => {
@@ -44,7 +44,6 @@ class Register extends Component {
       email,
       password,
     }
-    console.log(newUser)
     try {
       const { data } = await axios({
         method: 'POST',
@@ -142,7 +141,7 @@ class Register extends Component {
           </Paragraph>
         </EnterForm>
       </EnterFormDiv>
-    );
+    )
   }
 }
 export default Register

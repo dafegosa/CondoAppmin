@@ -12,6 +12,8 @@ import Home from './pages/home/Home'
 import Dashboard from './pages/dashboard/Dashboard'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
+import PrivateRoute from './pages/dashboard/PrivateRoute'
+
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -24,22 +26,22 @@ class App extends React.Component {
   render() {
     return (
       <header className="App-header">
-        <ThemeProvider theme={theme}>
-          <Router>
+        <Router>
+          <ThemeProvider theme={theme}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/dashboard/:path?">
+              <PrivateRoute exact path="/dashboard/:path?" >
                 <Switch>
                   <Route exact path="/dashboard" component={Dashboard} />
                   <Route exact path="/dashboard/:path" component={Dashboard} />
                 </Switch>
-              </Route>
+              </PrivateRoute>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </Switch>
-          </Router>
-        </ThemeProvider>
-      </header>
+          </ThemeProvider>
+        </Router>
+       </header>
     )
 
   }

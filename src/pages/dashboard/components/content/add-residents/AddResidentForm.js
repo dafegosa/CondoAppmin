@@ -33,7 +33,7 @@ class AddResidentForm extends React.Component {
   }
 
   render () {
-    const { name, lastName, idNumber, phone, email, password } = this.state
+    const { name, lastName, idNumber, phone, email, password, message } = this.state
     return (
       <ResidentsForm onSubmit={this.handleSubmit}>
         <label htmlFor="name">Nombre</label>

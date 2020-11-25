@@ -30,7 +30,7 @@ class AddResidentForm extends React.Component {
     this.setState({ [name]: value })
   }
   render () {
-    const { unit, building } = this.state
+    const { unit, building, message } = this.state
     return (
       <UnitsForm onSubmit={this.handleSubmit}>
         <div>
