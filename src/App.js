@@ -1,10 +1,17 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
-import './App.css';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
+import PrivateRoute from './pages/dashboard/PrivateRoute';
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -17,13 +24,19 @@ class App extends React.Component {
     return (
       <header className="App-header">
         <Router>
-          <Switch>
-            <ThemeProvider theme={theme}>
-              <Route exact path="/dashboard" component={Dashboard} />
+          <ThemeProvider theme={theme}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <PrivateRoute exact path="/dashboard/:path?">
+                <Switch>
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/dashboard/:path" component={Dashboard} />
+                </Switch>
+              </PrivateRoute>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-            </ThemeProvider>
-          </Switch>
+            </Switch>
+          </ThemeProvider>
         </Router>
       </header>
     );

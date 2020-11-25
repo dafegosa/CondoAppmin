@@ -52,6 +52,11 @@ const UserOptionsListItem = styled.li`
   font-size: 14px;
   padding: 10px 0;
   text-align: center;
+
+  &:hover {
+    cursor: pointer;
+    font-weight: 400;
+  }
 `;
 
 class UserSection extends React.Component {
@@ -67,10 +72,15 @@ class UserSection extends React.Component {
     });
   };
 
+  signout = (e) => {
+    localStorage.removeItem('token');
+    this.props.history.push('/');
+  };
+
   render() {
     return (
       <UserTopBarDiv>
-        <WelcomeMsg>¡Bienvenido, {this.props.name}!</WelcomeMsg>
+        <WelcomeMsg>¡Hola, {this.props.name}!</WelcomeMsg>
         <AccountCircleIcon />
         <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon
@@ -89,7 +99,9 @@ class UserSection extends React.Component {
           <UserOptionsDiv>
             <UserOptionsList>
               <UserOptionsListItem>Profile</UserOptionsListItem>
-              <UserOptionsListItem>Logout</UserOptionsListItem>
+              <UserOptionsListItem onClick={this.signout}>
+                Logout
+              </UserOptionsListItem>
             </UserOptionsList>
           </UserOptionsDiv>
         </CSSTransition>
