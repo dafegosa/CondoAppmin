@@ -63,9 +63,6 @@ const UserOptionsListItem = styled.li`
 function UserSection (props) {
   const [renderOptions, setRenderOptions] = useState(false)
   let history = useHistory()
-/*   state = {
-    renderOptions: false,
-  } */
 
   const userSectionOptionsClick = (e) => {
     setRenderOptions(!renderOptions)

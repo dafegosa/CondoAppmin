@@ -66,8 +66,6 @@ class Dashboard extends React.Component {
   }
   handleChange = (e) => {
 
-    e.preventDefault()
-
     const { name, value } = e.target
 
     this.setState({ [name]: value })
@@ -125,8 +123,9 @@ class Dashboard extends React.Component {
       })
       if (endpoint === 'condo') {
         this.setState({...this.state, condoid: data.data._id, message: message})
+      } else {
+        this.setState({...this.state, message: data.message})
       }
-      this.setState({...this.state, message: data.message})
     }
     catch (err) {
       this.setState({...this.state, message: 'No fue posible agregar el condominio'})
