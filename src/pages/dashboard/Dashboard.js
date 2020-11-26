@@ -28,7 +28,6 @@ class Dashboard extends React.Component {
     condoName: '',
     condoAddress: '',
     
-    unitid: '',
     unitName: '',
     
     resName: '',
@@ -37,12 +36,13 @@ class Dashboard extends React.Component {
     resPhone: '',
     resEmail: '',
     resPassword: '',
+    resUnit: '',
 
     adminid: '',
     condoid: '',
     message: '',
-
   } 
+  
   async componentDidMount() {
     try {
       const token = localStorage.getItem('token')
@@ -65,6 +65,7 @@ class Dashboard extends React.Component {
     }
   }
   handleChange = (e) => {
+
     e.preventDefault()
 
     const { name, value } = e.target
@@ -86,17 +87,24 @@ class Dashboard extends React.Component {
         }
         break;
       case 'unit':
-        const { unitName } = this.state
+        const { unitName, condoid } = this.state
         toPost = {
           ...statePart,
           name: unitName,
+          condoId: condoid
         }
         break;
       case 'resident':
-        const { residentName } = this.state
+        const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit } = this.state
         toPost = {
           ...statePart,
-          name: residentName,
+          name: resName,
+          lastName: resLastname,
+          idNumber: resIdNumber,
+          phone: resPhone,
+          email: resEmail,
+          password: resPassword,
+          unitId: resUnit
         }
         break;
     
@@ -105,13 +113,20 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const { data } = await axios({
+      const token = localStorage.getItem('token')
+      const { data, message } = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8080',
+        baseURL: 'http://localhost:8000',
         url: `/${endpoint}`,
-        data: toPost
+        data: toPost,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-
+      if (endpoint === 'condo') {
+        this.setState({...this.state, condoid: data.data._id, message: message})
+      }
+      this.setState({...this.state, message: data.message})
     }
     catch (err) {
       this.setState({...this.state, message: 'No fue posible agregar el condominio'})

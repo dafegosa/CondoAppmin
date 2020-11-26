@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
 const ResidentsForm = styled.form`
   margin-top: 30px;
@@ -9,10 +10,33 @@ const ResidentsForm = styled.form`
 
 class AddResidentForm extends React.Component {
 
+  state = {
+    units: []
+  }
+
+  async componentDidMount () {
+    const token = localStorage.getItem('token')
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: `/unit/${this.props.resData.condoid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+  
+      this.setState({...this.state, units: data.data})
+    } catch (err) {
+
+    }
+  }
+
 
   render () {
     const { resData, handleChange, addToDb } = this.props
-    const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, message } = resData
+    const { units } = this.state
+    const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message } = resData
     return (
       <ResidentsForm onSubmit={addToDb}>
         <label htmlFor="resName">Nombre</label>
@@ -55,20 +79,15 @@ class AddResidentForm extends React.Component {
           onChange={handleChange}
           checked={resEmail}
         />
-        <label htmlFor="unit" >Unidad</label>
-        <select name="unit" id="service-select" required>
-          <option value="09-301">
-            09-301
-          </option>
-          <option value="09-302">
-            09-302
-          </option>
-          <option value="08-301">
-            08-301
-          </option>
-          <option value="08-302">
-            08-302
-          </option>
+        <label htmlFor="resUnit" >Unidad</label>
+        <select name="resUnit" id="service-select" value={resUnit} onChange={handleChange} required>
+          {!!units && units.length && units.map(unit => {
+            return (
+              <option value={unit._id} key={unit._id}>
+                {unit.name}
+              </option>
+            )
+          })}
         </select>
         <label htmlFor="resPassword" >password</label>
         <input

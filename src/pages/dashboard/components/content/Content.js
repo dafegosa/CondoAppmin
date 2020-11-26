@@ -24,7 +24,7 @@ const ContentDiv = styled.div`
 class Content extends React.Component {
   renderContent () {
     const { match, data, handleChange, addToDb } = this.props
-    const { adminid, condoName, condoAddress, condoid, unitName, message, resName, resLastname, resIdNumber, resPhone, resEmail, resPassword} = data
+    const { adminid, condoName, condoAddress, condoid, unitName, message, resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit} = data
     const condoData = {
       condoName,
       condoAddress,
@@ -42,7 +42,8 @@ class Content extends React.Component {
       resPhone,
       resEmail,
       resPassword,
-      message
+      resUnit,
+      message,
     }
     const urlItems = match.url.split('/')
     switch (urlItems[2]) {
