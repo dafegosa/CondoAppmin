@@ -16,10 +16,10 @@ const CondosForm = styled.form`
 
 class AddCondoForm extends React.Component {
 
-
   render () {
     const { handleChange, addToDb, condoData } = this.props
     const { condoName, condoAddress, message } = condoData
+
     return (
       <CondosForm onSubmit={addToDb}>
         <div>

@@ -71,6 +71,7 @@ function UserSection (props) {
   const signout = (e) => {
     localStorage.removeItem('token')
     history.push('/')
+
   }
 
     return ( 
@@ -100,7 +101,6 @@ function UserSection (props) {
         </CSSTransition>
       </UserTopBarDiv>
     )
-
 }
 
 export default withRouter(withTheme(UserSection))

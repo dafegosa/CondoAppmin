@@ -25,6 +25,7 @@ class Dashboard extends React.Component {
 
   state = {
     adminName: '',
+
     condoName: '',
     condoAddress: '',
     
