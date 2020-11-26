@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import TopBar from './components/TopBar'
-import Content from "./components/content/Content"
-import MessagesArea from './components/MessagesArea'
-import LeftMenu from './components/LeftMenu'
-import axios from 'axios'
+import React from 'react';
+import styled from 'styled-components';
+import TopBar from './components/TopBar';
+import Content from './components/content/Content';
+import MessagesArea from './components/MessagesArea';
+import LeftMenu from './components/LeftMenu';
+import axios from 'axios';
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -18,11 +18,9 @@ const DashboardDiv = styled.div`
   @media (max-width: 500px) {
     grid-template: repeat(12, 1fr) / repeat(8, 1fr);
   }
-`
-
+`;
 
 class Dashboard extends React.Component {
-
   state = {
     adminName: '',
 
@@ -30,6 +28,7 @@ class Dashboard extends React.Component {
     condoAddress: '',
     
     unitName: '',
+
     
     resName: '',
     resLastname: '',
@@ -46,7 +45,7 @@ class Dashboard extends React.Component {
   
   async componentDidMount() {
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       const { data } = await axios({
         method: 'GET',
         baseURL: 'http://localhost:8000',
@@ -54,7 +53,8 @@ class Dashboard extends React.Component {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
+      });
+
 
       this.setState({ adminName: data.name, adminid: data.id })
 
@@ -67,25 +67,27 @@ class Dashboard extends React.Component {
   }
   handleChange = (e) => {
 
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
-    this.setState({ [name]: value })
-  }
+    this.setState({ [name]: value });
+  };
   addToDatabase = (endpoint, statePart) => async (e) => {
+
     
     e.preventDefault()
     let toPost = {}
     
     switch (endpoint) {
       case 'condo':
-        const { condoName , condoAddress } = this.state
+        const { condoName, condoAddress } = this.state;
         toPost = {
           ...statePart,
           name: condoName,
           address: condoAddress,
-        }
+        };
         break;
       case 'unit':
+
         const { unitName, condoid } = this.state
         toPost = {
           ...statePart,
@@ -105,8 +107,9 @@ class Dashboard extends React.Component {
           password: resPassword,
           unitId: resUnit
         }
+
         break;
-    
+
       default:
         break;
     }
@@ -118,6 +121,7 @@ class Dashboard extends React.Component {
         baseURL: 'http://localhost:8000',
         url: `/${endpoint}`,
         data: toPost,
+
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -128,28 +132,22 @@ class Dashboard extends React.Component {
         this.setState({...this.state, message: data.message})
       }
     }
-    catch (err) {
-      this.setState({...this.state, message: 'No fue posible agregar el condominio'})
-    } 
-  }
+  };
 
   render() {
-
-    return ( 
+    return (
       <DashboardDiv>
-        <TopBar 
-          name={this.state.adminName} 
-        />
+        <TopBar name={this.state.adminName} />
         <LeftMenu />
         <MessagesArea />
-        <Content 
+        <Content
           data={this.state}
           handleChange={this.handleChange}
-          addToDb={this.addToDatabase} 
+          addToDb={this.addToDatabase}
         />
       </DashboardDiv>
-    )
+    );
   }
 }
 
-export default Dashboard
+export default Dashboard;

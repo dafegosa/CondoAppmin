@@ -8,6 +8,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { CSSTransition } from 'react-transition-group'
 
+
 export const UserTopBarDiv = styled.div`
   position: relative;
   display: flex;
@@ -15,13 +16,13 @@ export const UserTopBarDiv = styled.div`
   color: white;
   align-items: center;
   box-sizing: border-box;
-`
+`;
 
 export const WelcomeMsg = styled.p`
   color: white;
   font-size: 14px;
   margin-right: 5px;
-`
+`;
 
 const UserOptionsDiv = styled.div`
   width: 100%;
@@ -46,7 +47,7 @@ const UserOptionsDiv = styled.div`
     opacity: 0;
     transition: opacity 500ms;
   }
-`
+`;
 
 const UserOptionsListItem = styled.li`
   font-weight: 300;
@@ -58,7 +59,8 @@ const UserOptionsListItem = styled.li`
     cursor: pointer;
     font-weight: 400;
   }
-`
+`;
+
 
 function UserSection (props) {
   const [renderOptions, setRenderOptions] = useState(false)
@@ -76,11 +78,12 @@ function UserSection (props) {
 
     return ( 
       <UserTopBarDiv>
+
         <WelcomeMsg>¡Hola, {props.name}!</WelcomeMsg>
         <AccountCircleIcon />
         <IconButton style={{ padding: '0px' }}>
           <ArrowDropDownIcon
-            className='arrow-drop-down-icon'
+            className="arrow-drop-down-icon"
             style={{ color: 'white', fontSize: '28px' }}
             onClick={userSectionOptionsClick}
           />
@@ -95,12 +98,16 @@ function UserSection (props) {
           <UserOptionsDiv>
             <ul>
               <UserOptionsListItem>Profile</UserOptionsListItem>
+
               <UserOptionsListItem onClick={signout} >Logout</UserOptionsListItem>
+
             </ul>
           </UserOptionsDiv>
         </CSSTransition>
       </UserTopBarDiv>
+
     )
+
 }
 
-export default withRouter(withTheme(UserSection))
+export default withRouter(withTheme(UserSection));

@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const UnitsForm = styled.form`
   display: flex;
@@ -12,7 +12,7 @@ const UnitsForm = styled.form`
   & div {
     width: 45%;
   }
-`
+`;
 
 class AddResidentForm extends React.Component {
 
@@ -34,8 +34,8 @@ class AddResidentForm extends React.Component {
         <button type="submit">Submit</button>
         {message}
       </UnitsForm>
-    )
+    );
   }
 }
 
-export default AddResidentForm
+export default AddResidentForm;

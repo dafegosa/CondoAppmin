@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import axios from 'axios'
-
+import axios from 'axios';
 
 export const EnterFormDiv = styled.div`
   position: absolute;
@@ -11,11 +10,11 @@ export const EnterFormDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.thirdColor};
+  background-color: ${(props) => props.theme.thirdColor};
   height: 100vh;
   width: 60vw;
   box-sizing: border-box;
-`
+`;
 
 export const EnterForm = styled.form`
   display: flex;
@@ -37,7 +36,6 @@ export const EnterForm = styled.form`
     flex-direction: row;
     width: 60%;
     justify-content: space-between;
-    
   }
   .Register-link {
     color: white;
@@ -47,23 +45,22 @@ export const EnterForm = styled.form`
     flex-direction: row;
     align-items: baseline;
   }
-`
+`;
 export const FormHeading = styled.h2`
   font-size: 24px;
   margin-bottom: 30px;
-`
+`;
 
 export const FormDescription = styled.p`
   margin-bottom: 30px;
-`
+`;
 
 export const InputDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 15px;
-
-`
+`;
 
 export const Label = styled.label`
   font-size: 16px;
@@ -71,7 +68,7 @@ export const Label = styled.label`
   color: white;
   width: 100%;
   margin-bottom: 5px;
-`
+`;
 
 export const Input = styled.input`
   color: black;
@@ -80,14 +77,14 @@ export const Input = styled.input`
   width: 100%;
   font-size: 20px;
   border: 0px;
-`
+`;
 
 const RadioLabel = styled.label`
   &:hover {
     cursor: pointer;
     text-align: center;
   }
-`
+`;
 
 export const Button = styled.button`
   border: none;
@@ -110,101 +107,111 @@ export const Button = styled.button`
 
     cursor: pointer;
   }
-`
+`;
 
 export const Paragraph = styled.p`
   bottom: 0;
   font-size: 10px;
   color: #90a4ae;
-`
+`;
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
     type: '',
-    message: ''
-  }
+    message: '',
+  };
 
   handleInputChange = (e) => {
-    const { name, value } = e.target
-    this.setState({ [name]: value })
-  }
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
-  userValidation = async e => {
+  userValidation = async (e) => {
     e.preventDefault();
 
-    const { email, password, type } = this.state
+    const { email, password, type } = this.state;
     const loggingUser = {
       email,
       password,
-    }
+    };
     try {
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8000',
         url: `/${type}/signin`,
-        data: loggingUser
-      })
+        data: loggingUser,
+      });
 
-      localStorage.setItem('token', data.token)
-      this.setState({ ...this.state, message: data.message })
-      this.props.history.push('/dashboard')
-
-    } catch (err)  {
-      this.setState({ ...this.state, message: 'Usuario o contraseña inválida' })
+      localStorage.setItem('token', data.token);
+      this.setState({ ...this.state, message: data.message });
+      this.props.history.push('/dashboard');
+    } catch (err) {
+      this.setState({
+        ...this.state,
+        message: 'Usuario o contraseña inválida',
+      });
     }
-  }
+  };
   render() {
     const { email, password, message } = this.state;
     return (
       <EnterFormDiv>
         <EnterForm onSubmit={this.userValidation}>
           <FormHeading>Bienvenido</FormHeading>
-          <FormDescription>Inicia sesión para seguir administrando tu conjunto</FormDescription>
-          <InputDiv onChange={this.handleInputChange} className='radioInputs'>
+          <FormDescription>
+            Inicia sesión para seguir administrando tu conjunto
+          </FormDescription>
+          <InputDiv onChange={this.handleInputChange} className="radioInputs">
             <div>
-              <input type='radio' id='admin' name='type' value='admin' required />
-              <RadioLabel htmlFor='admin'>Administrador</RadioLabel>
+              <input
+                type="radio"
+                id="admin"
+                name="type"
+                value="admin"
+                required
+              />
+              <RadioLabel htmlFor="admin">Administrador</RadioLabel>
             </div>
             <div>
-              <input type='radio' id='resident' name='type' value='resident' />
-              <RadioLabel htmlFor='resident'>Residente</RadioLabel>
+              <input type="radio" id="resident" name="type" value="resident" />
+              <RadioLabel htmlFor="resident">Residente</RadioLabel>
             </div>
           </InputDiv>
           <InputDiv>
-            <Label htmlFor='email'>Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              type='email'
-              id='email'
-              name='email'
+              type="email"
+              id="email"
+              name="email"
               value={email}
               onChange={this.handleInputChange}
               required
             />
           </InputDiv>
           <InputDiv>
-            <Label htmlFor='password'>Contraseña</Label>
+            <Label htmlFor="password">Contraseña</Label>
             <Input
-              type='password'
-              id='password'
-              name='password'
+              type="password"
+              id="password"
+              name="password"
               value={password}
               onChange={this.handleInputChange}
               required
             />
           </InputDiv>
-          <Button type='submit'>Ingresar</Button>
+          <Button type="submit">Ingresar</Button>
           {message}
           <Paragraph>
             ¿No tienes una cuenta?{' '}
-            <Link to='/register' className='Register-link'>
+            <Link to="/register" className="Register-link">
               Registrarme
             </Link>
           </Paragraph>
         </EnterForm>
       </EnterFormDiv>
-    )
+    );
   }
 }
-export default Login
+export default Login;

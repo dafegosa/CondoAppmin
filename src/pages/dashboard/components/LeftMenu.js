@@ -1,23 +1,23 @@
-import React from 'react'
-import styled from 'styled-components'
-import logo from '../../../logo.svg'
+import React from 'react';
+import styled from 'styled-components';
+import logo from '../../../logo.svg';
 
 const Container = styled.div`
   grid-area: 1 / 1 / 9 / 3;
   background-color: #ffbf5b;
   min-width: 15vw;
   min-height: 100vh;
-`
+`;
 const Logo = styled.div`
   padding: 40px;
   text-align: center;
-`
+`;
 
 const SideMenu = styled.div`
   padding-top: 20px;
   margin-left: 20px;
   position: relative;
-`
+`;
 const Select = styled.div`
   cursor: pointer;
   display: flex;
@@ -37,12 +37,12 @@ const Select = styled.div`
     position: absolute;
     left: 30px;
   }
-`
+`;
 
 const Picture = styled.div`
   padding: 40px;
   text-align: center;
-`
+`;
 
 const LeftMenu = () => {
   const leftMenuNav = [
@@ -54,28 +54,30 @@ const LeftMenu = () => {
     { name: 'Eventos', icon: 'fas fa-calendar-alt' },
     { name: 'Tickets', icon: 'fas fa-comment-dots' },
     { name: 'Crear perfil', icon: 'fas fa-user-plus' },
-  ]
+  ];
   return (
     <Container>
       <Logo>
-        <img src={logo} alt='logo' />
+        <img src={logo} alt="logo" />
       </Logo>
 
       <SideMenu>
         <ul>
-          {leftMenuNav.map((el) => (
-            <Select>
-              <i class={el.icon}></i>
-              <li>{el.name}</li>
-              <br />
-            </Select>
-          ))}
+          {!!leftMenuNav &&
+            leftMenuNav.length > 0 &&
+            leftMenuNav.map((el) => (
+              <Select>
+                <i class={el.icon}></i>
+                <li>{el.name}</li>
+                <br />
+              </Select>
+            ))}
         </ul>
       </SideMenu>
 
       <Picture></Picture>
     </Container>
-  )
-}
+  );
+};
 
-export default LeftMenu
+export default LeftMenu;

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -6,11 +7,11 @@ const ResidentsForm = styled.form`
   margin-top: 30px;
   box-sizing: border-box;
   width: 70%;
-`
+`;
 
 class AddResidentForm extends React.Component {
-
   state = {
+
     units: []
   }
 
@@ -55,6 +56,7 @@ class AddResidentForm extends React.Component {
           onChange={handleChange}
           value={resLastname}
         />
+
         <label htmlFor="resIdNumber" >Cédula</label>
         <input
           id="resIdNumber"
@@ -63,6 +65,7 @@ class AddResidentForm extends React.Component {
           onChange={handleChange}
           checked={resIdNumber}
         />
+
         <label htmlFor="resPhone" >Teléfono</label>
         <input
           id="resPhone"
@@ -71,6 +74,7 @@ class AddResidentForm extends React.Component {
           onChange={handleChange}
           checked={resPhone}
         />
+
         <label htmlFor="resEmail" >Email</label>
         <input
           id="resEmail"
@@ -100,8 +104,8 @@ class AddResidentForm extends React.Component {
         <button type="submit">Submit</button>
         {message}
       </ResidentsForm>
-    )
+    );
   }
 }
 
-export default AddResidentForm
+export default AddResidentForm;
