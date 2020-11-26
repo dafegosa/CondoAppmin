@@ -77,16 +77,16 @@ class MessagesArea extends React.Component {
         _id: id,
       })
       .then(({ ticketRead }) => {
-        this.getUsers();
+        this.getTickets();
       })
       .catch((err) => {});
   };
 
   componentDidMount() {
-    this.getUsers();
+    this.getTickets();
   }
 
-  getUsers = () => {
+  getTickets = () => {
     axios
       .get('http://localhost:8000/ticket')
       .then((list) => {

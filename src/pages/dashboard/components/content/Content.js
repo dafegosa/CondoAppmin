@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ContentAddResident from './add-residents/ContentAddResident';
 import ContentAddUnits from './add-units/ContentAddUnit';
 import ContentAddCondos from './add-condo/ContentAddCondo';
-
+import ContentMessages from './allMessages/CentralMessagesList';
 const ContentDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
@@ -47,7 +47,9 @@ class Content extends React.Component {
           />
         );
         break;
-
+      case 'messages':
+        return <ContentMessages addToDb={addToDb} />;
+        break;
       default:
         return <h1>Bienvenido al Dashboard</h1>;
         break;
