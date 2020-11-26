@@ -23,13 +23,26 @@ const DashboardDiv = styled.div`
 class Dashboard extends React.Component {
   state = {
     adminName: '',
-    adminid: '',
+
     condoName: '',
     condoAddress: '',
-    condoid: '',
+    
     unitName: '',
+
+    
+    resName: '',
+    resLastname: '',
+    resIdNumber: '',
+    resPhone: '',
+    resEmail: '',
+    resPassword: '',
+    resUnit: '',
+
+    adminid: '',
+    condoid: '',
     message: '',
-  };
+  } 
+  
   async componentDidMount() {
     try {
       const token = localStorage.getItem('token');
@@ -42,23 +55,28 @@ class Dashboard extends React.Component {
         },
       });
 
-      this.setState({ adminName: data.name, id: data.id });
-    } catch (err) {
-      localStorage.removeItem('token');
-      this.props.history.push('/login');
+
+      this.setState({ adminName: data.name, adminid: data.id })
+
+    } catch(err) {
+      
+      localStorage.removeItem('token')
+      this.props.history.push('/login')
+      
     }
   }
   handleChange = (e) => {
-    e.preventDefault();
 
     const { name, value } = e.target;
 
     this.setState({ [name]: value });
   };
   addToDatabase = (endpoint, statePart) => async (e) => {
-    e.preventDefault();
-    const toPost = {};
 
+    
+    e.preventDefault()
+    let toPost = {}
+    
     switch (endpoint) {
       case 'condo':
         const { condoName, condoAddress } = this.state;
@@ -69,18 +87,27 @@ class Dashboard extends React.Component {
         };
         break;
       case 'unit':
-        const { unitName } = this.state;
+
+        const { unitName, condoid } = this.state
         toPost = {
           ...statePart,
           name: unitName,
-        };
+          condoId: condoid
+        }
         break;
       case 'resident':
-        const { residentName } = this.state;
+        const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit } = this.state
         toPost = {
           ...statePart,
-          name: residentName,
-        };
+          name: resName,
+          lastName: resLastname,
+          idNumber: resIdNumber,
+          phone: resPhone,
+          email: resEmail,
+          password: resPassword,
+          unitId: resUnit
+        }
+
         break;
 
       default:
@@ -88,17 +115,22 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const { data } = await axios({
+      const token = localStorage.getItem('token')
+      const { data, message } = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8080',
+        baseURL: 'http://localhost:8000',
         url: `/${endpoint}`,
         data: toPost,
-      });
-    } catch (err) {
-      this.setState({
-        ...this.state,
-        message: 'No fue posible agregar el condominio',
-      });
+
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      if (endpoint === 'condo') {
+        this.setState({...this.state, condoid: data.data._id, message: message})
+      } else {
+        this.setState({...this.state, message: data.message})
+      }
     }
   };
 

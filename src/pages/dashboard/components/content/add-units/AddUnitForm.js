@@ -15,40 +15,20 @@ const UnitsForm = styled.form`
 `;
 
 class AddResidentForm extends React.Component {
-  state = {
-    unit: '',
-    building: '',
-    message: '',
-  };
-  handleChange = (e) => {
-    e.preventDefault();
 
-    const { name, value } = e.target;
-
-    this.setState({ [name]: value });
-  };
-  render() {
-    const { unit, building, message } = this.state;
+  render () {
+    const { unitData, handleChange, addToDb } = this.props
+    const { unitName, message } = unitData
     return (
-      <UnitsForm onSubmit={this.handleSubmit}>
+      <UnitsForm onSubmit={addToDb}>
         <div>
-          <label htmlFor="unit">Apartamento</label>
+          <label htmlFor="unitName">Nomenclatura</label>
           <input
-            id="unit"
-            name="unit"
+            id="unitName"
+            name="unitName"
             type="text"
-            onChange={this.handleChange}
-            value={unit}
-          />
-        </div>
-        <div>
-          <label htmlFor="building">Bloque</label>
-          <input
-            id="building"
-            name="building"
-            type="text"
-            onChange={this.handleChange}
-            value={building}
+            onChange={handleChange}
+            value={unitName}
           />
         </div>
         <button type="submit">Submit</button>
