@@ -23,7 +23,7 @@ export const WelcomeMsg = styled.p`
   margin-right: 5px;
 `;
 
-const UserOptionsDiv = styled.div`
+export const UserOptionsDiv = styled.div`
   width: 100%;
   position: absolute;
   top: 100%;
@@ -48,7 +48,7 @@ const UserOptionsDiv = styled.div`
   }
 `;
 
-const UserOptionsListItem = styled.li`
+export const UserOptionsListItem = styled.li`
   font-weight: 300;
   font-size: 14px;
   padding: 10px 0;
@@ -63,7 +63,7 @@ const UserOptionsListItem = styled.li`
 function UserSection(props) {
   const [renderOptions, setRenderOptions] = useState(false);
   let history = useHistory();
-  console.log(props.name);
+
   const userSectionOptionsClick = (e) => {
     setRenderOptions(!renderOptions);
   };
