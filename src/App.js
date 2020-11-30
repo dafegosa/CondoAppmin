@@ -11,9 +11,9 @@ import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
-import PrivateRoute from './pages/dashboard/PrivateRoute'
-import { Provider } from 'react-redux'
-import store from './store'
+import PrivateRoute from './pages/dashboard/PrivateRoute';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -31,11 +31,15 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Provider store={store} >
+              <Provider store={store}>
                 <PrivateRoute exact path="/dashboard/:path?">
                   <Switch>
                     <Route exact path="/dashboard" component={Dashboard} />
-                    <Route exact path="/dashboard/:path?" component={Dashboard} />
+                    <Route
+                      exact
+                      path="/dashboard/:path?"
+                      component={Dashboard}
+                    />
                   </Switch>
                 </PrivateRoute>
               </Provider>

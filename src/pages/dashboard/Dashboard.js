@@ -1,12 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import TopBar from './components/TopBar'
-import Content from './components/content/Content'
-import MessagesArea from './components/MessagesArea'
-import LeftMenu from './components/LeftMenu'
-import axios from 'axios'
-import { connect } from 'react-redux'
-
+import React from 'react';
+import styled from 'styled-components';
+import TopBar from './components/TopBar';
+import Content from './components/content/Content';
+import MessagesArea from './components/MessagesArea';
+import LeftMenu from './components/LeftMenu';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -20,7 +19,7 @@ const DashboardDiv = styled.div`
   @media (max-width: 500px) {
     grid-template: repeat(12, 1fr) / repeat(8, 1fr);
   }
-`
+`;
 
 class Dashboard extends React.Component {
   state = {
@@ -39,58 +38,51 @@ class Dashboard extends React.Component {
     residentid: '',
     condoid: '5fbf0d24416bf74cec063c6e',
     message: '',
-  } 
-  
+  };
+
   async componentDidMount() {
+    const token = localStorage.getItem('token');
 
-    const token = localStorage.getItem('token')
-  
-      try { 
-        var getAdmin = await axios({
-          method: 'GET',
-          baseURL: 'http://localhost:8000',
-          url: '/admin',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      } catch (err) {
-      }
-      try {
-        var getResident = await axios({
-          method: 'GET',
-          baseURL: 'http://localhost:8000',
-          url: '/resident',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      } catch (err) {
-      }
+    try {
+      var getAdmin = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: '/admin',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err) {}
+    try {
+      var getResident = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: '/resident',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err) {}
 
-      if (getAdmin) {
-        this.props.loggedAdmin(getAdmin.data.id)
-
-      } else if (getResident) {
-        this.props.loggedResident(getResident.data.id)
-
-      } else {
-        localStorage.removeItem('token')
-        this.props.history.push('/login')
-      }
+    if (getAdmin) {
+      this.props.loggedAdmin(getAdmin.data.id);
+    } else if (getResident) {
+      this.props.loggedResident(getResident.data.id);
+    } else {
+      localStorage.removeItem('token');
+      this.props.history.push('/login');
+    }
   }
   handleChange = (e) => {
+    const { name, value } = e.target;
 
-    const { name, value } = e.target
-
-    this.setState({ [name]: value })
+    this.setState({ [name]: value });
   };
 
   addToDatabase = (endpoint, statePart) => async (e) => {
+    e.preventDefault();
+    let toPost = {};
 
-    e.preventDefault()
-    let toPost = {}
-    
     switch (endpoint) {
       case 'condo':
         const { condoName, condoAddress } = this.state;
@@ -101,16 +93,23 @@ class Dashboard extends React.Component {
         };
         break;
       case 'unit':
-
-        const { unitName, condoid } = this.state
+        const { unitName, condoid } = this.state;
         toPost = {
           ...statePart,
           name: unitName,
-          condoId: condoid
-        }
+          condoId: condoid,
+        };
         break;
       case 'resident':
-        const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit } = this.state
+        const {
+          resName,
+          resLastname,
+          resIdNumber,
+          resPhone,
+          resEmail,
+          resPassword,
+          resUnit,
+        } = this.state;
         toPost = {
           ...statePart,
           name: resName,
@@ -119,8 +118,8 @@ class Dashboard extends React.Component {
           phone: resPhone,
           email: resEmail,
           password: resPassword,
-          unitId: resUnit
-        }
+          unitId: resUnit,
+        };
 
         break;
 
@@ -129,7 +128,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       const { data, message } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8000',
@@ -139,16 +138,18 @@ class Dashboard extends React.Component {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
+      });
       if (endpoint === 'condo') {
-        this.setState({...this.state, condoid: data.data._id, message: message})
+        this.setState({
+          ...this.state,
+          condoid: data.data._id,
+          message: message,
+        });
       } else {
-
-        this.setState({...this.state, message: data.message})
+        this.setState({ ...this.state, message: data.message });
       }
-    } catch (err) {
-    }
-  }
+    } catch (err) {}
+  };
 
   render() {
     return (
@@ -162,20 +163,21 @@ class Dashboard extends React.Component {
           addToDb={this.addToDatabase}
         />
       </DashboardDiv>
-    )
+    );
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    loggedAdmin: (value) => dispatch({type: 'loggedAdmin', payload: value}),
-    loggedResident: (value) => dispatch({type: 'loggedResident', payload: value})
-  }
+    loggedAdmin: (value) => dispatch({ type: 'loggedAdmin', payload: value }),
+    loggedResident: (value) =>
+      dispatch({ type: 'loggedResident', payload: value }),
+  };
 }
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    state: state
-  }
+    state: state,
+  };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -15,10 +15,9 @@ const UnitsForm = styled.form`
 `;
 
 class AddResidentForm extends React.Component {
-
-  render () {
-    const { unitData, handleChange, addToDb } = this.props
-    const { unitName, message } = unitData
+  render() {
+    const { unitData, handleChange, addToDb } = this.props;
+    const { unitName, message } = unitData;
     return (
       <UnitsForm onSubmit={addToDb}>
         <div>

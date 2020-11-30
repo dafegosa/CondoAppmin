@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ContentAddResident from './add-residents/ContentAddResident';
 import ContentAddUnits from './add-units/ContentAddUnit';
 import ContentAddCondos from './add-condo/ContentAddCondo';
-import ContentMessages from './AllMessages/CentralMessagesList';
+import ContentMessages from './allMessages/CentralMessagesList';
 const ContentDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
@@ -20,20 +20,33 @@ const ContentDiv = styled.div`
   }
 `;
 class Content extends React.Component {
-
-  renderContent () {
-    const { match, data, handleChange, addToDb } = this.props
-    const { adminid, condoName, condoAddress, condoid, unitName, message, resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit} = data
+  renderContent() {
+    const { match, data, handleChange, addToDb } = this.props;
+    const {
+      adminid,
+      condoName,
+      condoAddress,
+      condoid,
+      unitName,
+      message,
+      resName,
+      resLastname,
+      resIdNumber,
+      resPhone,
+      resEmail,
+      resPassword,
+      resUnit,
+    } = data;
     const condoData = {
       condoName,
       condoAddress,
       condoid,
-      message
-    }
+      message,
+    };
     const unitData = {
       unitName,
-      message
-    }
+      message,
+    };
     const resData = {
       resName,
       resLastname,
@@ -44,36 +57,42 @@ class Content extends React.Component {
       resUnit,
       condoid,
       message,
-    }
-    const urlItems = match.url.split('/')
+    };
+    const urlItems = match.url.split('/');
     switch (urlItems[2]) {
       case 'addcondo':
-        return (<ContentAddCondos 
-          adminid={adminid} 
-          condoData={condoData} 
-          addToDb={addToDb} 
-          handleChange={handleChange} 
-          />)
-        break
+        return (
+          <ContentAddCondos
+            adminid={adminid}
+            condoData={condoData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
+        break;
       case 'addunit':
-        return (<ContentAddUnits 
-          condoid={condoid} 
-          unitData={unitData} 
-          addToDb={addToDb} 
-          handleChange={handleChange} 
-          />)
-        break
+        return (
+          <ContentAddUnits
+            condoid={condoid}
+            unitData={unitData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
+        break;
       case 'adduser':
-        return (<ContentAddResident 
-          resData={resData}
-          addToDb={addToDb}
-          handleChange={handleChange} 
-          />)
-        break
-       case 'messages':
+        return (
+          <ContentAddResident
+            resData={resData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
+        break;
+      case 'messages':
         return <ContentMessages addToDb={addToDb} />;
         break;
-    
+
       default:
         return <h1>Bienvenido al Dashboard</h1>;
         break;
