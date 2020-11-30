@@ -66,7 +66,7 @@ const LeftMenu = () => {
           {!!leftMenuNav &&
             leftMenuNav.length > 0 &&
             leftMenuNav.map((el) => (
-              <Select>
+              <Select key={el.name}>
                 <i class={el.icon}></i>
                 <li>{el.name}</li>
                 <br />

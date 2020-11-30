@@ -22,21 +22,44 @@ const ContentDiv = styled.div`
 class Content extends React.Component {
   renderContent() {
     const { match, data, handleChange, addToDb } = this.props;
-    const { adminid, condoName, condoAddress, condoid, message } = data;
+    const {
+      adminid,
+      condoName,
+      condoAddress,
+      condoid,
+      unitName,
+      message,
+      resName,
+      resLastname,
+      resIdNumber,
+      resPhone,
+      resEmail,
+      resPassword,
+      resUnit,
+    } = data;
     const condoData = {
       condoName,
       condoAddress,
       condoid,
       message,
     };
+    const unitData = {
+      unitName,
+      message,
+    };
+    const resData = {
+      resName,
+      resLastname,
+      resIdNumber,
+      resPhone,
+      resEmail,
+      resPassword,
+      resUnit,
+      condoid,
+      message,
+    };
     const urlItems = match.url.split('/');
     switch (urlItems[2]) {
-      case 'adduser':
-        return <ContentAddResident addToDb={addToDb} />;
-        break;
-      case 'addunit':
-        return <ContentAddUnits addToDb={addToDb} />;
-        break;
       case 'addcondo':
         return (
           <ContentAddCondos
@@ -47,9 +70,29 @@ class Content extends React.Component {
           />
         );
         break;
+      case 'addunit':
+        return (
+          <ContentAddUnits
+            condoid={condoid}
+            unitData={unitData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
+        break;
+      case 'adduser':
+        return (
+          <ContentAddResident
+            resData={resData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
+        break;
       case 'messages':
         return <ContentMessages addToDb={addToDb} />;
         break;
+
       default:
         return <h1>Bienvenido al Dashboard</h1>;
         break;

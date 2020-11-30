@@ -34,10 +34,15 @@ class ContentAddResident extends React.Component {
   }
 
   render () {
+    const { resData, addToDb, handleChange } = this.props
     return (
       <AddResidentDiv>
         <SectionTitle>Agregar Usuarios</SectionTitle>
-        <AddResidentForm />
+        <AddResidentForm 
+          resData={resData}
+          addToDb={addToDb('resident', {name: '', lastName: '', idNumber: '', phone: '', email: '', password: '', unitId: ''})}
+          handleChange={handleChange} 
+        />
       </AddResidentDiv>
     )
   }

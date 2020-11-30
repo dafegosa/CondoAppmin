@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import { withTheme } from 'styled-components';
@@ -59,60 +60,47 @@ const UserOptionsListItem = styled.li`
   }
 `;
 
-class UserSection extends React.Component {
-  state = {
-    renderOptions: false,
+function UserSection(props) {
+  const [renderOptions, setRenderOptions] = useState(false);
+  let history = useHistory();
+  console.log(props.name);
+  const userSectionOptionsClick = (e) => {
+    setRenderOptions(!renderOptions);
   };
 
-  userSectionOptionsClick = (e) => {
-    const { renderOptions } = this.state;
-
-    this.setState({
-      renderOptions: !renderOptions,
-    });
-  };
-
-  signout = (e) => {
+  const signout = (e) => {
     localStorage.removeItem('token');
-    this.props.history.push('/');
+    history.push('/');
   };
 
-  signout = (e) => {
-    localStorage.removeItem('token');
-    this.props.history.push('/');
-  };
+  return (
+    <UserTopBarDiv>
+      <WelcomeMsg>¡Hola, {props.name}!</WelcomeMsg>
+      <AccountCircleIcon />
+      <IconButton style={{ padding: '0px' }}>
+        <ArrowDropDownIcon
+          className="arrow-drop-down-icon"
+          style={{ color: 'white', fontSize: '28px' }}
+          onClick={userSectionOptionsClick}
+        />
+      </IconButton>
+      <CSSTransition
+        in={renderOptions}
+        timeout={500}
+        classNames="transition"
+        unmountOnExit
+        appear
+      >
+        <UserOptionsDiv>
+          <ul>
+            <UserOptionsListItem>Profile</UserOptionsListItem>
 
-  render() {
-    return (
-      <UserTopBarDiv>
-        <WelcomeMsg>¡Hola {this.props.name}!</WelcomeMsg>
-        <AccountCircleIcon />
-        <IconButton style={{ padding: '0px' }}>
-          <ArrowDropDownIcon
-            className="arrow-drop-down-icon"
-            style={{ color: 'white', fontSize: '28px' }}
-            onClick={this.userSectionOptionsClick}
-          />
-        </IconButton>
-        <CSSTransition
-          in={this.state.renderOptions}
-          timeout={500}
-          classNames="transition"
-          unmountOnExit
-          appear
-        >
-          <UserOptionsDiv>
-            <ul>
-              <UserOptionsListItem>Profile</UserOptionsListItem>
-              <UserOptionsListItem onClick={this.signout}>
-                Logout
-              </UserOptionsListItem>
-            </ul>
-          </UserOptionsDiv>
-        </CSSTransition>
-      </UserTopBarDiv>
-    );
-  }
+            <UserOptionsListItem onClick={signout}>Logout</UserOptionsListItem>
+          </ul>
+        </UserOptionsDiv>
+      </CSSTransition>
+    </UserTopBarDiv>
+  );
 }
 
 export default withRouter(withTheme(UserSection));
