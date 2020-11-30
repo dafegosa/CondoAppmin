@@ -26,7 +26,6 @@ class AddResidentForm extends React.Component {
           Authorization: `Bearer ${token}`,
         },
       })
-  
       this.setState({...this.state, units: data.data})
     } catch (err) {
 

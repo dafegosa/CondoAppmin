@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ContentAddResident from './add-residents/ContentAddResident';
 import ContentAddUnits from './add-units/ContentAddUnit';
 import ContentAddCondos from './add-condo/ContentAddCondo';
-import ContentMessages from './allMessages/CentralMessagesList';
+import ContentMessages from './AllMessages/CentralMessagesList';
 const ContentDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
@@ -42,6 +42,7 @@ class Content extends React.Component {
       resEmail,
       resPassword,
       resUnit,
+      condoid,
       message,
     }
     const urlItems = match.url.split('/')

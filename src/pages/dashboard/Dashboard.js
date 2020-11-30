@@ -1,10 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import TopBar from './components/TopBar';
-import Content from './components/content/Content';
-import MessagesArea from './components/MessagesArea';
-import LeftMenu from './components/LeftMenu';
-import axios from 'axios';
+import React from 'react'
+import styled from 'styled-components'
+import TopBar from './components/TopBar'
+import Content from './components/content/Content'
+import MessagesArea from './components/MessagesArea'
+import LeftMenu from './components/LeftMenu'
+import axios from 'axios'
+import { connect } from 'react-redux'
+
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;
@@ -18,18 +20,14 @@ const DashboardDiv = styled.div`
   @media (max-width: 500px) {
     grid-template: repeat(12, 1fr) / repeat(8, 1fr);
   }
-`;
+`
 
 class Dashboard extends React.Component {
   state = {
     adminName: '',
-
     condoName: '',
     condoAddress: '',
-    
     unitName: '',
-
-    
     resName: '',
     resLastname: '',
     resIdNumber: '',
@@ -37,43 +35,59 @@ class Dashboard extends React.Component {
     resEmail: '',
     resPassword: '',
     resUnit: '',
-
     adminid: '',
-    condoid: '',
+    residentid: '',
+    condoid: '5fbf0d24416bf74cec063c6e',
     message: '',
   } 
   
   async componentDidMount() {
-    try {
-      const token = localStorage.getItem('token');
-      const { data } = await axios({
-        method: 'GET',
-        baseURL: 'http://localhost:8000',
-        url: '/admin',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
+    const token = localStorage.getItem('token')
+  
+      try { 
+        var getAdmin = await axios({
+          method: 'GET',
+          baseURL: 'http://localhost:8000',
+          url: '/admin',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      } catch (err) {
+      }
+      try {
+        var getResident = await axios({
+          method: 'GET',
+          baseURL: 'http://localhost:8000',
+          url: '/resident',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      } catch (err) {
+      }
 
-      this.setState({ adminName: data.name, adminid: data.id })
+      if (getAdmin) {
+        this.props.loggedAdmin(getAdmin.data.id)
 
-    } catch(err) {
-      
-      localStorage.removeItem('token')
-      this.props.history.push('/login')
-      
-    }
+      } else if (getResident) {
+        this.props.loggedResident(getResident.data.id)
+
+      } else {
+        localStorage.removeItem('token')
+        this.props.history.push('/login')
+      }
   }
   handleChange = (e) => {
 
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
-    this.setState({ [name]: value });
+    this.setState({ [name]: value })
   };
+
   addToDatabase = (endpoint, statePart) => async (e) => {
 
-    
     e.preventDefault()
     let toPost = {}
     
@@ -129,10 +143,12 @@ class Dashboard extends React.Component {
       if (endpoint === 'condo') {
         this.setState({...this.state, condoid: data.data._id, message: message})
       } else {
+
         this.setState({...this.state, message: data.message})
       }
+    } catch (err) {
     }
-  };
+  }
 
   render() {
     return (
@@ -146,8 +162,20 @@ class Dashboard extends React.Component {
           addToDb={this.addToDatabase}
         />
       </DashboardDiv>
-    );
+    )
   }
 }
 
-export default Dashboard;
+function mapDispatchToProps (dispatch) {
+  return {
+    loggedAdmin: (value) => dispatch({type: 'loggedAdmin', payload: value}),
+    loggedResident: (value) => dispatch({type: 'loggedResident', payload: value})
+  }
+}
+function mapStateToProps (state) {
+  return {
+    state: state
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
