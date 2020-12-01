@@ -1,11 +1,12 @@
-import React from 'react';
-import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import ContentAddResident from './add-residents/ContentAddResident';
-import ContentAddUnits from './add-units/ContentAddUnit';
-import ContentAddCondos from './add-condo/ContentAddCondo';
-import ContentMessages from './AllMessages/CentralMessagesList';
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import ContentAddResident from './add-residents/ContentAddResident'
+import ContentAddUnits from './add-units/ContentAddUnit'
+import ContentAddCondos from './add-condo/ContentAddCondo'
+import ContentMessages from './AllMessages/CentralMessagesList'
 const ContentDiv = styled.div`
+
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
   padding: 10px;
@@ -71,7 +72,7 @@ class Content extends React.Component {
           />)
         break
        case 'messages':
-        return <ContentMessages addToDb={addToDb} />;
+        return <ContentMessages addToDb={addToDb} />
         break;
     
       default:
@@ -81,7 +82,7 @@ class Content extends React.Component {
   }
 
   render() {
-    return <ContentDiv>{this.renderContent()}</ContentDiv>;
+    return <ContentDiv>{this.renderContent()}</ContentDiv>
   }
 }
 

@@ -6,6 +6,7 @@ import MessagesArea from './components/MessagesArea'
 import LeftMenu from './components/LeftMenu'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { getUser } from '../../store/sessionReducer'
 
 
 const DashboardDiv = styled.div`
@@ -42,42 +43,8 @@ class Dashboard extends React.Component {
   } 
   
   async componentDidMount() {
-
-    const token = localStorage.getItem('token')
-  
-      try { 
-        var getAdmin = await axios({
-          method: 'GET',
-          baseURL: 'http://localhost:8000',
-          url: '/admin',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      } catch (err) {
-      }
-      try {
-        var getResident = await axios({
-          method: 'GET',
-          baseURL: 'http://localhost:8000',
-          url: '/resident',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      } catch (err) {
-      }
-
-      if (getAdmin) {
-        this.props.loggedAdmin(getAdmin.data.id)
-
-      } else if (getResident) {
-        this.props.loggedResident(getResident.data.id)
-
-      } else {
-        localStorage.removeItem('token')
-        this.props.history.push('/login')
-      }
+    getUser(this.props.history)
+    
   }
   handleChange = (e) => {
 

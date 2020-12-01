@@ -32,11 +32,12 @@ class App extends React.Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Provider store={store} >
-                <PrivateRoute exact path="/dashboard/:path?">
-                  <Switch>
+                <PrivateRoute exact path="/dashboard/:path?/:innerpath?" component={Dashboard}>
+                  {/* <Switch>
                     <Route exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/dashboard/:path?" component={Dashboard} />
-                  </Switch>
+                    <Route exact path="/dashboard/:path?/:messageid" component={Dashboard} />
+                  </Switch> */}
                 </PrivateRoute>
               </Provider>
             </Switch>
