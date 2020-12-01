@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import { withTheme } from 'styled-components';
-import { IconButton } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { CSSTransition } from 'react-transition-group';
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import { withTheme } from 'styled-components'
+import { IconButton } from '@material-ui/core'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import { CSSTransition } from 'react-transition-group'
 
 export const UserTopBarDiv = styled.div`
   position: relative;
@@ -15,13 +15,13 @@ export const UserTopBarDiv = styled.div`
   color: white;
   align-items: center;
   box-sizing: border-box;
-`;
+`
 
 export const WelcomeMsg = styled.p`
   color: white;
   font-size: 14px;
   margin-right: 5px;
-`;
+`
 
 export const UserOptionsDiv = styled.div`
   width: 100%;
@@ -46,7 +46,7 @@ export const UserOptionsDiv = styled.div`
     opacity: 0;
     transition: opacity 500ms;
   }
-`;
+`
 
 export const UserOptionsListItem = styled.li`
   font-weight: 300;
@@ -58,20 +58,20 @@ export const UserOptionsListItem = styled.li`
     cursor: pointer;
     font-weight: 400;
   }
-`;
+`
 
 function UserSection(props) {
-  const [renderOptions, setRenderOptions] = useState(false);
-  let history = useHistory();
+  const [renderOptions, setRenderOptions] = useState(false)
+  let history = useHistory()
 
   const userSectionOptionsClick = (e) => {
-    setRenderOptions(!renderOptions);
-  };
+    setRenderOptions(!renderOptions)
+  }
 
   const signout = (e) => {
-    localStorage.removeItem('token');
-    history.push('/');
-  };
+    localStorage.removeItem('token')
+    history.push('/')
+  }
 
   return (
     <UserTopBarDiv>
@@ -79,7 +79,7 @@ function UserSection(props) {
       <AccountCircleIcon />
       <IconButton style={{ padding: '0px' }}>
         <ArrowDropDownIcon
-          className="arrow-drop-down-icon"
+          className='arrow-drop-down-icon'
           style={{ color: 'white', fontSize: '28px' }}
           onClick={userSectionOptionsClick}
         />
@@ -87,7 +87,7 @@ function UserSection(props) {
       <CSSTransition
         in={renderOptions}
         timeout={500}
-        classNames="transition"
+        classNames='transition'
         unmountOnExit
         appear
       >
@@ -100,7 +100,7 @@ function UserSection(props) {
         </UserOptionsDiv>
       </CSSTransition>
     </UserTopBarDiv>
-  );
+  )
 }
 
-export default withRouter(withTheme(UserSection));
+export default withRouter(withTheme(UserSection))

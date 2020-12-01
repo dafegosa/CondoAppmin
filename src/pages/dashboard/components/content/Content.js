@@ -1,11 +1,14 @@
-import React from 'react';
-import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import ContentAddResident from './add-residents/ContentAddResident';
-import ContentAddUnits from './add-units/ContentAddUnit';
-import ContentAddCondos from './add-condo/ContentAddCondo';
-import ContentMessages from './allMessages/CentralMessagesList';
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import ContentAddResident from './add-residents/ContentAddResident'
+import ContentAddUnits from './add-units/ContentAddUnit'
+import ContentAddCondos from './add-condo/ContentAddCondo'
+import ContentMessages from './allMessages/CentralMessagesList'
+import ContentMessagesForm from './allMessages/MessageForm'
+
 const ContentDiv = styled.div`
+  display: grid;
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
   padding: 10px;
@@ -18,10 +21,10 @@ const ContentDiv = styled.div`
   @media (max-width: 500px) {
     grid-area: 2 / 1 / 13 / 9;
   }
-`;
+`
 class Content extends React.Component {
   renderContent() {
-    const { match, data, handleChange, addToDb } = this.props;
+    const { match, data, handleChange, addToDb } = this.props
     const {
       adminid,
       condoName,
@@ -36,17 +39,17 @@ class Content extends React.Component {
       resEmail,
       resPassword,
       resUnit,
-    } = data;
+    } = data
     const condoData = {
       condoName,
       condoAddress,
       condoid,
       message,
-    };
+    }
     const unitData = {
       unitName,
       message,
-    };
+    }
     const resData = {
       resName,
       resLastname,
@@ -57,8 +60,8 @@ class Content extends React.Component {
       resUnit,
       condoid,
       message,
-    };
-    const urlItems = match.url.split('/');
+    }
+    const urlItems = match.url.split('/')
     switch (urlItems[2]) {
       case 'addcondo':
         return (
@@ -68,8 +71,8 @@ class Content extends React.Component {
             addToDb={addToDb}
             handleChange={handleChange}
           />
-        );
-        break;
+        )
+        break
       case 'addunit':
         return (
           <ContentAddUnits
@@ -78,8 +81,8 @@ class Content extends React.Component {
             addToDb={addToDb}
             handleChange={handleChange}
           />
-        );
-        break;
+        )
+        break
       case 'adduser':
         return (
           <ContentAddResident
@@ -87,21 +90,25 @@ class Content extends React.Component {
             addToDb={addToDb}
             handleChange={handleChange}
           />
-        );
-        break;
+        )
+        break
       case 'messages':
-        return <ContentMessages addToDb={addToDb} />;
-        break;
+        return <ContentMessages addToDb={addToDb} />
+        break
+
+      case 'messagesform':
+        return <ContentMessagesForm addToDb={addToDb} />
+        break
 
       default:
-        return <h1>Bienvenido al Dashboard</h1>;
-        break;
+        return <h1>Bienvenido al Dashboard</h1>
+        break
     }
   }
 
   render() {
-    return <ContentDiv>{this.renderContent()}</ContentDiv>;
+    return <ContentDiv>{this.renderContent()}</ContentDiv>
   }
 }
 
-export default withRouter(Content);
+export default withRouter(Content)

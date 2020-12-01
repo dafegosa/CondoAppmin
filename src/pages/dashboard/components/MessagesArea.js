@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import React from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -22,7 +22,7 @@ const MessageContainer = styled.div`
   }
   .secction-title.bottom-title {
   }
-`;
+`
 
 const MessageInternContainer = styled.div`
   display: flex;
@@ -36,14 +36,14 @@ const MessageInternContainer = styled.div`
   }
   margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
-`;
+`
 
 const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
   color: white;
   text-align: left;
   margin: 2px;
-  h3 {
+  h6 {
     margin: 2%;
   }
   p {
@@ -57,19 +57,19 @@ const Message = styled.div`
     cursor: hand;
     margin-top: 0.5%;
     box-shadow: 0px 1px 8px 0px white;
-    h3 {
+    h6 {
       color: rgba(255, 191, 91, 0.9);
     }
     p {
       color: white;
     }
   }
-`;
+`
 
 class MessagesArea extends React.Component {
   state = {
     tickets: [],
-  };
+  }
 
   ticketRead = (id) => {
     axios
@@ -77,13 +77,13 @@ class MessagesArea extends React.Component {
         _id: id,
       })
       .then(({ ticketRead }) => {
-        this.getTickets();
+        this.getTickets()
       })
-      .catch((err) => {});
-  };
+      .catch((err) => {})
+  }
 
   componentDidMount() {
-    this.getTickets();
+    this.getTickets()
   }
 
   getTickets = () => {
@@ -92,21 +92,21 @@ class MessagesArea extends React.Component {
       .then((list) => {
         const readTicket = list.data.data.filter(
           (ticket) => ticket.read === false
-        );
+        )
         this.setState({
           tickets: [],
-        });
+        })
         this.setState({
           tickets: readTicket,
-        });
+        })
       })
-      .catch((err) => {});
-  };
+      .catch((err) => {})
+  }
 
   render() {
     return (
       <MessageContainer>
-        <p className="secction-title top-title">
+        <p className='secction-title top-title'>
           <br />
           <strong>TICKETS</strong>
         </p>
@@ -118,7 +118,7 @@ class MessagesArea extends React.Component {
                 key={tickets._id}
                 onClick={this.ticketRead.bind(indx, tickets._id)}
               >
-                <h3> {tickets.subject} </h3>
+                <h6> {tickets.subject} </h6>
                 <p>
                   {tickets.body.length > 35 &&
                     tickets.body.substring(0, 45) + ' ... '}
@@ -127,8 +127,8 @@ class MessagesArea extends React.Component {
             ))}
         </MessageInternContainer>
       </MessageContainer>
-    );
+    )
   }
 }
 
-export default MessagesArea;
+export default MessagesArea
