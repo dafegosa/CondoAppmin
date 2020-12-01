@@ -1,6 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import messageReducer, { retrieveMessages, readMessage } from '../../../store/messageReducer'
+import sessionReducer, { getUser } from '../../../store/sessionReducer'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -22,13 +25,14 @@ const MessageContainer = styled.div`
   }
   .secction-title.bottom-title {
   }
-`;
+`
 
 const MessageInternContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow-y: scroll;
+  width: 100%;
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -36,13 +40,14 @@ const MessageInternContainer = styled.div`
   }
   margin: 0;
   background-color: rgba(96, 125, 139, 0.7);
-`;
+`
 
 const Message = styled.div`
   background-color: rgba(96, 125, 139, 1);
   color: white;
   text-align: left;
   margin: 2px;
+  width: 100%;
   h3 {
     margin: 2%;
   }
@@ -64,46 +69,45 @@ const Message = styled.div`
       color: white;
     }
   }
-`;
+`
 
-class MessagesArea extends React.Component {
-  state = {
-    tickets: [],
-  };
+function MessagesArea (props) {
 
-  ticketRead = (id) => {
-    axios
-      .put('http://localhost:8000/ticket/', {
-        _id: id,
-      })
-      .then(({ ticketRead }) => {
-        this.getTickets();
-      })
-      .catch((err) => {});
-  };
+  const dispatch = useDispatch()
+  const { messages } = useSelector(( { messageReducer: { messages }}) => {
+    return { messages }
+  })
+  const { admin, resident } = useSelector(( { sessionReducer: { admin, resident }}) => {
+    return { admin, resident }
+  })
+  let history = useHistory()
 
-  componentDidMount() {
-    this.getTickets();
+
+  const ticketRead = (id) => {
+    const route = admin ? 'ticket' : 'message'
+    dispatch(readMessage(id, route, messages, history))
   }
 
-  getTickets = () => {
-    axios
-      .get('http://localhost:8000/ticket')
-      .then((list) => {
-        const readTicket = list.data.data.filter(
-          (ticket) => ticket.read === false
-        );
-        this.setState({
-          tickets: [],
-        });
-        this.setState({
-          tickets: readTicket,
-        });
-      })
-      .catch((err) => {});
-  };
+  useEffect(() => {
 
-  render() {
+    async function getTickets () {
+      const { getResident, getAdmin, type } = await dispatch(getUser())
+
+      if (messages.length === 0) {
+        if (getAdmin) {
+          dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
+          
+        } else if (getResident) {
+          dispatch(retrieveMessages(getResident.data.id, 'message'))
+
+        }
+      }
+    }
+
+    getTickets()
+
+  }, [])
+  
     return (
       <MessageContainer>
         <p className="secction-title top-title">
@@ -111,24 +115,23 @@ class MessagesArea extends React.Component {
           <strong>TICKETS</strong>
         </p>
         <MessageInternContainer>
-          {!!this.state.tickets &&
-            this.state.tickets.length > 0 &&
-            this.state.tickets.map((tickets, indx) => (
+          {!!messages &&
+            messages.length > 0 &&
+            messages.map((tickets, indx) => (
               <Message
                 key={tickets._id}
-                onClick={this.ticketRead.bind(indx, tickets._id)}
+                onClick={ticketRead.bind(indx, tickets._id)}
               >
                 <h3> {tickets.subject} </h3>
                 <p>
-                  {tickets.body.length > 35 &&
+                  {tickets.body.length > 5 &&
                     tickets.body.substring(0, 45) + ' ... '}
                 </p>
               </Message>
             ))}
         </MessageInternContainer>
       </MessageContainer>
-    );
-  }
+    )
 }
 
-export default MessagesArea;
+export default MessagesArea

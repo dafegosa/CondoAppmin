@@ -1,11 +1,12 @@
-import React from 'react';
-import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import ContentAddResident from './add-residents/ContentAddResident';
-import ContentAddUnits from './add-units/ContentAddUnit';
-import ContentAddCondos from './add-condo/ContentAddCondo';
-import ContentMessages from './allMessages/CentralMessagesList';
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import ContentAddResident from './add-residents/ContentAddResident'
+import ContentAddUnits from './add-units/ContentAddUnit'
+import ContentAddCondos from './add-condo/ContentAddCondo'
+import ContentMessages from './AllMessages/CentralMessagesList'
 const ContentDiv = styled.div`
+
   background-color: rgba(0, 0, 0, 0.05);
   grid-area: 2 / 3 / 9 / 11;
   padding: 10px;
@@ -18,7 +19,8 @@ const ContentDiv = styled.div`
   @media (max-width: 500px) {
     grid-area: 2 / 1 / 13 / 9;
   }
-`;
+`
+
 class Content extends React.Component {
   renderContent() {
     const { match, data, handleChange, addToDb } = this.props;
@@ -69,7 +71,7 @@ class Content extends React.Component {
             handleChange={handleChange}
           />
         );
-        break;
+        break
       case 'addunit':
         return (
           <ContentAddUnits
@@ -87,7 +89,7 @@ class Content extends React.Component {
             addToDb={addToDb}
             handleChange={handleChange}
           />
-        );
+        )
         break;
       case 'messages':
         return <ContentMessages addToDb={addToDb} />;
@@ -100,7 +102,7 @@ class Content extends React.Component {
   }
 
   render() {
-    return <ContentDiv>{this.renderContent()}</ContentDiv>;
+    return <ContentDiv>{this.renderContent()}</ContentDiv>
   }
 }
 

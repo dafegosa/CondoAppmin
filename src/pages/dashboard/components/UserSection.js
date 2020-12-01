@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import styled from 'styled-components';
-import { withTheme } from 'styled-components';
-import { IconButton } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { CSSTransition } from 'react-transition-group';
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { withTheme } from 'styled-components'
+import { IconButton } from '@material-ui/core'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import { CSSTransition } from 'react-transition-group'
+import { signoutDispatch } from '../../../store/sessionReducer'
+
 
 export const UserTopBarDiv = styled.div`
   position: relative;
@@ -60,47 +63,52 @@ export const UserOptionsListItem = styled.li`
   }
 `;
 
-function UserSection(props) {
-  const [renderOptions, setRenderOptions] = useState(false);
-  let history = useHistory();
+
+function UserSection (props) {
+  const [renderOptions, setRenderOptions] = useState(false)
+
+  let history = useHistory()
+  const dispatch = useDispatch()
 
   const userSectionOptionsClick = (e) => {
-    setRenderOptions(!renderOptions);
-  };
+    setRenderOptions(!renderOptions)
+  }
 
   const signout = (e) => {
-    localStorage.removeItem('token');
-    history.push('/');
-  };
+    localStorage.removeItem('token')
+    dispatch(signoutDispatch())
+    history.push('/')
+  }
 
-  return (
-    <UserTopBarDiv>
-      <WelcomeMsg>¡Hola, {props.name}!</WelcomeMsg>
-      <AccountCircleIcon />
-      <IconButton style={{ padding: '0px' }}>
-        <ArrowDropDownIcon
-          className="arrow-drop-down-icon"
-          style={{ color: 'white', fontSize: '28px' }}
-          onClick={userSectionOptionsClick}
-        />
-      </IconButton>
-      <CSSTransition
-        in={renderOptions}
-        timeout={500}
-        classNames="transition"
-        unmountOnExit
-        appear
-      >
-        <UserOptionsDiv>
-          <ul>
-            <UserOptionsListItem>Profile</UserOptionsListItem>
+    return ( 
+      <UserTopBarDiv>
+        <WelcomeMsg>¡Hola, {props.name}!</WelcomeMsg>
+        <AccountCircleIcon />
+        <IconButton style={{ padding: '0px' }}>
+          <ArrowDropDownIcon
+            className="arrow-drop-down-icon"
+            style={{ color: 'white', fontSize: '28px' }}
+            onClick={userSectionOptionsClick}
+          />
+        </IconButton>
+        <CSSTransition
+          in={renderOptions}
+          timeout={500}
+          classNames="transition"
+          unmountOnExit
+          appear
+        >
+          <UserOptionsDiv>
+            <ul>
+              <UserOptionsListItem>Profile</UserOptionsListItem>
+              <UserOptionsListItem onClick={signout} >Logout</UserOptionsListItem>
+            </ul>
+          </UserOptionsDiv>
+        </CSSTransition>
+      </UserTopBarDiv>
 
-            <UserOptionsListItem onClick={signout}>Logout</UserOptionsListItem>
-          </ul>
-        </UserOptionsDiv>
-      </CSSTransition>
-    </UserTopBarDiv>
-  );
+    )
+
 }
 
 export default withRouter(withTheme(UserSection));
