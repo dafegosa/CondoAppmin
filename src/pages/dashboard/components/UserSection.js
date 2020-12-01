@@ -26,7 +26,7 @@ export const WelcomeMsg = styled.p`
   margin-right: 5px;
 `;
 
-const UserOptionsDiv = styled.div`
+export const UserOptionsDiv = styled.div`
   width: 100%;
   position: absolute;
   top: 100%;
@@ -51,7 +51,7 @@ const UserOptionsDiv = styled.div`
   }
 `;
 
-const UserOptionsListItem = styled.li`
+export const UserOptionsListItem = styled.li`
   font-weight: 300;
   font-size: 14px;
   padding: 10px 0;
@@ -101,9 +101,7 @@ function UserSection (props) {
           <UserOptionsDiv>
             <ul>
               <UserOptionsListItem>Profile</UserOptionsListItem>
-
               <UserOptionsListItem onClick={signout} >Logout</UserOptionsListItem>
-
             </ul>
           </UserOptionsDiv>
         </CSSTransition>

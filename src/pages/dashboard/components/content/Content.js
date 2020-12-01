@@ -19,22 +19,36 @@ const ContentDiv = styled.div`
   @media (max-width: 500px) {
     grid-area: 2 / 1 / 13 / 9;
   }
-`;
-class Content extends React.Component {
+`
 
-  renderContent () {
-    const { match, data, handleChange, addToDb } = this.props
-    const { adminid, condoName, condoAddress, condoid, unitName, message, resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit} = data
+class Content extends React.Component {
+  renderContent() {
+    const { match, data, handleChange, addToDb } = this.props;
+    const {
+      adminid,
+      condoName,
+      condoAddress,
+      condoid,
+      unitName,
+      message,
+      resName,
+      resLastname,
+      resIdNumber,
+      resPhone,
+      resEmail,
+      resPassword,
+      resUnit,
+    } = data;
     const condoData = {
       condoName,
       condoAddress,
       condoid,
-      message
-    }
+      message,
+    };
     const unitData = {
       unitName,
-      message
-    }
+      message,
+    };
     const resData = {
       resName,
       resLastname,
@@ -45,36 +59,42 @@ class Content extends React.Component {
       resUnit,
       condoid,
       message,
-    }
-    const urlItems = match.url.split('/')
+    };
+    const urlItems = match.url.split('/');
     switch (urlItems[2]) {
       case 'addcondo':
-        return (<ContentAddCondos 
-          adminid={adminid} 
-          condoData={condoData} 
-          addToDb={addToDb} 
-          handleChange={handleChange} 
-          />)
+        return (
+          <ContentAddCondos
+            adminid={adminid}
+            condoData={condoData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
         break
       case 'addunit':
-        return (<ContentAddUnits 
-          condoid={condoid} 
-          unitData={unitData} 
-          addToDb={addToDb} 
-          handleChange={handleChange} 
-          />)
-        break
-      case 'adduser':
-        return (<ContentAddResident 
-          resData={resData}
-          addToDb={addToDb}
-          handleChange={handleChange} 
-          />)
-        break
-       case 'messages':
-        return <ContentMessages addToDb={addToDb} />
+        return (
+          <ContentAddUnits
+            condoid={condoid}
+            unitData={unitData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        );
         break;
-    
+      case 'adduser':
+        return (
+          <ContentAddResident
+            resData={resData}
+            addToDb={addToDb}
+            handleChange={handleChange}
+          />
+        )
+        break;
+      case 'messages':
+        return <ContentMessages addToDb={addToDb} />;
+        break;
+
       default:
         return <h1>Bienvenido al Dashboard</h1>;
         break;

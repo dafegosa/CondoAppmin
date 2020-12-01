@@ -40,8 +40,8 @@ class Dashboard extends React.Component {
     residentid: '',
     condoid: '5fbf0d24416bf74cec063c6e',
     message: '',
-  } 
-  
+  };
+
   async componentDidMount() {
     getUser(this.props.history)
     
@@ -51,33 +51,39 @@ class Dashboard extends React.Component {
     const { name, value } = e.target
 
     this.setState({ [name]: value })
-  };
+  }
 
   addToDatabase = (endpoint, statePart) => async (e) => {
-
     e.preventDefault()
     let toPost = {}
     
     switch (endpoint) {
       case 'condo':
-        const { condoName, condoAddress } = this.state;
+        const { condoName, condoAddress } = this.state
         toPost = {
           ...statePart,
           name: condoName,
           address: condoAddress,
         };
-        break;
+        break
       case 'unit':
-
         const { unitName, condoid } = this.state
         toPost = {
           ...statePart,
           name: unitName,
-          condoId: condoid
+          condoId: condoid,
         }
-        break;
+        break
       case 'resident':
-        const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit } = this.state
+        const {
+          resName,
+          resLastname,
+          resIdNumber,
+          resPhone,
+          resEmail,
+          resPassword,
+          resUnit,
+        } = this.state
         toPost = {
           ...statePart,
           name: resName,
@@ -86,13 +92,13 @@ class Dashboard extends React.Component {
           phone: resPhone,
           email: resEmail,
           password: resPassword,
-          unitId: resUnit
+          unitId: resUnit,
         }
 
-        break;
+        break
 
       default:
-        break;
+        break
     }
 
     try {
@@ -108,13 +114,15 @@ class Dashboard extends React.Component {
         },
       })
       if (endpoint === 'condo') {
-        this.setState({...this.state, condoid: data.data._id, message: message})
+        this.setState({
+          ...this.state,
+          condoid: data.data._id,
+          message: message,
+        })
       } else {
-
-        this.setState({...this.state, message: data.message})
+        this.setState({ ...this.state, message: data.message });
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   }
 
   render() {
