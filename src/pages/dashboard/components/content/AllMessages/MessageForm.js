@@ -38,7 +38,6 @@ const MessageForm = (props) => {
       ...data,
       [name]: value,
     })
-    console.log(data)
   }
 
   const handleChange = (event, editor) => {
@@ -49,21 +48,10 @@ const MessageForm = (props) => {
       ...data,
       body: addData,
     })
-    console.log({ event, editor, addData })
-
-    console.log(data)
   }
 
   const createTicket = (e) => {
     e.preventDefault()
-    console.log(data)
-    console.log(addData)
-    axios
-      .post('http://localhost:8000/ticket/', {})
-      .then(({ ticketRead }) => {
-        this.getTickets()
-      })
-      .catch((err) => {})
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
@@ -83,7 +71,6 @@ const MessageForm = (props) => {
           required={true}
           onChange={handleInputChange}
           data={addData}
-          // checked={}
         />
       </p>
       <p>
@@ -95,7 +82,6 @@ const MessageForm = (props) => {
           required={true}
           onChange={handleInputChange}
           data={addData}
-          // checked={}
         />
       </p>
       <p>
@@ -105,7 +91,6 @@ const MessageForm = (props) => {
           name='subject'
           type='text'
           onChange={handleInputChange}
-          // checked={}
         />
       </p>
       <br></br>
