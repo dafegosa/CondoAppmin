@@ -22,6 +22,7 @@ const ContentDiv = styled.div`
     grid-area: 2 / 1 / 13 / 9;
   }
 `
+
 class Content extends React.Component {
   renderContent() {
     const { match, data, handleChange, addToDb } = this.props
