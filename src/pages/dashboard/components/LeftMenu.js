@@ -107,7 +107,7 @@ const LeftMenu = () => {
                 key={el.name}
                 onClick={leftMenuRouter.bind(indx, el.name)}
               >
-                <i class={el.icon}></i>
+                <i className={el.icon}></i>
                 <li>{el.name}</li>
                 <br />
               </Select>
@@ -133,7 +133,7 @@ const LeftMenu = () => {
                       key={el.name}
                       onClick={leftMenuRouter.bind(indx, el.name)}
                     >
-                      <i class={el.icon}></i>
+                      <i className={el.icon}></i>
                       <li>{el.name}</li>
                       <br />
                     </Select>

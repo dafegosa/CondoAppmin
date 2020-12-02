@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import AddUnitsForm from './AddUnitForm'
-import { SectionTitle } from '../add-residents/ContentAddResident'
+import { useSelector, useDispatch } from 'react-redux'
+import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
 
 const AddUnitDiv = styled.div`
   padding: 10px;
@@ -17,22 +17,70 @@ const AddUnitDiv = styled.div`
     
   }
 `
+export const SectionTitle = styled.h2`
+  font-weight: 500;
+  font-size: 24px;
+`
 
-class ContentAddUnits extends React.Component {
+const UnitsForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  box-sizing: border-box;
+  width: 70%;
 
-  render () {
-    const { condoid, unitData, addToDb, handleChange } = this.props
-    return (
-      <AddUnitDiv>
-        <SectionTitle>Agregar Apartamentos</SectionTitle>
-        <AddUnitsForm 
-          unitData={unitData} 
-          handleChange={handleChange} 
-          addToDb={addToDb('unit', {name: '', condoId: condoid})}
-        />
-      </AddUnitDiv>
-    )
+  & div {
+    width: 45%;
   }
+`
+
+function ContentAddUnit () {
+
+  const { unitName, message } = useSelector(
+    ({ unitReducer: { unitName, message } }) => {
+    return { unitName, message }
+    }) 
+  const { currentCondo } = useSelector(
+    ({ condoReducer: { currentCondo } }) => {
+    return { currentCondo }
+    }) 
+  const dispatch = useDispatch()
+
+  const handleChange = (e) => {
+    dispatch(globalHandleChange(e, 'UNIT'))
+  }
+
+  const createDocument = async (e) => {
+    e.preventDefault()
+
+    const newDocument = {
+      name: unitName,
+      condoId: currentCondo,
+    }
+
+    dispatch(globalCreateDocument('unit', newDocument))
+  }
+
+  return (
+    <AddUnitDiv>
+      <SectionTitle>Agregar Usuarios</SectionTitle>
+      <UnitsForm onSubmit={createDocument}>
+        <div>
+          <label htmlFor="unitName">Nomenclatura</label>
+          <input
+            id="unitName"
+            name="unitName"
+            type="text"
+            onChange={handleChange}
+            value={unitName}
+          />
+        </div>
+        <button type="submit">Submit</button>
+        {message}
+      </UnitsForm>
+    </AddUnitDiv>
+  )
 }
 
-export default ContentAddUnits
+export default ContentAddUnit

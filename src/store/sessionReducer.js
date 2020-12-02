@@ -52,6 +52,58 @@ export function getUser(history) {
       }
   }
 }
+export async function getAdmin() {
+
+  const token = localStorage.getItem('token')
+
+  try { 
+    const admin = await axios({
+      method: 'GET',
+      baseURL: 'http://localhost:8000',
+      url: '/admin',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return admin
+
+  } catch (err) {
+    return
+  }
+
+}
+
+export function globalHandleChange(e, reducer) {
+  return async function (dispatch) {
+
+    const { name, value } = e.target
+    const newState = {
+      name,
+      value
+    }
+    dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
+  }
+}
+
+export function globalCreateDocument(endpoint, document) {
+  return async function (dispatch) {
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: 'http://localhost:8000',
+        url: `/${endpoint}`,
+        data: document,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      dispatch({ type: `${endpoint.toUpperCase()}_CREATE`, payload: data.message })
+      
+      } catch (err) {}
+  }
+}
 
 const initialState = {
   admin: false,
