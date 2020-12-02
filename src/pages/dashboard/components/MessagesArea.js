@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import messageReducer, { retrieveMessages, readMessage } from '../../../store/messageReducer'
-import sessionReducer, { getUser } from '../../../store/sessionReducer'
+import messageReducer, {
+  retrieveMessages,
+  readMessage,
+} from '../../../store/messageReducer'
+import sessionReducer, { getUser } from '../../../store/sessionReducer'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -47,8 +50,7 @@ const Message = styled.div`
   color: white;
   text-align: left;
   margin: 2px;
-  width: 100%;
-  h3 {
+  h6 {
     margin: 2%;
   }
   p {
@@ -62,7 +64,7 @@ const Message = styled.div`
     cursor: hand;
     margin-top: 0.5%;
     box-shadow: 0px 1px 8px 0px white;
-    h3 {
+    h6 {
       color: rgba(255, 191, 91, 0.9);
     }
     p {
@@ -71,17 +73,17 @@ const Message = styled.div`
   }
 `
 
-function MessagesArea (props) {
-
+function MessagesArea(props) {
   const dispatch = useDispatch()
-  const { messages } = useSelector(( { messageReducer: { messages }}) => {
+  const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })
-  const { admin, resident } = useSelector(( { sessionReducer: { admin, resident }}) => {
-    return { admin, resident }
-  })
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
   let history = useHistory()
-
 
   const ticketRead = (id) => {
     const route = admin ? 'ticket' : 'message'
@@ -89,49 +91,45 @@ function MessagesArea (props) {
   }
 
   useEffect(() => {
-
-    async function getTickets () {
+    async function getTickets() {
       const { getResident, getAdmin, type } = await dispatch(getUser())
 
       if (messages.length === 0) {
         if (getAdmin) {
           dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
-          
         } else if (getResident) {
           dispatch(retrieveMessages(getResident.data.id, 'message'))
-
         }
       }
     }
 
     getTickets()
-
   }, [])
-  
-    return (
-      <MessageContainer>
-        <p className="secction-title top-title">
-          <br />
-          <strong>TICKETS</strong>
-        </p>
-        <MessageInternContainer>
-          {!!messages &&
-            messages.length > 0 &&
-            messages.map((tickets, indx) => (
-              <Message
-                key={tickets._id}
-                onClick={ticketRead.bind(indx, tickets._id)}
-              >
-                <h3> {tickets.subject} </h3>
-                <p>
-                  {tickets.body.length > 5 &&
-                    tickets.body.substring(0, 45) + ' ... '}
-                </p>
-              </Message>
-            ))}
-        </MessageInternContainer>
-      </MessageContainer>
-    )
+
+  return (
+    <MessageContainer>
+      <p className='secction-title top-title'>
+        <br />
+        <strong>TICKETS</strong>
+      </p>
+      <MessageInternContainer>
+        {!!messages &&
+          messages.length > 0 &&
+          messages.map((tickets, indx) => (
+            <Message
+              key={tickets._id}
+              onClick={ticketRead.bind(indx, tickets._id)}
+            >
+              <h6> {tickets.subject} </h6>
+              <p>
+                {tickets.body.length > 5 &&
+                  tickets.body.substring(0, 45) + ' ... '}
+              </p>
+            </Message>
+          ))}
+      </MessageInternContainer>
+    </MessageContainer>
+  )
 }
 
 export default MessagesArea

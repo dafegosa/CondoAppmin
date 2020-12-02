@@ -8,7 +8,6 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { getUser } from '../../store/sessionReducer'
 
-
 const DashboardDiv = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -40,23 +39,20 @@ class Dashboard extends React.Component {
     residentid: '',
     condoid: '5fbf0d24416bf74cec063c6e',
     message: '',
-  };
+  }
 
   async componentDidMount() {
     getUser(this.props.history)
-    
   }
   handleChange = (e) => {
-
     const { name, value } = e.target
-
     this.setState({ [name]: value })
   }
 
   addToDatabase = (endpoint, statePart) => async (e) => {
     e.preventDefault()
     let toPost = {}
-    
+
     switch (endpoint) {
       case 'condo':
         const { condoName, condoAddress } = this.state
@@ -64,7 +60,7 @@ class Dashboard extends React.Component {
           ...statePart,
           name: condoName,
           address: condoAddress,
-        };
+        }
         break
       case 'unit':
         const { unitName, condoid } = this.state
@@ -120,7 +116,7 @@ class Dashboard extends React.Component {
           message: message,
         })
       } else {
-        this.setState({ ...this.state, message: data.message });
+        this.setState({ ...this.state, message: data.message })
       }
     } catch (err) {}
   }
@@ -141,15 +137,16 @@ class Dashboard extends React.Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    loggedAdmin: (value) => dispatch({type: 'loggedAdmin', payload: value}),
-    loggedResident: (value) => dispatch({type: 'loggedResident', payload: value})
+    loggedAdmin: (value) => dispatch({ type: 'loggedAdmin', payload: value }),
+    loggedResident: (value) =>
+      dispatch({ type: 'loggedResident', payload: value }),
   }
 }
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    state: state
+    state: state,
   }
 }
 

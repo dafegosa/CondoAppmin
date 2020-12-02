@@ -10,7 +10,7 @@ const HomeOuterDiv = styled.div`
 
 const Navbar = styled.div`
   padding: 15px;
-  background-color: ${props => props.theme.mainColor};
+  background-color: ${(props) => props.theme.mainColor};
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -41,10 +41,9 @@ const LoginButtonDiv = styled.div`
   &:hover {
     background-color: rgb(255, 192, 91);
   }
-  &:hover p{
+  &:hover p {
     color: rgb(160, 160, 160);
   }
-
 `
 const SignupButtonDiv = styled.div`
   padding: 10px;
@@ -61,23 +60,22 @@ const SignupButtonDiv = styled.div`
   &:hover {
     background-color: rgb(255, 192, 91);
   }
-  &:hover p{
+  &:hover p {
     color: rgb(160, 160, 160);
   }
 `
 
-
 class Home extends React.Component {
-  render () {
+  render() {
     return (
       <HomeOuterDiv>
         <Navbar>
-          <Link to="/login">
+          <Link to='/login'>
             <LoginButtonDiv>
               <p>Login</p>
             </LoginButtonDiv>
           </Link>
-          <Link to="/register">
+          <Link to='/register'>
             <SignupButtonDiv>
               <p>Sign Up</p>
             </SignupButtonDiv>

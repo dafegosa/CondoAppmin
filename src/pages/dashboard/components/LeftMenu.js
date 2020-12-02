@@ -1,30 +1,33 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import logo from '../../../logo.svg';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import { CSSTransition } from 'react-transition-group';
-import { UserOptionsDiv } from './UserSection';
-import { UserOptionsListItem } from './UserSection';
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import logo from '../../../logo.svg'
+import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { IconButton } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
+import { CSSTransition } from 'react-transition-group'
+import { UserOptionsDiv } from './UserSection'
+import { UserOptionsListItem } from './UserSection'
 
 const Container = styled.div`
   grid-area: 1 / 1 / 9 / 3;
   background-color: #ffbf5b;
   min-width: 15vw;
   min-height: 100vh;
-`;
+`
 const Logo = styled.div`
   padding: 40px;
   text-align: center;
-`;
+`
 
 const SideMenu = styled.div`
   padding-top: 20px;
   margin-left: 20px;
   position: relative;
-`;
+  ul {
+    padding: 0;
+  }
+`
 const Select = styled.div`
   cursor: pointer;
   display: flex;
@@ -39,21 +42,23 @@ const Select = styled.div`
     font-size: 1.2rem;
   }
 
-  & li {
+  li {
     margin-left: 20px;
     position: absolute;
     left: 30px;
+    text-decoration: none;
+    list-style: none;
   }
-`;
+`
 
 const Picture = styled.div`
   padding: 40px;
   text-align: center;
-`;
+`
 
 const LeftMenu = () => {
-  const [renderOptions, setRenderOptions] = useState(false);
-  let history = useHistory();
+  const [renderOptions, setRenderOptions] = useState(false)
+  let history = useHistory()
   const leftMenuNav = [
     {
       name: 'Mensajes',
@@ -62,40 +67,40 @@ const LeftMenu = () => {
     { name: 'Pagos', icon: 'fas fa-money-check-alt' },
     { name: 'Eventos', icon: 'fas fa-calendar-alt' },
     { name: 'Tickets', icon: 'fas fa-comment-dots' },
-  ];
+  ]
 
   const subMenuNav = [
-    { name: 'Nuevo Condo...', icon: '  ' },
-    { name: 'Nuevo Residente', icon: '  ' },
-    { name: 'Nueva Unidad', icon: '  ' },
-  ];
+    { name: 'Condominio', icon: '  ' },
+    { name: 'Residente', icon: '  ' },
+    { name: 'Unidad', icon: '  ' },
+  ]
 
   const leftMenuRouter = (el) => {
     switch (el) {
       case 'Mensajes':
-        history.push('/dashboard/messages');
-        break;
-      case 'Nuevo Condo...':
-        history.push('/dashboard/addcondo');
-        break;
-      case 'Nuevo Residente':
-        history.push('/dashboard/adduser');
-        break;
-      case 'Nueva Unidad':
-        history.push('/dashboard/addunit');
-        break;
+        history.push('/dashboard/messages')
+        break
+      case 'Condominio':
+        history.push('/dashboard/addcondo')
+        break
+      case 'Residente':
+        history.push('/dashboard/adduser')
+        break
+      case 'Unidad':
+        history.push('/dashboard/addunit')
+        break
       default:
-        break;
+        break
     }
-  };
+  }
   const userSectionOptionsClick = (e) => {
-    setRenderOptions(!renderOptions);
-  };
+    setRenderOptions(!renderOptions)
+  }
 
   return (
     <Container>
       <Logo>
-        <img src={logo} alt="logo" />
+        <img src={logo} alt='logo' />
       </Logo>
 
       <SideMenu>
@@ -109,7 +114,6 @@ const LeftMenu = () => {
               >
                 <i class={el.icon}></i>
                 <li>{el.name}</li>
-                <br />
               </Select>
             ))}
           <Select onClick={userSectionOptionsClick}>
@@ -120,7 +124,7 @@ const LeftMenu = () => {
           <CSSTransition
             in={renderOptions}
             timeout={500}
-            classNames="transition"
+            classNames='transition'
             unmountOnExit
             appear
           >
@@ -146,7 +150,7 @@ const LeftMenu = () => {
 
       <Picture></Picture>
     </Container>
-  );
-};
+  )
+}
 
-export default LeftMenu;
+export default LeftMenu
