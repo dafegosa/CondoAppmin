@@ -1,11 +1,11 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
 import ContentAddCondos from './add-condo/ContentAddCondo'
-import ContentMessages from './allMessages/CentralMessagesList'
-import ContentMessagesForm from './allMessages/MessageForm'
+import ContentMessages from './AllMessages/CentralMessagesList'
+import ContentMessagesForm from './AllMessages/MessageForm'
 
 const ContentDiv = styled.div`
   display: grid;
@@ -23,93 +23,38 @@ const ContentDiv = styled.div`
   }
 `
 
-class Content extends React.Component {
-  renderContent() {
-    const { match, data, handleChange, addToDb } = this.props
-    const {
-      adminid,
-      condoName,
-      condoAddress,
-      condoid,
-      unitName,
-      message,
-      resName,
-      resLastname,
-      resIdNumber,
-      resPhone,
-      resEmail,
-      resPassword,
-      resUnit,
-    } = data
-    const condoData = {
-      condoName,
-      condoAddress,
-      condoid,
-      message,
-    }
-    const unitData = {
-      unitName,
-      message,
-    }
-    const resData = {
-      resName,
-      resLastname,
-      resIdNumber,
-      resPhone,
-      resEmail,
-      resPassword,
-      resUnit,
-      condoid,
-      message,
-    }
-    const urlItems = match.url.split('/')
+function Content () {
+
+  const history = useHistory()
+
+  const renderContent = () => {
+   
+    const urlItems = history.location.pathname.split('/');
     switch (urlItems[2]) {
       case 'addcondo':
         return (
-          <ContentAddCondos
-            adminid={adminid}
-            condoData={condoData}
-            addToDb={addToDb}
-            handleChange={handleChange}
-          />
+          <ContentAddCondos />
         )
-        break
       case 'addunit':
         return (
-          <ContentAddUnits
-            condoid={condoid}
-            unitData={unitData}
-            addToDb={addToDb}
-            handleChange={handleChange}
-          />
+          <ContentAddUnits />
         )
-        break
-      case 'adduser':
+      case 'addresident':
         return (
-          <ContentAddResident
-            resData={resData}
-            addToDb={addToDb}
-            handleChange={handleChange}
-          />
+          <ContentAddResident />
         )
-        break
       case 'messages':
         return <ContentMessages addToDb={addToDb} />
-        break
 
       case 'messagesform':
         return <ContentMessagesForm addToDb={addToDb} />
-        break
 
       default:
         return <h1>Bienvenido al Dashboard</h1>
-        break
     }
   }
 
-  render() {
-    return <ContentDiv>{this.renderContent()}</ContentDiv>
-  }
+  return <ContentDiv>{renderContent()}</ContentDiv>
 }
 
-export default withRouter(Content)
+export default Content

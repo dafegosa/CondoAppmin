@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import AddResidentForm from './AddResidentForm'
+import { useSelector, useDispatch } from 'react-redux'
+import { retrieveUnits } from '../../../../../store/unitReducer'
+import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
 
 const AddResidentDiv = styled.div`
   padding: 10px;
@@ -13,7 +15,6 @@ const AddResidentDiv = styled.div`
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
-    
   }
 `
 
@@ -22,30 +23,137 @@ export const SectionTitle = styled.h2`
   font-size: 24px;
 `
 
-class ContentAddResident extends React.Component {
+const ResidentsForm = styled.form`
+  margin-top: 30px;
+  box-sizing: border-box;
+  width: 70%;
+`
 
-  state = {
-    name: '',
-    lastName: '',
-    idNumber: false,
-    phone: '',
-    email: '',
-    password: '',
+function ContentAddResident () {
+
+  const { units } = useSelector(( { unitReducer: { units }}) => {
+    return { units }
+  })
+  const { currentCondo } = useSelector(( { condoReducer: { currentCondo }}) => {
+    return { currentCondo }
+  })
+  const { resName, resLastname, resIdNumber, resPhone, 
+          resEmail, resPassword, resUnit, message
+        } = useSelector(( { residentReducer: { resName, resLastname,
+                                               resIdNumber, resPhone,
+                                               resEmail, resPassword,
+                                               resUnit, message
+                                              }
+                          }) => {
+    return { 
+      resName, resLastname, resIdNumber, resPhone, 
+      resEmail, resPassword, resUnit, message
+    }
+  })
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    async function getUnits () {
+      dispatch(retrieveUnits(currentCondo))
+    }
+    getUnits()
+  }, [])
+
+  const handleChange = (e) => {
+    dispatch(globalHandleChange(e, 'RESIDENT'))
   }
 
-  render () {
-    const { resData, addToDb, handleChange } = this.props
-    return (
-      <AddResidentDiv>
-        <SectionTitle>Agregar Usuarios</SectionTitle>
-        <AddResidentForm 
-          resData={resData}
-          addToDb={addToDb('resident', {name: '', lastName: '', idNumber: '', phone: '', email: '', password: '', unitId: ''})}
-          handleChange={handleChange} 
+  const createDocument = async (e) => {
+    e.preventDefault()
+
+    const newDocument = {
+      name: resName,
+      lastName: resLastname,
+      idNumber: resIdNumber,
+      phone: resPhone,
+      email: resEmail,
+      password: resPassword,
+      unitId: resUnit
+    }
+
+    dispatch(globalCreateDocument('resident', newDocument))
+  }
+
+  return (
+    <AddResidentDiv>
+      <SectionTitle>Agregar Usuarios</SectionTitle>
+      <ResidentsForm onSubmit={createDocument}>
+        <label htmlFor="resName">Nombre</label>
+        <input
+          id="resName"
+          name="resName"
+          type="text"
+          onChange={handleChange}
+          value={resName}
         />
-      </AddResidentDiv>
-    )
-  }
+        <label htmlFor="resLastname">Apellido</label>
+        <input
+          id="resLastname"
+          name="resLastname"
+          type="text"
+          onChange={handleChange}
+          value={resLastname}
+        />
+        <label htmlFor="resIdNumber">Cédula</label>
+        <input
+          id="resIdNumber"
+          name="resIdNumber"
+          type="text"
+          onChange={handleChange}
+          checked={resIdNumber}
+        />
+        <label htmlFor="resPhone">Teléfono</label>
+        <input
+          id="resPhone"
+          name="resPhone"
+          type="resPhone"
+          onChange={handleChange}
+          checked={resPhone}
+        />
+        <label htmlFor="resEmail">Email</label>
+        <input
+          id="resEmail"
+          name="resEmail"
+          type="email"
+          onChange={handleChange}
+          checked={resEmail}
+        />
+        <label htmlFor="resUnit">Unidad</label>
+        <select
+          name="resUnit"
+          id="service-select"
+          value={resUnit}
+          onChange={handleChange}
+          required
+        >
+          {!!units &&
+            units.length &&
+            units.map((unit) => {
+              return (
+                <option value={unit._id} key={unit._id}>
+                  {unit.name}
+                </option>
+              );
+            })}
+        </select>
+        <label htmlFor="resPassword">password</label>
+        <input
+          id="resPassword"
+          name="resPassword"
+          type="password"
+          onChange={handleChange}
+          checked={resPassword}
+        />
+        <button type="submit">Submit</button>
+        {message}
+      </ResidentsForm>
+    </AddResidentDiv>
+  )
 }
 
 export default ContentAddResident
