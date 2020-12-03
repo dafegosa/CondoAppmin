@@ -19,8 +19,7 @@ const DashboardDiv = styled.div`
   }
 `
 
-function Dashboard () {
-
+function Dashboard() {
   return (
     <DashboardDiv>
       <TopBar />

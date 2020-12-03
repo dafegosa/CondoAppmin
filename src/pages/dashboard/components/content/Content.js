@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
 import ContentAddCondos from './add-condo/ContentAddCondo'
-import ContentMessages from './AllMessages/CentralMessagesList'
-import ContentMessagesForm from './AllMessages/MessageForm'
+import ContentMessages from './allMessages/CentralMessagesList'
+import ContentMessagesForm from './allMessages/MessageForm'
 
 const ContentDiv = styled.div`
   display: grid;
@@ -23,31 +23,23 @@ const ContentDiv = styled.div`
   }
 `
 
-function Content () {
-
+function Content() {
   const history = useHistory()
 
   const renderContent = () => {
-   
-    const urlItems = history.location.pathname.split('/');
+    const urlItems = history.location.pathname.split('/')
     switch (urlItems[2]) {
       case 'addcondo':
-        return (
-          <ContentAddCondos />
-        )
+        return <ContentAddCondos />
       case 'addunit':
-        return (
-          <ContentAddUnits />
-        )
+        return <ContentAddUnits />
       case 'addresident':
-        return (
-          <ContentAddResident />
-        )
+        return <ContentAddResident />
       case 'messages':
-        return <ContentMessages addToDb={addToDb} />
+        return <ContentMessages />
 
       case 'messagesform':
-        return <ContentMessagesForm addToDb={addToDb} />
+        return <ContentMessagesForm />
 
       default:
         return <h1>Bienvenido al Dashboard</h1>

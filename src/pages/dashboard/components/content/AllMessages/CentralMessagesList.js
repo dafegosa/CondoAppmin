@@ -14,6 +14,7 @@ export const MessageContainerMenu = styled.div`
   height: 30px;
   display: flex;
 `
+
 const MessageContainer = styled.div`
   flex-direction: column;
   align-items: center;
@@ -58,6 +59,7 @@ const Message = styled.div`
     line-height: 1.2;
   }
 `
+const token = localStorage.getItem('token')
 
 class MessagesArea extends React.Component {
   state = {
@@ -65,7 +67,12 @@ class MessagesArea extends React.Component {
   }
   componentDidMount() {
     axios
-      .get('http://localhost:8000/ticket', { url: '/MessagesList' })
+      .get('http://localhost:8000/ticket', {
+        url: '/MessagesList',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((list) => {
         this.setState({
           tickets: list.data.data,

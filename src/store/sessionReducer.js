@@ -12,10 +12,9 @@ export function signoutDispatch() {
 
 export function getUser(history) {
   return async function (dispatch) {
-
     const token = localStorage.getItem('token')
 
-    try { 
+    try {
       var getAdmin = await axios({
         method: 'GET',
         baseURL: 'http://localhost:8000',
@@ -24,7 +23,6 @@ export function getUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
-
     } catch (err) {}
 
     try {
@@ -38,18 +36,16 @@ export function getUser(history) {
       })
     } catch (err) {}
 
-      if (getAdmin) {
-        dispatch({ type: LOGGED_ADMIN })
-        return {getAdmin, type: 'admin'}
-        
-      } else if (getResident) {
-        dispatch({ type: LOGGED_RESIDENT })
-        return {getResident, type: 'resident'}
-    
-      } else {
-        localStorage.removeItem('token')
-        history.push('/login')
-      }
+    if (getAdmin) {
+      dispatch({ type: LOGGED_ADMIN })
+      return { getAdmin, type: 'admin' }
+    } else if (getResident) {
+      dispatch({ type: LOGGED_RESIDENT })
+      return { getResident, type: 'resident' }
+    } else {
+      localStorage.removeItem('token')
+      history.push('/login')
+    }
   }
 }
 export async function getAdmin() {
@@ -115,24 +111,22 @@ function sessionReducer(state = initialState, action) {
     case LOGGED_ADMIN:
       return {
         ...state,
-        admin: !state.admin
+        admin: !state.admin,
       }
     case LOGGED_RESIDENT:
       return {
         ...state,
-        resident: !state.resident
+        resident: !state.resident,
       }
     case SIGNOUT:
       return {
         ...state,
         admin: false,
-        resident: false
+        resident: false,
       }
     default:
-      return state;
+      return state
   }
-
 }
-
 
 export default sessionReducer
