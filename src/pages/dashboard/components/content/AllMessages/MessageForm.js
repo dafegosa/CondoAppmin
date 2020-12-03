@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
@@ -26,9 +27,10 @@ const Input = styled.input`
   width: 100%;
 `
 
+const token = localStorage.getItem('token')
+
 const MessageForm = (props) => {
   const state = useSelector((state) => state.messageFormReducer)
-  console.log('ESTE ES EL ESTADO EN MESAGEFORM', state)
   const dispatch = useDispatch()
   const [addData, setVal] = useState('')
 
@@ -47,6 +49,25 @@ const MessageForm = (props) => {
 
   const createTicket = (e) => {
     e.preventDefault()
+    const { from, to, subject, body, date, read } = state
+    axios({
+      method: 'POST',
+      baseURL: 'http://localhost:8000',
+      url: `/ticket`,
+      data: {
+        from,
+        to,
+        subject,
+        body,
+        date,
+        read,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {})
+      .catch((err) => err)
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
@@ -60,9 +81,9 @@ const MessageForm = (props) => {
       <p>
         Para
         <Input
-          id='from'
-          name='from'
-          type='email'
+          id='to'
+          name='to'
+          type='text'
           required={true}
           onChange={handleInputChange}
         />
@@ -70,9 +91,9 @@ const MessageForm = (props) => {
       <p>
         De
         <Input
-          id='to'
-          name='to'
-          type='email'
+          id='from'
+          name='from'
+          type='text'
           required={true}
           onChange={handleInputChange}
         />

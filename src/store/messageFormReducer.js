@@ -10,7 +10,6 @@ const initialState = {
 }
 
 function messageFormReducer(state = initialState, action) {
-  console.log('lo que llega', action.payload)
   switch (action.type) {
     case CREATE_MESSAGE:
       return {

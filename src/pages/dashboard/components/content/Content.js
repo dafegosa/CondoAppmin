@@ -36,10 +36,10 @@ function Content() {
       case 'addresident':
         return <ContentAddResident />
       case 'messages':
-        return <ContentMessages addToDb={addToDb} />
+        return <ContentMessages />
 
       case 'messagesform':
-        return <ContentMessagesForm addToDb={addToDb} />
+        return <ContentMessagesForm />
 
       default:
         return <h1>Bienvenido al Dashboard</h1>

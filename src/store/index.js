@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import axios from 'axios'
 import sessionReducer from './sessionReducer'
 import condoReducer from './condoReducer'
 import unitReducer from './unitReducer'
 import residentReducer from './residentReducer'
 import messageReducer from './messageReducer'
+import messageFormReducer from './messageFormReducer'
 
 const rootReducer = combineReducers({
   sessionReducer,
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   unitReducer,
   residentReducer,
   messageReducer,
+  messageFormReducer,
 })
 const middlewares = applyMiddleware(thunk)
 

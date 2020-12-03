@@ -14,14 +14,7 @@ export const MessageContainerMenu = styled.div`
   height: 30px;
   display: flex;
 `
-const MessageContainer = styled.div`
-  flex-direction: column;
-`
-export const MessageContainerMenu = styled.div`
-  border-bottom: 3px solid rgba(96, 125, 139, 1);
-  height: 30px;
-  display: flex;
-`
+
 const MessageContainer = styled.div`
   flex-direction: column;
   align-items: center;
