@@ -9,6 +9,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { CSSTransition } from 'react-transition-group'
 import { signoutDispatch } from '../../../store/sessionReducer'
+import { getDate } from '../../../store/messageFormReducer'
 
 export const UserTopBarDiv = styled.div`
   position: relative;
@@ -80,7 +81,8 @@ function UserSection(props) {
 
   return (
     <UserTopBarDiv>
-      <WelcomeMsg>¡Hola, {props.name}!</WelcomeMsg>
+      <p>{getDate()} - </p>
+      <WelcomeMsg> ¡Hola, {props.name}!</WelcomeMsg>
       <AccountCircleIcon />
       <IconButton style={{ padding: '0px' }}>
         <ArrowDropDownIcon

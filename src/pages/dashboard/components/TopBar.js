@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import UserSection from './UserSection';
+import React from 'react'
+import styled from 'styled-components'
+import UserSection from './UserSection'
 
 export const TopBarDiv = styled.div`
   background-color: ${(props) => props.theme.mainColor};
@@ -17,16 +17,14 @@ export const TopBarDiv = styled.div`
   @media (max-width: 500px) {
     grid-area: 1 / 1 / 2 / 9;
   }
-`;
+`
 
-class TopBar extends React.Component {
-  render() {
-    return (
-      <TopBarDiv>
-        <UserSection name={this.props.name} />
-      </TopBarDiv>
-    );
-  }
+const TopBar = (props) => {
+  return (
+    <TopBarDiv>
+      <UserSection name={props.name} />
+    </TopBarDiv>
+  )
 }
 
-export default TopBar;
+export default TopBar

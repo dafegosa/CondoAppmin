@@ -3,13 +3,13 @@ import thunk from 'redux-thunk'
 import axios from 'axios'
 import messageReducer from './messageReducer'
 import sessionReducer from './sessionReducer'
+import messageFormReducer from './messageFormReducer'
 
 export function getUser(history) {
   return async function (dispatch) {
-
     const token = localStorage.getItem('token')
 
-    try { 
+    try {
       var getAdmin = await axios({
         method: 'GET',
         baseURL: 'http://localhost:8000',
@@ -31,23 +31,20 @@ export function getUser(history) {
       })
     } catch (err) {}
 
-      if (getAdmin) {
-        dispatch({ type: 'loggedAdmin' })
-        return {getAdmin, type: 'admin'}
-        
-      } else if (getResident) {
-        dispatch({ type: 'loggedResident' })
-        return {getResident, type: 'resident'}
-    
-      } else {
-        localStorage.removeItem('token')
-        history.push('/login')
-      }
+    if (getAdmin) {
+      dispatch({ type: 'loggedAdmin' })
+      return { getAdmin, type: 'admin' }
+    } else if (getResident) {
+      dispatch({ type: 'loggedResident' })
+      return { getResident, type: 'resident' }
+    } else {
+      localStorage.removeItem('token')
+      history.push('/login')
+    }
   }
 }
 export function retrieveMessages(user, type) {
   return async function (dispatch) {
-
     const token = localStorage.getItem('token')
 
     try {
@@ -59,13 +56,17 @@ export function retrieveMessages(user, type) {
           Authorization: `Bearer ${token}`,
         },
       })
-      dispatch({ type: 'retrieveMessages', payload: data.data }) 
+      dispatch({ type: 'retrieveMessages', payload: data.data })
       return data.data
     } catch (err) {}
   }
 }
 
-const rootReducer = combineReducers({ sessionReducer, messageReducer })
+const rootReducer = combineReducers({
+  sessionReducer,
+  messageReducer,
+  messageFormReducer,
+})
 const middlewares = applyMiddleware(thunk)
 
 export default createStore(rootReducer, middlewares)

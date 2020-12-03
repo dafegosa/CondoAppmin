@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import axios from 'axios'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { MessageContainerMenu } from './CentralMessagesList'
+import messageFormReducer, {
+  CREATE_MESSAGE,
+} from '../../../../../store/messageFormReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -24,30 +27,22 @@ const Input = styled.input`
 `
 
 const MessageForm = (props) => {
+  const state = useSelector((state) => state.messageFormReducer)
+  console.log('ESTE ES EL ESTADO EN MESAGEFORM', state)
+  const dispatch = useDispatch()
   const [addData, setVal] = useState('')
-  const [data, setData] = useState({
-    from: '',
-    to: '',
-    subject: '',
-    body: '',
-  })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setData({
-      ...data,
-      [name]: value,
-    })
+    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
   const handleChange = (event, editor) => {
     const CKEdata = editor.getData()
-
-    setVal(CKEdata)
-    setData({
-      ...data,
-      body: addData,
-    })
+    const name = 'body'
+    setVal(addData)
+    const value = CKEdata
+    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
   const createTicket = (e) => {
@@ -70,7 +65,6 @@ const MessageForm = (props) => {
           type='email'
           required={true}
           onChange={handleInputChange}
-          data={addData}
         />
       </p>
       <p>
@@ -81,7 +75,6 @@ const MessageForm = (props) => {
           type='email'
           required={true}
           onChange={handleInputChange}
-          data={addData}
         />
       </p>
       <p>
