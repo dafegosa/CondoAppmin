@@ -26,20 +26,43 @@ const Input = styled.input`
   border-bottom: 1px solud rgba(96, 125, 139, 1);
   width: 100%;
 `
+const MessageZone = styled.div`
+  color: red;
+  width: 100%;
+  height: 15px;
+  display: flex;
+  flex-direction: row;
+`
+const SuccessMessage = styled.p`
+  color: green;
+  margin: 5px;
+  width: 65%;
+`
+const Alert = styled.p`
+  color: red;
+  margin: 5px;
+  width: 35%;
+`
 
 const token = localStorage.getItem('token')
 
 const MessageForm = (props) => {
   const state = useSelector((state) => state.messageFormReducer)
+  const [message, setMessage] = useState('')
+  const [alert, setAlert] = useState('')
   const dispatch = useDispatch()
   const [addData, setVal] = useState('')
 
   const handleInputChange = (e) => {
+    setMessage('')
+    setAlert('')
     const { name, value } = e.target
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
   const handleChange = (event, editor) => {
+    setMessage('')
+    setAlert('')
     const CKEdata = editor.getData()
     const name = 'body'
     setVal(addData)
@@ -50,24 +73,38 @@ const MessageForm = (props) => {
   const createTicket = (e) => {
     e.preventDefault()
     const { from, to, subject, body, date, read } = state
+    console.log(to)
     axios({
-      method: 'POST',
+      method: 'PUT',
       baseURL: 'http://localhost:8000',
-      url: `/ticket`,
+      url: `/admin/getEmail`,
       data: {
-        from,
-        to,
-        subject,
-        body,
-        date,
-        read,
+        email: to,
       },
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => {})
-      .catch((err) => err)
+      .then((response) => {
+        console.log(response.data.id)
+        axios({
+          method: 'POST',
+          baseURL: 'http://localhost:8000',
+          url: `/ticket`,
+          data: {
+            from,
+            to: response.data.id,
+            subject,
+            body,
+            date,
+            read,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(setMessage('¡Ticket Enviado!'))
+      })
+      .catch((err) => setAlert('Destinatario no Existe'))
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
@@ -83,7 +120,7 @@ const MessageForm = (props) => {
         <Input
           id='to'
           name='to'
-          type='text'
+          type='email'
           required={true}
           onChange={handleInputChange}
         />
@@ -107,6 +144,11 @@ const MessageForm = (props) => {
           onChange={handleInputChange}
         />
       </p>
+
+      <MessageZone>
+        <Alert>{alert}</Alert>
+        <SuccessMessage>{message}</SuccessMessage>
+      </MessageZone>
       <br></br>
       <CKEditor
         style={{ height: '300px', rows: '10' }}

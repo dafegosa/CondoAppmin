@@ -44,7 +44,6 @@ const Message = styled.div`
   border-bottom: solid 1px rgba(96, 125, 139, 1);
   text-align: left;
   width: 100%;
-
   &:hover {
     margin-top: 0.5%;
     box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
@@ -80,7 +79,9 @@ class MessagesArea extends React.Component {
       })
       .catch((err) => {})
   }
-
+  createMarkup() {
+    return { __html: 'First &middot; Second' }
+  }
   render() {
     return (
       <BigCentarlMessagesContainer>
@@ -93,10 +94,13 @@ class MessagesArea extends React.Component {
             this.state.tickets.map((tickets) => (
               <Message key={tickets.id}>
                 <h6> {tickets.subject} </h6>
-                <p>
-                  {tickets.body.length > 35 &&
-                    tickets.body.substring(0, 255) + ' ... '}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      tickets.body.length > 35 &&
+                      tickets.body.substring(0, 255) + ' ... ',
+                  }}
+                ></p>
               </Message>
             ))}
         </MessageContainer>

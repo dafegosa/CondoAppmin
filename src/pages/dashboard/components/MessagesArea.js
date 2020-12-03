@@ -50,6 +50,7 @@ const Message = styled.div`
   color: white;
   text-align: left;
   margin: 2px;
+  width: 100%;
   h6 {
     margin: 2%;
   }
@@ -121,10 +122,13 @@ function MessagesArea(props) {
               onClick={ticketRead.bind(indx, tickets._id)}
             >
               <h6> {tickets.subject} </h6>
-              <p>
-                {tickets.body.length > 5 &&
-                  tickets.body.substring(0, 45) + ' ... '}
-              </p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html:
+                    tickets.body.length > 5 &&
+                    tickets.body.substring(0, 45) + ' ... ',
+                }}
+              ></p>
             </Message>
           ))}
       </MessageInternContainer>
