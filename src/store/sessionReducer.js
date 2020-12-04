@@ -10,7 +10,7 @@ export function signoutDispatch() {
   }
 }
 
-export function getUser(history) {
+export function verifyUser(history, userType) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
 
@@ -66,12 +66,10 @@ export async function getAdmin() {
   } catch (err) {
     return
   }
-
 }
 
 export function globalHandleChange(e, reducer) {
   return async function (dispatch) {
-
     const { name, value } = e.target
     const newState = {
       name,
@@ -111,12 +109,12 @@ function sessionReducer(state = initialState, action) {
     case LOGGED_ADMIN:
       return {
         ...state,
-        admin: !state.admin,
+        admin: true,
       }
     case LOGGED_RESIDENT:
       return {
         ...state,
-        resident: !state.resident,
+        resident: true,
       }
     case SIGNOUT:
       return {

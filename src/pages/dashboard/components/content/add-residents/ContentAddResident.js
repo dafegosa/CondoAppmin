@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Redirect } from  'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
@@ -50,6 +51,9 @@ function ContentAddResident () {
       resEmail, resPassword, resUnit, message
     }
   })
+  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
+    return { admin, resident }
+  })
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -80,6 +84,7 @@ function ContentAddResident () {
   }
 
   return (
+    !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>
       <SectionTitle>Agregar Usuarios</SectionTitle>
       <ResidentsForm onSubmit={createDocument}>

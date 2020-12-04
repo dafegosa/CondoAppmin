@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import logo from '../../../logo.svg'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
-import { IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { CSSTransition } from 'react-transition-group'
 import { UserOptionsDiv } from './UserSection'
-import { UserOptionsListItem } from './UserSection'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
   grid-area: 1 / 1 / 9 / 3;
@@ -57,6 +56,9 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
+  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
+    return { admin, resident }
+  })
   const [renderOptions, setRenderOptions] = useState(false)
   let history = useHistory()
   const leftMenuNav = [
@@ -66,8 +68,10 @@ const LeftMenu = () => {
     },
     { name: 'Pagos', icon: 'fas fa-money-check-alt' },
     { name: 'Eventos', icon: 'fas fa-calendar-alt' },
-    { name: 'Tickets', icon: 'fas fa-comment-dots' },
   ]
+  if (admin) {
+    leftMenuNav.push({ name: 'Tickets', icon: 'fas fa-comment-dots' })
+  }
 
   const subMenuNav = [
     { name: 'Condominio', icon: '  ' },
@@ -84,7 +88,7 @@ const LeftMenu = () => {
         history.push('/dashboard/addcondo')
         break
       case 'Residente':
-        history.push('/dashboard/adduser')
+        history.push('/dashboard/addresident')
         break
       case 'Unidad':
         history.push('/dashboard/addunit')
@@ -102,7 +106,6 @@ const LeftMenu = () => {
       <Logo>
         <img src={logo} alt='logo' />
       </Logo>
-
       <SideMenu>
         <ul>
           {!!leftMenuNav &&
@@ -116,10 +119,10 @@ const LeftMenu = () => {
                 <li>{el.name}</li>
               </Select>
             ))}
-          <Select onClick={userSectionOptionsClick}>
+          {!!admin && (<Select onClick={userSectionOptionsClick}>
             <li>Agregar</li>
             <AddIcon style={{ color: '#607d8b' }}></AddIcon>
-          </Select>
+          </Select>)}
 
           <CSSTransition
             in={renderOptions}
