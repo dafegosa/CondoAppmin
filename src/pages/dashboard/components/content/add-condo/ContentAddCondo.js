@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
@@ -41,6 +42,9 @@ function ContentAddCondo () {
     ({ condoReducer: { condoName, condoAddress, message } }) => {
     return { condoName, condoAddress, message }
     }) 
+  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
+    return { admin, resident }
+  })
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -61,7 +65,8 @@ function ContentAddCondo () {
   }
   
   return (
-    <AddCondoDiv>
+    !admin ? <Redirect to="/dashboard" /> :
+    (<AddCondoDiv>
       <SectionTitle>Agregar Condominio</SectionTitle>
       <CondosForm onSubmit={createDocument}>
         <div>
@@ -87,7 +92,7 @@ function ContentAddCondo () {
         <button type="submit">Submit</button>
         {message && message}
       </CondosForm>
-    </AddCondoDiv>
+    </AddCondoDiv>)
   )
 }
 

@@ -33,6 +33,11 @@ export const UserOptionsDiv = styled.div`
   left: 0%;
   background-color: ${(props) => props.theme.thirdColor};
 
+  & ul {
+    padding-inline-start: 0;
+    margin: 0px;
+  }
+
   &.transition-enter,
   &.transition-appear {
     opacity: 0;
@@ -56,6 +61,7 @@ export const UserOptionsListItem = styled.li`
   font-size: 14px;
   padding: 10px 0;
   text-align: center;
+  list-style: none;
 
   &:hover {
     cursor: pointer;

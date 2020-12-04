@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
-import axios from 'axios';
+import  { useSelector, useDispatch } from 'react-redux'
+import { globalHandleChange } from '../../store/sessionReducer'
+import { userLogin } from '../../store/loginReducer'
 
 export const EnterFormDiv = styled.div`
   position: absolute;
@@ -46,6 +48,7 @@ export const EnterForm = styled.form`
     align-items: baseline;
   }
 `;
+
 export const FormHeading = styled.h2`
   font-size: 24px;
   margin-bottom: 30px;
@@ -115,103 +118,85 @@ export const Paragraph = styled.p`
   color: #90a4ae;
 `;
 
-class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    type: '',
-    message: '',
-  };
+function Login () {
 
-  handleInputChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
+  const { email, password, type, message } = useSelector(({ loginReducer: { email, password,  type, message } }) => {
+    return  { email, password, type, message }
+  })
+  const dispatch = useDispatch()
+  const history = useHistory()
 
-  userValidation = async (e) => {
+  const handleInputChange = (e) => {
+    dispatch(globalHandleChange(e, 'LOGIN'))
+  }
+
+  const userValidation = async (e) => {
+
     e.preventDefault();
 
-    const { email, password, type } = this.state;
     const loggingUser = {
       email,
       password,
-    };
-    try {
-      const { data } = await axios({
-        method: 'POST',
-        baseURL: 'http://localhost:8000',
-        url: `/${type}/signin`,
-        data: loggingUser,
-      });
-
-      localStorage.setItem('token', data.token);
-      this.setState({ ...this.state, message: data.message });
-      this.props.history.push('/dashboard');
-    } catch (err) {
-      this.setState({
-        ...this.state,
-        message: 'Usuario o contraseña inválida',
-      });
     }
-  };
-  render() {
-    const { email, password, message } = this.state;
-    return (
-      <EnterFormDiv>
-        <EnterForm onSubmit={this.userValidation}>
-          <FormHeading>Bienvenido</FormHeading>
-          <FormDescription>
-            Inicia sesión para seguir administrando tu conjunto
-          </FormDescription>
-          <InputDiv onChange={this.handleInputChange} className="radioInputs">
-            <div>
-              <input
-                type="radio"
-                id="admin"
-                name="type"
-                value="admin"
-                required
-              />
-              <RadioLabel htmlFor="admin">Administrador</RadioLabel>
-            </div>
-            <div>
-              <input type="radio" id="resident" name="type" value="resident" />
-              <RadioLabel htmlFor="resident">Residente</RadioLabel>
-            </div>
-          </InputDiv>
-          <InputDiv>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={this.handleInputChange}
-              required
-            />
-          </InputDiv>
-          <InputDiv>
-            <Label htmlFor="password">Contraseña</Label>
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={this.handleInputChange}
-              required
-            />
-          </InputDiv>
-          <Button type="submit">Ingresar</Button>
-          {message}
-          <Paragraph>
-            ¿No tienes una cuenta?{' '}
-            <Link to="/register" className="Register-link">
-              Registrarme
-            </Link>
-          </Paragraph>
-        </EnterForm>
-      </EnterFormDiv>
-    );
+    
+    dispatch(userLogin(history, loggingUser, type))
   }
+
+  return (
+    <EnterFormDiv>
+      <EnterForm onSubmit={userValidation}>
+        <FormHeading>Bienvenido</FormHeading>
+        <FormDescription>
+          Inicia sesión para seguir administrando tu conjunto
+        </FormDescription>
+        <InputDiv onChange={handleInputChange} className="radioInputs">
+          <div>
+            <input
+              type="radio"
+              id="admin"
+              name="type"
+              value="admin"
+              required
+            />
+            <RadioLabel htmlFor="admin">Administrador</RadioLabel>
+          </div>
+          <div>
+            <input type="radio" id="resident" name="type" value="resident" />
+            <RadioLabel htmlFor="resident">Residente</RadioLabel>
+          </div>
+        </InputDiv>
+        <InputDiv>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={handleInputChange}
+            required
+          />
+        </InputDiv>
+        <InputDiv>
+          <Label htmlFor="password">Contraseña</Label>
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={handleInputChange}
+            required
+          />
+        </InputDiv>
+        <Button type="submit">Ingresar</Button>
+        {message}
+        <Paragraph>
+          ¿No tienes una cuenta?{' '}
+          <Link to="/register" className="Register-link">
+            Registrarme
+          </Link>
+        </Paragraph>
+      </EnterForm>
+    </EnterFormDiv>
+    )
 }
 export default Login;

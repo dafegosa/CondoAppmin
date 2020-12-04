@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from  'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
@@ -45,6 +46,9 @@ function ContentAddUnit () {
     ({ condoReducer: { currentCondo } }) => {
     return { currentCondo }
     }) 
+  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
+    return { admin, resident }
+  })
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -63,6 +67,7 @@ function ContentAddUnit () {
   }
 
   return (
+    !admin ? <Redirect to="/dashboard" /> :
     <AddUnitDiv>
       <SectionTitle>Agregar Usuarios</SectionTitle>
       <UnitsForm onSubmit={createDocument}>

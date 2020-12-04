@@ -10,7 +10,7 @@ export function signoutDispatch() {
   }
 }
 
-export function getUser(history) {
+export function verifyUser(history, userType) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
 
@@ -49,10 +49,9 @@ export function getUser(history) {
   }
 }
 export async function getAdmin() {
-
   const token = localStorage.getItem('token')
 
-  try { 
+  try {
     const admin = await axios({
       method: 'GET',
       baseURL: 'http://localhost:8000',
@@ -62,20 +61,17 @@ export async function getAdmin() {
       },
     })
     return admin
-
   } catch (err) {
     return
   }
-
 }
 
 export function globalHandleChange(e, reducer) {
   return async function (dispatch) {
-
     const { name, value } = e.target
     const newState = {
       name,
-      value
+      value,
     }
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
@@ -95,9 +91,11 @@ export function globalCreateDocument(endpoint, document) {
         },
       })
 
-      dispatch({ type: `${endpoint.toUpperCase()}_CREATE`, payload: data.message })
-      
-      } catch (err) {}
+      dispatch({
+        type: `${endpoint.toUpperCase()}_CREATE`,
+        payload: data.message,
+      })
+    } catch (err) {}
   }
 }
 
@@ -111,12 +109,12 @@ function sessionReducer(state = initialState, action) {
     case LOGGED_ADMIN:
       return {
         ...state,
-        admin: !state.admin,
+        admin: true,
       }
     case LOGGED_RESIDENT:
       return {
         ...state,
-        resident: !state.resident,
+        resident: true,
       }
     case SIGNOUT:
       return {

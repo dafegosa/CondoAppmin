@@ -46,6 +46,8 @@ const Alert = styled.p`
 
 const token = localStorage.getItem('token')
 
+const token = localStorage.getItem('token')
+
 const MessageForm = (props) => {
   const state = useSelector((state) => state.messageFormReducer)
   const [message, setMessage] = useState('')
