@@ -6,7 +6,7 @@ import messageReducer, {
   retrieveMessages,
   readMessage,
 } from '../../../store/messageReducer'
-import sessionReducer, { getUser } from '../../../store/sessionReducer'
+import sessionReducer, { verifyUser } from '../../../store/sessionReducer'
 
 const MessageContainer = styled.div`
   grid-area: 2 / 11 / 9 / 13;
@@ -92,7 +92,7 @@ function MessagesArea(props) {
 
   useEffect(() => {
     async function getTickets() {
-      const { getResident, getAdmin, type } = await dispatch(getUser())
+      const { getResident, getAdmin, type } = await dispatch(verifyUser())
 
       if (messages.length === 0) {
         if (getAdmin) {
