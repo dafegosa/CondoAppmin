@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import styled from 'styled-components'
@@ -7,6 +7,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { MessageContainerMenu } from './CentralMessagesList'
 import { useHistory } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+import { verifyUser } from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -55,15 +57,23 @@ const token = localStorage.getItem('token')
 
 const ShowMessage = (props) => {
   let history = useHistory()
+  const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
+
   const { from, to, subject, body, date } = state
+  const [userEmail, setUserEmail] = useState('')
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
   const [addData, setVal] = useState('')
 
+  useEffect(async () => {
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    setUserEmail(getAdmin.data.email)
+  }, [])
   const createTicket = (e) => {
     history.push(`/dashboard/messagesform`)
   }
+
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
       <MessageContainerMenu>
@@ -80,7 +90,7 @@ const ShowMessage = (props) => {
           name='to'
           type='email'
           required={true}
-          value={to}
+          value={userEmail}
           readOnly
         />
       </p>

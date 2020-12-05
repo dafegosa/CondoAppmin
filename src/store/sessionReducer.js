@@ -48,6 +48,7 @@ export function verifyUser(history, userType) {
     }
   }
 }
+
 export async function getAdmin() {
   const token = localStorage.getItem('token')
 

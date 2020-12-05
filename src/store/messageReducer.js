@@ -22,6 +22,26 @@ export function retrieveMessages(user, type) {
     } catch (err) {}
   }
 }
+
+function MessagesList(user, type) {
+  return async function (dispatch) {
+    const token = localStorage.getItem('token')
+
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: 'http://localhost:8000',
+        url: `/${type}/${user}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
+      return data.data
+    } catch (err) {}
+  }
+}
+
 export function readMessage(id, route, messages, history) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
@@ -38,7 +58,6 @@ export function readMessage(id, route, messages, history) {
       },
     })
       .then(({ data }) => {
-        console.log('en el readMessage', data)
         const unReadMessages = messages.filter((message) => {
           return message._id !== data.data._id
         })
@@ -52,6 +71,7 @@ export function readMessage(id, route, messages, history) {
 
 const initialState = {
   messages: [],
+  messagesList: [],
 }
 
 function messageReducer(state = initialState, action) {
@@ -66,6 +86,13 @@ function messageReducer(state = initialState, action) {
         ...state,
         messages: [],
       }
+    case 'MESSAGE_LIST':
+      return {
+        ...state,
+
+        messagesList: action.payload,
+      }
+
     default:
       return state
   }

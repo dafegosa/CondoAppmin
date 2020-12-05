@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
@@ -60,6 +60,12 @@ const Message = styled.div`
     margin: 2% 6%;
     line-height: 1.2;
   }
+  .dateSize {
+    font-size: 9.5px;
+  }
+  .subjectSize {
+    font-size: 15.5px;
+  }
   &:hover {
     cursor: pointer;
     cursor: hand;
@@ -94,8 +100,7 @@ function MessagesArea(props) {
   useEffect(() => {
     async function getTickets() {
       const { getResident, getAdmin, type } = await dispatch(verifyUser())
-
-      if (messages.length === 0) {
+      if (messages.length == 0) {
         if (getAdmin) {
           dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
         } else if (getResident) {
@@ -103,10 +108,8 @@ function MessagesArea(props) {
         }
       }
     }
-
     getTickets()
   }, [])
-
   return (
     <MessageContainer>
       <p className='secction-title top-title'>
@@ -121,14 +124,9 @@ function MessagesArea(props) {
               key={tickets._id}
               onClick={ticketRead.bind(indx, tickets._id)}
             >
-              <h6> {tickets.subject} </h6>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html:
-                    tickets.body.length > 5 &&
-                    tickets.body.substring(0, 45) + ' ... ',
-                }}
-              ></p>
+              <h6> {tickets.from} </h6>
+              <p className='dateSize'> {tickets.date} </p>
+              <p className='subjectSize'> {tickets.subject} </p>
             </Message>
           ))}
       </MessageInternContainer>
