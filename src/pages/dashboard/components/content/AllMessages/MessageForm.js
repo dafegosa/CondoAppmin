@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import styled from 'styled-components'
@@ -9,6 +9,7 @@ import { MessageContainerMenu } from './CentralMessagesList'
 import messageFormReducer, {
   CREATE_MESSAGE,
 } from '../../../../../store/messageFormReducer'
+import sessionReducer, { verifyUser } from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -45,11 +46,10 @@ const Alert = styled.p`
 `
 
 const token = localStorage.getItem('token')
-
-const token = localStorage.getItem('token')
-
+let aux = {}
 const MessageForm = (props) => {
   const state = useSelector((state) => state.messageFormReducer)
+  const [userEmail, setUserEmail] = useState('')
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
   const dispatch = useDispatch()
@@ -72,10 +72,14 @@ const MessageForm = (props) => {
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
+  useEffect(async () => {
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    setUserEmail(getAdmin.data.email)
+  }, [])
+
   const createTicket = (e) => {
     e.preventDefault()
     const { from, to, subject, body, date, read } = state
-    console.log(to)
     axios({
       method: 'PUT',
       baseURL: 'http://localhost:8000',
@@ -88,13 +92,12 @@ const MessageForm = (props) => {
       },
     })
       .then((response) => {
-        console.log(response.data.id)
         axios({
           method: 'POST',
           baseURL: 'http://localhost:8000',
           url: `/ticket`,
           data: {
-            from,
+            from: userEmail,
             to: response.data.id,
             subject,
             body,
@@ -104,7 +107,9 @@ const MessageForm = (props) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then(setMessage('¡Ticket Enviado!'))
+        })
+          .then(setMessage('¡Ticket Enviado!'))
+          .then(setUserEmail(''))
       })
       .catch((err) => setAlert('Destinatario no Existe'))
   }
@@ -134,7 +139,8 @@ const MessageForm = (props) => {
           name='from'
           type='text'
           required={true}
-          onChange={handleInputChange}
+          value={userEmail}
+          readOnly
         />
       </p>
       <p>
