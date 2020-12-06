@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import WriteMessagessButton from './WriteMessagesButton'
+import { useSelector, useDispatch } from 'react-redux'
+import messageReducer, {
+  retrieveMessages,
+  readMessage,
+} from '../../../../../store/messageReducer'
+import sessionReducer, {
+  getAdmin,
+  verifyUser,
+} from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.div`
   width: 100%;
@@ -44,65 +54,97 @@ const Message = styled.div`
   border-bottom: solid 1px rgba(96, 125, 139, 1);
   text-align: left;
   width: 100%;
-
+  display: flex;
+  flex-direction: row;
   &:hover {
     margin-top: 0.5%;
     box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
   }
   h6 {
     margin: 2%;
+    width: 33%;
   }
   p {
     font-size: 12.5px;
     color: black;
     margin: 2% 6%;
     line-height: 1.2;
+    width: 33%;
   }
 `
 const token = localStorage.getItem('token')
+let user = ''
+const MessagesArea = () => {
+  const dispatch = useDispatch()
+  const { messagesList } = useSelector(
+    ({ messageReducer: { messagesList } }) => {
+      return { messagesList }
+    }
+  )
 
-class MessagesArea extends React.Component {
-  state = {
-    tickets: [],
+  console.log(messagesList)
+  const { messages } = useSelector(({ messageReducer: { messages } }) => {
+    return { messages }
+  })
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
+  let history = useHistory()
+  const ticketRead = (id) => {
+    const route = admin ? 'ticket' : 'message'
+    dispatch(readMessage(id, route, messages, history))
   }
-  componentDidMount() {
+
+  useEffect(async () => {
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    if (getAdmin) {
+      user = 'admin'
+    } else if (getResident) {
+      user = 'resident'
+    }
+
+    console.log(user)
     axios
       .get('http://localhost:8000/ticket', {
-        url: '/MessagesList',
+        url: `/${getAdmin.data.id}/${user}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((list) => {
-        this.setState({
-          tickets: list.data.data,
+        console.log(list.data.data)
+        const unReadMessages = list.data.data.filter((message) => {
+          return getAdmin.data.id == message.to
         })
+        console.log(unReadMessages)
+        dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
       })
       .catch((err) => {})
-  }
+  }, [])
 
-  render() {
-    return (
-      <BigCentarlMessagesContainer>
-        <MessageContainerMenu>
-          <WriteMessagessButton value='Nuevo mensaje +' />
-        </MessageContainerMenu>
-        <MessageContainer>
-          {!!this.state.tickets &&
-            this.state.tickets.length > 0 &&
-            this.state.tickets.map((tickets) => (
-              <Message key={tickets.id}>
-                <h6> {tickets.subject} </h6>
-                <p>
-                  {tickets.body.length > 35 &&
-                    tickets.body.substring(0, 255) + ' ... '}
-                </p>
-              </Message>
-            ))}
-        </MessageContainer>
-      </BigCentarlMessagesContainer>
-    )
-  }
+  return (
+    <BigCentarlMessagesContainer>
+      <MessageContainerMenu>
+        <WriteMessagessButton value='Nuevo mensaje +' />
+      </MessageContainerMenu>
+      <MessageContainer>
+        {!!messagesList &&
+          messagesList.length > 0 &&
+          messagesList.map((tickets, indx) => (
+            <Message
+              key={tickets.id}
+              onClick={ticketRead.bind(indx, tickets._id)}
+            >
+              <h6> {tickets.from} </h6>
+              <p> {tickets.subject} </p>
+              <p> {tickets.date} </p>
+            </Message>
+          ))}
+      </MessageContainer>
+    </BigCentarlMessagesContainer>
+  )
 }
 
 export default MessagesArea

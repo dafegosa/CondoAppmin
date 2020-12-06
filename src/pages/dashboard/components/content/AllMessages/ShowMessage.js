@@ -6,16 +6,24 @@ import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { MessageContainerMenu } from './CentralMessagesList'
-import messageFormReducer, {
-  CREATE_MESSAGE,
-} from '../../../../../store/messageFormReducer'
-import sessionReducer, { verifyUser } from '../../../../../store/sessionReducer'
+import { useHistory } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
+import { verifyUser } from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ffbf5b;
+    border-radius: 4px;
+  }
   .ck-content {
     height: 300px;
   }
@@ -46,80 +54,33 @@ const Alert = styled.p`
 `
 
 const token = localStorage.getItem('token')
-let aux = {}
-const MessageForm = (props) => {
+
+const ShowMessage = (props) => {
+  let history = useHistory()
+  const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
+
+  const { from, to, subject, body, date } = state
   const [userEmail, setUserEmail] = useState('')
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
-  const dispatch = useDispatch()
   const [addData, setVal] = useState('')
-
-  const handleInputChange = (e) => {
-    setMessage('')
-    setAlert('')
-    const { name, value } = e.target
-    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
-  }
-
-  const handleChange = (event, editor) => {
-    setMessage('')
-    setAlert('')
-    const CKEdata = editor.getData()
-    const name = 'body'
-    setVal(addData)
-    const value = CKEdata
-    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
-  }
 
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
     setUserEmail(getAdmin.data.email)
   }, [])
-
   const createTicket = (e) => {
-    e.preventDefault()
-    const { from, to, subject, body, date, read } = state
-    axios({
-      method: 'PUT',
-      baseURL: 'http://localhost:8000',
-      url: `/admin/getEmail`,
-      data: {
-        email: to,
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        axios({
-          method: 'POST',
-          baseURL: 'http://localhost:8000',
-          url: `/ticket`,
-          data: {
-            from: userEmail,
-            to: response.data.id,
-            subject,
-            body,
-            date,
-            read,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then(setMessage('¡Ticket Enviado!'))
-          .then(setUserEmail(''))
-      })
-      .catch((err) => setAlert('Destinatario no Existe'))
+    history.push(`/dashboard/messagesform`)
   }
+
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
       <MessageContainerMenu>
         <WriteMessagessButton
           type='submit'
           className='toRight'
-          value='enviar'
+          value='Responder'
         />
       </MessageContainerMenu>
       <p>
@@ -129,7 +90,8 @@ const MessageForm = (props) => {
           name='to'
           type='email'
           required={true}
-          onChange={handleInputChange}
+          value={userEmail}
+          readOnly
         />
       </p>
       <p>
@@ -138,8 +100,8 @@ const MessageForm = (props) => {
           id='from'
           name='from'
           type='text'
+          value={from}
           required={true}
-          value={userEmail}
           readOnly
         />
       </p>
@@ -149,7 +111,8 @@ const MessageForm = (props) => {
           id='subject'
           name='subject'
           type='text'
-          onChange={handleInputChange}
+          value={subject}
+          readOnly
         />
       </p>
 
@@ -158,15 +121,15 @@ const MessageForm = (props) => {
         <SuccessMessage>{message}</SuccessMessage>
       </MessageZone>
       <br></br>
-      <CKEditor
-        style={{ height: '300px', rows: '10' }}
-        editor={ClassicEditor}
-        data={addData}
+      <p
         name='body'
-        onChange={handleChange}
+        readOnly
+        dangerouslySetInnerHTML={{
+          __html: body,
+        }}
       />
     </BigCentarlMessagesContainer>
   )
 }
 
-export default MessageForm
+export default ShowMessage

@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
 import ContentAddCondos from './add-condo/ContentAddCondo'
-import ContentMessages from './AllMessages/CentralMessagesList'
-import ContentMessagesForm from './AllMessages/MessageForm'
+import ContentMessages from './allMessages/CentralMessagesList'
+import ContentMessagesForm from './allMessages/MessageForm'
+import ShowMessage from './allMessages/ShowMessage'
 
 const ContentDiv = styled.div`
   display: grid;
@@ -37,10 +38,10 @@ function Content() {
         return <ContentAddResident />
       case 'messages':
         return <ContentMessages />
-
       case 'messagesform':
         return <ContentMessagesForm />
-
+      case 'ticket':
+        return <ShowMessage />
       default:
         return <h1>Bienvenido al Dashboard</h1>
     }

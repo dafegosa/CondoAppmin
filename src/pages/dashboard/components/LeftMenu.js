@@ -56,9 +56,11 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
-  })
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
   const [renderOptions, setRenderOptions] = useState(false)
   let history = useHistory()
   const leftMenuNav = [
@@ -119,10 +121,12 @@ const LeftMenu = () => {
                 <li>{el.name}</li>
               </Select>
             ))}
-          {!!admin && (<Select onClick={userSectionOptionsClick}>
-            <li>Agregar</li>
-            <AddIcon style={{ color: '#607d8b' }}></AddIcon>
-          </Select>)}
+          {!!admin && (
+            <Select onClick={userSectionOptionsClick}>
+              <li>Agregar</li>
+              <AddIcon style={{ color: '#607d8b' }}></AddIcon>
+            </Select>
+          )}
 
           <CSSTransition
             in={renderOptions}
