@@ -7,30 +7,31 @@ export const CLEAN_LOGIN = 'CLEAN_LOGIN'
 
 export function userLogin(history, user, type) {
   return async function (dispatch) {
-    
     try {
       const { data } = await axios({
         method: 'POST',
         baseURL: 'http://localhost:8000',
         url: `/${type}/signin`,
         data: user,
-      });
+      })
 
       localStorage.setItem('token', data.token)
-      
+
       if (type === 'admin') {
         dispatch({ type: LOGGED_ADMIN })
       } else {
         dispatch({ type: LOGGED_RESIDENT })
-      }  
+      }
 
       dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Inicio de sesión exisoso' })
       history.push('/dashboard')
       dispatch({ type: CLEAN_LOGIN })
-      
     } catch (err) {
-      dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Usuario o contraseña inválida' })
-    } 
+      dispatch({
+        type: SET_LOGIN_MESSAGE,
+        payload: 'Usuario o contraseña inválida',
+      })
+    }
   }
 }
 
@@ -38,22 +39,21 @@ const initialState = {
   email: '',
   password: '',
   type: '',
-  message: ''
+  message: '',
 }
 
 function loginReducer(state = initialState, action) {
-
   switch (action.type) {
     case LOGIN_HANDLE_CHANGE:
       const { name, value } = action.payload
       return {
         ...state,
-        [name]: value
+        [name]: value,
       }
     case SET_LOGIN_MESSAGE:
       return {
         ...state,
-        message: action.payload
+        message: action.payload,
       }
     case CLEAN_LOGIN:
       return {
@@ -61,13 +61,11 @@ function loginReducer(state = initialState, action) {
         email: '',
         password: '',
         type: '',
-        message: ''
+        message: '',
       }
     default:
-      return state;
+      return state
   }
-
 }
-
 
 export default loginReducer

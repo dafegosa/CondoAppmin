@@ -1,4 +1,5 @@
 export const CREATE_MESSAGE = 'CREATE_MESSAGE'
+export const MESSAGE_SELECTED = 'MESSAGE_SELECTED'
 
 const initialState = {
   from: '',
@@ -16,6 +17,16 @@ function messageFormReducer(state = initialState, action) {
         ...state,
         [action.payload.name]: action.payload.value,
         date: getDate() + ' / ' + getHour(),
+      }
+    case MESSAGE_SELECTED:
+      const { from, to, subject, body, date } = action.payload.data
+      return {
+        ...state,
+        from,
+        to,
+        subject,
+        body,
+        date,
       }
     default:
       return state

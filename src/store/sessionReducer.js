@@ -48,11 +48,11 @@ export function verifyUser(history, userType) {
     }
   }
 }
-export async function getAdmin() {
 
+export async function getAdmin() {
   const token = localStorage.getItem('token')
 
-  try { 
+  try {
     const admin = await axios({
       method: 'GET',
       baseURL: 'http://localhost:8000',
@@ -62,7 +62,6 @@ export async function getAdmin() {
       },
     })
     return admin
-
   } catch (err) {
     return
   }
@@ -73,7 +72,7 @@ export function globalHandleChange(e, reducer) {
     const { name, value } = e.target
     const newState = {
       name,
-      value
+      value,
     }
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
@@ -93,9 +92,11 @@ export function globalCreateDocument(endpoint, document) {
         },
       })
 
-      dispatch({ type: `${endpoint.toUpperCase()}_CREATE`, payload: data.message })
-      
-      } catch (err) {}
+      dispatch({
+        type: `${endpoint.toUpperCase()}_CREATE`,
+        payload: data.message,
+      })
+    } catch (err) {}
   }
 }
 

@@ -14,7 +14,6 @@ export function userSignup(newUser) {
         url: '/admin/signup',
         data: newUser,
       })
-      console.log(createdUser)
       dispatch({ type: SET_SIGNUP_MESSAGE, payload: 'Cuenta creada exitosamente' })
       dispatch({ type: CLEAN_SIGNUP })
 
