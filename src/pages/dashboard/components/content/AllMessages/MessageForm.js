@@ -66,6 +66,7 @@ const MessageForm = (props) => {
     setMessage('')
     setAlert('')
     const CKEdata = editor.getData()
+    console.log(CKEdata)
     const name = 'body'
     setVal(addData)
     const value = CKEdata
@@ -163,6 +164,11 @@ const MessageForm = (props) => {
         editor={ClassicEditor}
         data={addData}
         name='body'
+        config={{
+          ckfinder: {
+            uploadUrl: 'http://localhost:8000/uploads',
+          },
+        }}
         onChange={handleChange}
       />
     </BigCentarlMessagesContainer>

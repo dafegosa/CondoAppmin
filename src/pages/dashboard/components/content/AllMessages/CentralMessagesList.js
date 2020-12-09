@@ -82,7 +82,6 @@ const MessagesArea = () => {
     }
   )
 
-  console.log(messagesList)
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })
@@ -105,7 +104,6 @@ const MessagesArea = () => {
       user = 'resident'
     }
 
-    console.log(user)
     axios
       .get('http://localhost:8000/ticket', {
         url: `/${getAdmin.data.id}/${user}`,
@@ -114,11 +112,9 @@ const MessagesArea = () => {
         },
       })
       .then((list) => {
-        console.log(list.data.data)
         const unReadMessages = list.data.data.filter((message) => {
           return getAdmin.data.id == message.to
         })
-        console.log(unReadMessages)
         dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
       })
       .catch((err) => {})
