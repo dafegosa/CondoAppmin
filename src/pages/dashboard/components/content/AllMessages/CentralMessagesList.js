@@ -82,6 +82,8 @@ const MessagesArea = () => {
     }
   )
 
+
+
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })
@@ -112,9 +114,11 @@ const MessagesArea = () => {
         },
       })
       .then((list) => {
+
         const unReadMessages = list.data.data.filter((message) => {
           return getAdmin.data.id == message.to
         })
+
         dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
       })
       .catch((err) => {})
