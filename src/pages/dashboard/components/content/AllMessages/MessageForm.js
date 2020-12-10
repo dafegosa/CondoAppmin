@@ -185,6 +185,11 @@ const MessageForm = (props) => {
         editor={ClassicEditor}
         data={addData}
         name='body'
+        config={{
+          ckfinder: {
+            uploadUrl: 'http://localhost:8000/uploads',
+          },
+        }}
         onChange={handleChange}
       />
     </BigCentarlMessagesContainer>
