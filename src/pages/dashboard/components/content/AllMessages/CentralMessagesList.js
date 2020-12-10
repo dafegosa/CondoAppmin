@@ -115,6 +115,7 @@ const MessagesArea = () => {
         const unReadMessages = list.data.data.filter((message) => {
           return getAdmin.data.id == message.to
         })
+
         dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
       })
       .catch((err) => {})
