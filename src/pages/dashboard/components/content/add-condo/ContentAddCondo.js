@@ -63,7 +63,7 @@ function ContentAddCondo () {
 
     dispatch(globalCreateDocument('condo', newDocument))
   }
-  console.log('current condo', currentCondo)
+  
   return (
     !admin ? <Redirect to="/dashboard" /> :
     (<AddCondoDiv>
