@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { withTheme } from 'styled-components'
 import { IconButton } from '@material-ui/core'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { CSSTransition } from 'react-transition-group'
-import { signoutDispatch } from '../../../store/sessionReducer'
+import { verifyUser, signoutDispatch } from '../../../store/sessionReducer'
 import { getDate } from '../../../store/messageFormReducer'
 
 export const UserTopBarDiv = styled.div`
@@ -71,9 +71,22 @@ export const UserOptionsListItem = styled.li`
 
 function UserSection(props) {
   const [renderOptions, setRenderOptions] = useState(false)
-
+  const [currentUserName, setCurrentUserName] = useState('')
+ 
   let history = useHistory()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    async function getName() {
+      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+      if (getAdmin) {
+        setCurrentUserName(getAdmin.data.name)
+      } else if (getResident) {
+        setCurrentUserName(getResident.data.name)
+      }
+    }
+    getName()
+  }, [])
 
   const userSectionOptionsClick = (e) => {
     setRenderOptions(!renderOptions)
@@ -87,8 +100,7 @@ function UserSection(props) {
 
   return (
     <UserTopBarDiv>
-      <p>{getDate()} - </p>
-      <WelcomeMsg> ¡Hola, {props.name}!</WelcomeMsg>
+      <WelcomeMsg> ¡Hola, {currentUserName}!</WelcomeMsg>
       <AccountCircleIcon />
       <IconButton style={{ padding: '0px' }}>
         <ArrowDropDownIcon

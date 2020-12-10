@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
 import ContentAddCondos from './add-condo/ContentAddCondo'
-import ContentMessages from './allMessages/CentralMessagesList'
-import ContentMessagesForm from './allMessages/MessageForm'
-import ShowMessage from './allMessages/ShowMessage'
+import ContentMessages from './AllMessages/CentralMessagesList'
+import ContentMessagesForm from './AllMessages/MessageForm'
+import ShowMessage from './AllMessages/ShowMessage'
 
 const ContentDiv = styled.div`
   display: grid;

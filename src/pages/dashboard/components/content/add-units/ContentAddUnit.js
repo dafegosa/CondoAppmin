@@ -65,11 +65,11 @@ function ContentAddUnit () {
 
     dispatch(globalCreateDocument('unit', newDocument))
   }
-
+  
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddUnitDiv>
-      <SectionTitle>Agregar Usuarios</SectionTitle>
+      <SectionTitle>Agregar Unidades</SectionTitle>
       <UnitsForm onSubmit={createDocument}>
         <div>
           <label htmlFor="unitName">Nomenclatura</label>

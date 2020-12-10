@@ -10,14 +10,14 @@ export function signoutDispatch() {
   }
 }
 
-export function verifyUser(history, userType) {
+export function verifyUser(history) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
 
     try {
       var getAdmin = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/admin',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ export function verifyUser(history, userType) {
     try {
       var getResident = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/resident',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export async function getAdmin() {
   try {
     const admin = await axios({
       method: 'GET',
-      baseURL: 'http://localhost:8000',
+      baseURL: process.env.REACT_APP_SERVER_URL,
       url: '/admin',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -84,17 +84,18 @@ export function globalCreateDocument(endpoint, document) {
       const token = localStorage.getItem('token')
       const { data } = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: `/${endpoint}`,
         data: document,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-
       dispatch({
         type: `${endpoint.toUpperCase()}_CREATE`,
-        payload: data.message,
+        payload: {
+          data: data.data,
+        },
       })
     } catch (err) {}
   }
