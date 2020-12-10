@@ -10,11 +10,10 @@ export function userSignup(newUser) {
     try {
       const createdUser = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/admin/signup',
         data: newUser,
       })
-
       dispatch({ type: SET_SIGNUP_MESSAGE, payload: 'Cuenta creada exitosamente' })
       dispatch({ type: CLEAN_SIGNUP })
 

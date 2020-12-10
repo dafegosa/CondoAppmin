@@ -1,17 +1,10 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import WriteMessagessButton from './WriteMessagesButton'
 import { useSelector, useDispatch } from 'react-redux'
-import messageReducer, {
-  retrieveMessages,
-  readMessage,
-} from '../../../../../store/messageReducer'
-import sessionReducer, {
-  getAdmin,
-  verifyUser,
-} from '../../../../../store/sessionReducer'
+import { retrieveMessages, readMessage } from '../../../../../store/messageReducer'
+import { verifyUser } from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.div`
   width: 100%;
@@ -72,8 +65,6 @@ const Message = styled.div`
     width: 33%;
   }
 `
-const token = localStorage.getItem('token')
-let user = ''
 const MessagesArea = () => {
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
@@ -81,8 +72,6 @@ const MessagesArea = () => {
       return { messagesList }
     }
   )
-
-
 
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
@@ -98,30 +87,17 @@ const MessagesArea = () => {
     dispatch(readMessage(id, route, messages, history))
   }
 
-  useEffect(async () => {
-    const { getResident, getAdmin, type } = await dispatch(verifyUser())
-    if (getAdmin) {
-      user = 'admin'
-    } else if (getResident) {
-      user = 'resident'
+  useEffect(() => {
+    async function getTickets() {
+      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+
+      if (getAdmin) {
+        dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
+      } else if (getResident) {
+        dispatch(retrieveMessages(getResident.data.id, 'message'))
+      }
     }
-
-    axios
-      .get('http://localhost:8000/ticket', {
-        url: `/${getAdmin.data.id}/${user}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((list) => {
-
-        const unReadMessages = list.data.data.filter((message) => {
-          return getAdmin.data.id == message.to
-        })
-
-        dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
-      })
-      .catch((err) => {})
+    getTickets()
   }, [])
 
   return (

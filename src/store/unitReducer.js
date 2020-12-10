@@ -11,7 +11,7 @@ export function retrieveUnits(condoid) {
     try {
       const { data } = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: `/unit/${condoid}`,
         headers: {
           Authorization: `Bearer ${token}`,

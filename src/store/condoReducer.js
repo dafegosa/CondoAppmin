@@ -1,18 +1,15 @@
-import axios from 'axios'
-
 const CONDO_HANDLE_CHANGE = 'CONDO_HANDLE_CHANGE'
 const CONDO_CREATE = 'CONDO_CREATE'
 
 
 const initialState = {
-  currentCondo: '5fbf0d24416bf74cec063c6e',
+  currentCondo: '5fd14b61f70bab3fe1f409c3',
   condoName: '',
   condoAddress: '',
   message: ''
 }
 
 function condoReducer(state = initialState, action) {
-
   switch (action.type) {
     case CONDO_HANDLE_CHANGE:
       const { name, value } = action.payload
@@ -23,7 +20,8 @@ function condoReducer(state = initialState, action) {
     case CONDO_CREATE:
       return {
         ...state,
-        message: action.payload
+        message: action.payload.message,
+        currentCondo: action.payload.data._id,
       }
     default:
       return state;

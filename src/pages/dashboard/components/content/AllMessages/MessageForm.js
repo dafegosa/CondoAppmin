@@ -6,10 +6,8 @@ import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { MessageContainerMenu } from './CentralMessagesList'
-import messageFormReducer, {
-  CREATE_MESSAGE,
-} from '../../../../../store/messageFormReducer'
-import sessionReducer, { verifyUser } from '../../../../../store/sessionReducer'
+import { CREATE_MESSAGE } from '../../../../../store/messageFormReducer'
+import { verifyUser } from '../../../../../store/sessionReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -45,9 +43,14 @@ const Alert = styled.p`
   width: 35%;
 `
 
-const token = localStorage.getItem('token')
 let aux = {}
+
 const MessageForm = (props) => {
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
   const state = useSelector((state) => state.messageFormReducer)
   const [userEmail, setUserEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -62,6 +65,19 @@ const MessageForm = (props) => {
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
+  
+  useEffect(() => {
+    async function getUserEmail () {
+      const { getResident, getAdmin, type } = await dispatch(verifyUser())
+      if (getAdmin) {
+        setUserEmail(getAdmin.data.email)
+      } else if (getResident) {
+        setUserEmail(getResident.data.email)
+      }
+    }
+    getUserEmail()
+  }, [])
+  
   const handleChange = (event, editor) => {
     setMessage('')
     setAlert('')
@@ -71,19 +87,21 @@ const MessageForm = (props) => {
     const value = CKEdata
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
-
-  useEffect(async () => {
-    const { getResident, getAdmin, type } = await dispatch(verifyUser())
-    setUserEmail(getAdmin.data.email)
-  }, [])
-
   const createTicket = (e) => {
     e.preventDefault()
+    
+    const token = localStorage.getItem('token')
     const { from, to, subject, body, date, read } = state
+    
+    let userDestinationType = ''
+    let messageType = ''
+    admin ? userDestinationType = 'resident' : userDestinationType = 'admin'
+    admin ? messageType = 'message' : messageType = 'ticket'
+
     axios({
       method: 'PUT',
-      baseURL: 'http://localhost:8000',
-      url: `/admin/getEmail`,
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: `/${userDestinationType}/getEmail`,
       data: {
         email: to,
       },
@@ -92,10 +110,11 @@ const MessageForm = (props) => {
       },
     })
       .then((response) => {
+        const token = localStorage.getItem('token')
         axios({
           method: 'POST',
-          baseURL: 'http://localhost:8000',
-          url: `/ticket`,
+          baseURL: process.env.REACT_APP_SERVER_URL,
+          url: `/${messageType}`,
           data: {
             from: userEmail,
             to: response.data.id,
@@ -111,7 +130,10 @@ const MessageForm = (props) => {
           .then(setMessage('¡Ticket Enviado!'))
           .then(setUserEmail(''))
       })
-      .catch((err) => setAlert('Destinatario no Existe'))
+      .catch((err) => {
+        console.dir(err)
+        setAlert('Destinatario no Existe')
+      })
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>

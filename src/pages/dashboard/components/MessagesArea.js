@@ -99,12 +99,13 @@ function MessagesArea(props) {
 
   useEffect(() => {
     async function getTickets() {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser())
-      if (messages.length == 0) {
+      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+
+      if (messages.length === 0) {
         if (getAdmin) {
-          dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
+          dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '?read=false'))
         } else if (getResident) {
-          dispatch(retrieveMessages(getResident.data.id, 'message'))
+          dispatch(retrieveMessages(getResident.data.id, 'message', '?read=false'))
         }
       }
     }

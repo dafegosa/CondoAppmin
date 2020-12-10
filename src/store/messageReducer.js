@@ -3,23 +3,26 @@ import { SIGNOUT } from './sessionReducer'
 import { MESSAGE_SELECTED } from './messageFormReducer'
 
 const RETRIEVE_MESSAGES = 'RETRIEVE_MESSAGES'
+const MESSAGE_LIST = 'MESSAGE_LIST'
 
-export function retrieveMessages(user, type) {
+export function retrieveMessages(user, type, query = '') {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
 
     try {
       const { data } = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
-        url: `/${type}/${user}?read=false`,
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/${type}/${user}${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
+      !query ? dispatch({ type: MESSAGE_LIST, payload: data.data }) : dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
       return data.data
-    } catch (err) {}
+    } catch (err) {
+      console.dir(err)
+    }
   }
 }
 
@@ -30,7 +33,7 @@ function MessagesList(user, type) {
     try {
       const { data } = await axios({
         method: 'GET',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: `/${type}/${user}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,7 +51,7 @@ export function readMessage(id, route, messages, history) {
 
     axios({
       method: 'PUT',
-      baseURL: 'http://localhost:8000',
+      baseURL: process.env.REACT_APP_SERVER_URL,
       url: `/${route}/`,
       data: {
         _id: id,
@@ -86,10 +89,9 @@ function messageReducer(state = initialState, action) {
         ...state,
         messages: [],
       }
-    case 'MESSAGE_LIST':
+    case MESSAGE_LIST:
       return {
         ...state,
-
         messagesList: action.payload,
       }
 

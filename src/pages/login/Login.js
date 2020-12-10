@@ -141,7 +141,6 @@ function Login () {
     
     dispatch(userLogin(history, loggingUser, type))
   }
-
   return (
     <EnterFormDiv>
       <EnterForm onSubmit={userValidation}>

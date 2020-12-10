@@ -1,0 +1,10 @@
+FROM node:alpine 
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app/
+COPY package.json .
+RUN yarn install --production
+COPY . .
+RUN yarn build
+RUN yarn global add serve
+EXPOSE 5000
+CMD ["serve", "build"]
