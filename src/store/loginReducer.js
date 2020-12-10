@@ -10,13 +10,12 @@ export function userLogin(history, user, type) {
     try {
       const { data } = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: `/${type}/signin`,
         data: user,
       })
 
       localStorage.setItem('token', data.token)
-
       if (type === 'admin') {
         dispatch({ type: LOGGED_ADMIN })
       } else {

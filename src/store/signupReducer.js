@@ -10,7 +10,7 @@ export function userSignup(newUser) {
     try {
       const createdUser = await axios({
         method: 'POST',
-        baseURL: 'http://localhost:8000',
+        baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/admin/signup',
         data: newUser,
       })

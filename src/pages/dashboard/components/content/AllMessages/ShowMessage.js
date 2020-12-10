@@ -68,8 +68,13 @@ const ShowMessage = (props) => {
 
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
-    setUserEmail(getAdmin.data.email)
+    if (getAdmin) {
+      setUserEmail(getAdmin.data.email)
+    } else if (getResident) {
+      setUserEmail(getResident.data.email)
+    }
   }, [])
+
   const createTicket = (e) => {
     history.push(`/dashboard/messagesform`)
   }
