@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
-const Button = styled.button`
+export const Button = styled.button`
   padding: 5px;
   color: #f1f2df;
   background-color: rgba(96, 125, 139, 0.7);

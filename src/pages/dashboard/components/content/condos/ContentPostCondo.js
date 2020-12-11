@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
+import { CONDO_FORM_CLEAN, CONDO_MESSAGE_CLEAN } from '../../../../../store/condoReducer'
 
-const AddCondoDiv = styled.div`
-  padding: 10px;
+export const AddCondoDiv = styled.div`
+  padding: 0 10px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+
   & input, & select {
     box-sizing: border-box;
     width: 100%;
@@ -36,7 +38,7 @@ const CondosForm = styled.form`
   }
 `
 
-function ContentAddCondo () {
+function ContentPostCondo () {
 
   const { currentCondo, condoName, condoAddress, message } = useSelector(
     ({ condoReducer: { currentCondo, condoName, condoAddress, message } }) => {
@@ -47,6 +49,10 @@ function ContentAddCondo () {
   })
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch({ type: CONDO_MESSAGE_CLEAN })
+  }, [])
+
   const handleChange = (e) => {
     dispatch(globalHandleChange(e, 'CONDO'))
   }
@@ -55,6 +61,7 @@ function ContentAddCondo () {
     e.preventDefault()
 
     const { data } = await getAdmin()
+
     const newDocument = {
       name: condoName,
       address: condoAddress,
@@ -62,8 +69,10 @@ function ContentAddCondo () {
     }
 
     dispatch(globalCreateDocument('condo', newDocument))
+    dispatch({ type: CONDO_FORM_CLEAN })
+
   }
-  console.log('current condo', currentCondo)
+
   return (
     !admin ? <Redirect to="/dashboard" /> :
     (<AddCondoDiv>
@@ -97,4 +106,4 @@ function ContentAddCondo () {
 }
 
 
-export default ContentAddCondo
+export default ContentPostCondo

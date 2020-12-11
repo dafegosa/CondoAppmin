@@ -3,19 +3,19 @@ import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
-import ContentAddCondos from './add-condo/ContentAddCondo'
+import Condos from './condos/Condos'
 import ContentMessages from './AllMessages/CentralMessagesList'
 import ContentMessagesForm from './AllMessages/MessageForm'
 import ShowMessage from './AllMessages/ShowMessage'
 
-const ContentDiv = styled.div`
+const ContentDiv = styled.main`
   display: grid;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgb(239, 239, 239);
   grid-area: 2 / 3 / 9 / 11;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
-  overflow: hidden;
+
   @media (max-width: 768px) {
     grid-area: 2 / 2 / 9 / 13;
   }
@@ -30,8 +30,8 @@ function Content() {
   const renderContent = () => {
     const urlItems = history.location.pathname.split('/')
     switch (urlItems[2]) {
-      case 'addcondo':
-        return <ContentAddCondos />
+      case 'condo':
+        return <Condos />
       case 'addunit':
         return <ContentAddUnits />
       case 'addresident':
