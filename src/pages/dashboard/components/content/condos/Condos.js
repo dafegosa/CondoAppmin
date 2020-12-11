@@ -67,7 +67,7 @@ function Condos () {
     switch (urlItems[3]) {
       case 'add':
         return <ContentPostCondo />
-      case 'read':
+      case 'list':
         return <ContentGetCondos />
       default:
         break;
