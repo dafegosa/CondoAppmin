@@ -23,23 +23,27 @@ export function verifyUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
+      console.log('en el try Admin', getAdmin)
     } catch (err) {}
 
     try {
       var getResident = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: '/resident',
+        url: '/resident/getResident',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
+      console.log('en el try resident', getResident)
     } catch (err) {}
 
     if (getAdmin) {
+      console.log('administrador')
       dispatch({ type: LOGGED_ADMIN })
       return { getAdmin, type: 'admin' }
     } else if (getResident) {
+      console.log('Residente')
       dispatch({ type: LOGGED_RESIDENT })
       return { getResident, type: 'resident' }
     } else {

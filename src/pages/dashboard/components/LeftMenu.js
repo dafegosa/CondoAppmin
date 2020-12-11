@@ -61,7 +61,7 @@ const LeftMenu = () => {
   )
 
   let history = useHistory()
-  
+
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
@@ -74,6 +74,7 @@ const LeftMenu = () => {
   if (resident) leftMenuNav.splice(0, 3)
 
   const leftMenuRouter = (el) => {
+    console.log(el)
     history.push(`/dashboard/${el.toLowerCase()}`)
   }
 
@@ -84,17 +85,15 @@ const LeftMenu = () => {
       </Logo>
       <SideMenu>
         <ul>
-          {!!leftMenuNav && leftMenuNav.length > 0 && 
-          leftMenuNav.map((el, i) => (
-          <li>
-            <Select
-                key={el.name}
-                onClick={leftMenuRouter.bind(i, el.link)}
-            >
-              <i className={el.icon}></i>
-              <span>{el.name}</span>
-            </Select>
-          </li>
+          {!!leftMenuNav &&
+            leftMenuNav.length > 0 &&
+            leftMenuNav.map((el, i) => (
+              <li>
+                <Select key={el.name} onClick={leftMenuRouter.bind(i, el.link)}>
+                  <i className={el.icon}></i>
+                  <span>{el.name}</span>
+                </Select>
+              </li>
             ))}
         </ul>
       </SideMenu>

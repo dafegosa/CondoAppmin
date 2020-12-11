@@ -117,12 +117,15 @@ const MessagesArea = () => {
       )
 
       if (getAdmin) {
-        dispatch(retrieveMessages(getAdmin.data.id, 'ticket'))
+        console.log('Es un admin!')
+        console.log('id', getAdmin.data.id)
+        dispatch(retrieveMessages(getAdmin.data.id, 'ticket', ''))
       } else if (getResident) {
-        dispatch(retrieveMessages(getResident.data.id, 'message'))
+        console.log('Es un Resident!')
+        dispatch(retrieveMessages(getResident.data.id, 'message', ''))
       }
     }
-    getTickets()
+    console.log(getTickets())
   }, [])
 
   return (

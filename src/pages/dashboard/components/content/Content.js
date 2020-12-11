@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import ContentAddUnits from './add-units/ContentAddUnit'
 import ContentAddCondos from './add-condo/ContentAddCondo'
-import ContentMessages from './AllMessages/CentralMessagesList'
-import ContentMessagesForm from './AllMessages/MessageForm'
-import ShowMessage from './AllMessages/ShowMessage'
+import ContentMessages from './allMessages/CentralMessagesList'
+import ContentMessagesForm from './allMessages/MessageForm'
+import ShowMessage from './allMessages/ShowMessage'
 
 const ContentDiv = styled.div`
   display: grid;
@@ -30,11 +30,11 @@ function Content() {
   const renderContent = () => {
     const urlItems = history.location.pathname.split('/')
     switch (urlItems[2]) {
-      case 'addcondo':
+      case 'condo':
         return <ContentAddCondos />
-      case 'addunit':
+      case 'unit':
         return <ContentAddUnits />
-      case 'addresident':
+      case 'resident':
         return <ContentAddResident />
       case 'messages':
         return <ContentMessages />
