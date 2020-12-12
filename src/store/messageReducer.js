@@ -51,7 +51,7 @@ function MessagesList(user, type) {
 export function readMessage(id, route, messages, history) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
-
+    console.log('Llegamos al read', id, route, messages, history)
     axios({
       method: 'PUT',
       baseURL: process.env.REACT_APP_SERVER_URL,

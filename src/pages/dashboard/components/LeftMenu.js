@@ -66,7 +66,7 @@ const LeftMenu = () => {
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
     { name: 'Residentes', icon: 'fas fa-address-card', link: 'resident' },
-    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'ticket' },
+    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'tickets' },
     { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
     { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venues' },

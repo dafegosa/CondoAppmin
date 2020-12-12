@@ -54,6 +54,7 @@ const Message = styled.div`
   display: flex;
   flex-direction: row;
   &:hover {
+    cursor: pointer;
     margin-top: 0.5%;
     box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
   }
@@ -87,7 +88,9 @@ const MessagesArea = () => {
     }
   )
   let history = useHistory()
+
   const ticketRead = (id) => {
+    console.log('Hola', id)
     const route = admin ? 'ticket' : 'message'
     dispatch(readMessage(id, route, messages, history))
   }

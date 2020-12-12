@@ -36,7 +36,7 @@ function Content() {
         return <ContentAddUnits />
       case 'resident':
         return <ContentAddResident />
-      case 'messages':
+      case 'tickets':
         return <ContentMessages />
       case 'messagesform':
         return <ContentMessagesForm />

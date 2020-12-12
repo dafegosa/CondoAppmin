@@ -62,8 +62,9 @@ const ShowMessage = (props) => {
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
 
-  const { from, to, subject, body, date } = state
+  const { from, to, subject, body, date, ticketState } = state
   const [userEmail, setUserEmail] = useState('')
+  const [user, setUser] = useState('')
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
   const [addData, setVal] = useState('')
@@ -78,9 +79,14 @@ const ShowMessage = (props) => {
     const value = CKEdata
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
+  const ticketCLosed = () => {
+    console.log('Vamo a cerrarlo')
+  }
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
+
     if (getAdmin) {
+      setUser('iAmAdmin')
       setUserEmail(getAdmin.data.email)
     } else if (getResident) {
       setUserEmail(getResident.data.email)
@@ -94,11 +100,21 @@ const ShowMessage = (props) => {
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
       <MessageContainerMenu>
-        <WriteMessagessButton
-          type='submit'
-          className='toRight'
-          value='Responder'
-        />
+        {ticketState === true && (
+          <WriteMessagessButton
+            type='submit'
+            className='toRight'
+            value='Responder'
+          />
+        )}
+        {user === 'iAmAdmin' && ticketState === true && (
+          <WriteMessagessButton
+            type='submit'
+            className='toRight'
+            value='Ticket Solucionado'
+            onClick={ticketCLosed}
+          />
+        )}
       </MessageContainerMenu>
 
       <MessageZone>
@@ -114,17 +130,20 @@ const ShowMessage = (props) => {
           }}
         />
       </MessageZone>
-      <CKEditor
-        style={{ height: '300px', rows: '10' }}
-        editor={ClassicEditor}
-        name='body'
-        config={{
-          ckfinder: {
-            uploadUrl: 'http://localhost:8000/uploads',
-          },
-        }}
-        // onChange={handleChange}
-      />
+      {ticketState && (
+        <CKEditor
+          style={{ height: '300px', rows: '10' }}
+          editor={ClassicEditor}
+          name='body'
+          config={{
+            ckfinder: {
+              uploadUrl: 'http://localhost:8000/uploads',
+            },
+          }}
+          // onChange={handleChange}
+        />
+      )}
+      {!ticketState && <p>Asunto solucionado</p>}
     </BigCentarlMessagesContainer>
   )
 }

@@ -20,7 +20,7 @@ function messageFormReducer(state = initialState, action) {
         date: getDate() + ' / ' + getHour(),
       }
     case MESSAGE_SELECTED:
-      const { from, to, subject, body, date } = action.payload.data
+      const { from, to, subject, body, date, ticketState } = action.payload.data
       return {
         ...state,
         from,
@@ -28,6 +28,7 @@ function messageFormReducer(state = initialState, action) {
         subject,
         body,
         date,
+        ticketState,
       }
     default:
       return state
