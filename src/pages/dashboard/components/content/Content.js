@@ -2,8 +2,8 @@ import React from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
-import ContentAddUnits from './add-units/ContentAddUnit'
 import Condos from './condos/Condos'
+import Units from './units/Units'
 import ContentMessages from './AllMessages/CentralMessagesList'
 import ContentMessagesForm from './AllMessages/MessageForm'
 import ShowMessage from './AllMessages/ShowMessage'
@@ -32,8 +32,8 @@ function Content() {
     switch (urlItems[2]) {
       case 'condo':
         return <Condos />
-      case 'addunit':
-        return <ContentAddUnits />
+      case 'unit':
+        return <Units />
       case 'addresident':
         return <ContentAddResident />
       case 'messages':

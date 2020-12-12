@@ -3,31 +3,10 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCondos } from '../../../../../store/condoReducer'
+import { retrieveUnits } from '../../../../../store/unitReducer'
+import { ListCondosDiv as ListUnitsDiv, GetCondosTitle as GetUnitsTitle } from '../condos/ContentGetCondos'
 
-export const ListCondosDiv = styled.div`
-  padding: 0 10px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  overflow-y: scroll;
-
-  & input, & select {
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-`
-
-export const GetCondosTitle = styled.h1`
-  margin: 20px 0 40px 0;
-  font-weight: 500;
-  font-size: 28px;
-  color: rgba(96, 125, 139, 0.9);
-`
-const CondoListSection = styled.div`
+const UnitListSection = styled.div`
   width: 100%;
   padding-bottom: 50px;
   display: flex;
@@ -36,7 +15,7 @@ const CondoListSection = styled.div`
   
 `
 
-const SingleCondoOuterDiv = styled.div`
+const SingleUnitOuterDiv = styled.div`
   margin-bottom: 5px;
   display: flex;
   align-items: baseline;
@@ -83,11 +62,15 @@ const CondoAddress = styled.p`
   font-size: 16px;
 `
 
-function ContentPostCondo () {
+function ContentPostUnit () {
 
-  const { condos } = useSelector(
-    ({ condoReducer: { condos } }) => {
-    return { condos }
+  const { units } = useSelector(
+    ({ unitReducer: { units } }) => {
+    return { units }
+    }) 
+  const { currentCondo } = useSelector(
+    ({ condoReducer: { currentCondo } }) => {
+    return { currentCondo }
     }) 
   const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
     return { admin, resident }
@@ -95,37 +78,37 @@ function ContentPostCondo () {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCondos())
-  }, [])
+    dispatch(retrieveUnits(currentCondo))
+  }, [currentCondo])
   
   return (
     !admin ? <Redirect to="/dashboard" /> :
-    (<ListCondosDiv>
-      <GetCondosTitle>Listado de Condominios</GetCondosTitle>
-      <CondoListSection>
-        {!!condos && condos.length > 0 ? 
-          condos.map(condo => {
+    (<ListUnitsDiv>
+      <GetUnitsTitle>{`Listado de Unidades de ${currentCondo}`}</GetUnitsTitle>
+      <UnitListSection>
+        {!!units && units.length > 0 ? 
+          units.map(unit => {
             return (
-              <SingleCondoOuterDiv key={condo._id}>
+              <SingleUnitOuterDiv key={unit._id}>
                 <SingleCondoInnerDiv>
-                  <CondoName>{condo.name}</CondoName>
-                  <CondoAddress>{condo.address}</CondoAddress>
+                  <CondoName>{unit.name}</CondoName>
+                  <CondoAddress>{unit.address}</CondoAddress>
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                  <CondoUnitsTitle>Total de unidades</CondoUnitsTitle>
-                  <p>40</p>
+                  <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
+                  <p>Emilio Suarez</p>
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                  <CondoUnitsTitle>Ocupación</CondoUnitsTitle>
-                  <p>28%</p>
+                  <CondoUnitsTitle>Ocupado?</CondoUnitsTitle>
+                  <p>Si</p>
                 </SingleCondoInnerDiv>
-              </SingleCondoOuterDiv>
+              </SingleUnitOuterDiv>
             )
-          }) : <p>No tienes condominios por el momento</p>}
-      </CondoListSection>
-    </ListCondosDiv>)
+          }) : <p>No tienes unidades por el momento</p>}
+      </UnitListSection>
+    </ListUnitsDiv>)
   )
 }
 
 
-export default ContentPostCondo
+export default ContentPostUnit

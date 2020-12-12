@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import TopBar from './components/TopBar'
 import Content from './components/content/Content'
 import MessagesArea from './components/MessagesArea'
-import LeftMenu from './components/LeftMenu'
+import LeftMenu from './components/left-menu/LeftMenu'
 
 const DashboardDiv = styled.div`
   box-sizing: border-box;

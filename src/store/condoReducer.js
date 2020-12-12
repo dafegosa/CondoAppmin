@@ -3,6 +3,7 @@ import axios from 'axios'
 export const CONDO_HANDLE_CHANGE = 'CONDO_HANDLE_CHANGE'
 export const CONDO_CREATE = 'CONDO_CREATE'
 export const CONDOS_RETRIEVE = 'CONDOS_RETRIEVE'
+export const CONDO_SELECT = 'CONDO_SELECT'
 export const CONDO_FORM_CLEAN = 'CONDO_FORM_CLEAN'
 export const CONDO_MESSAGE_CLEAN = 'CONDO_MESSAGE_CLEAN'
 
@@ -31,6 +32,7 @@ export function getCondos () {
 }
 
 const initialState = {
+  chosenCondo: '',
   currentCondo: '',
   condos: [],
   condoName: '',
@@ -55,6 +57,11 @@ function condoReducer(state = initialState, action) {
       return {
         ...state,
         condos: [...action.payload],
+      }
+    case CONDO_SELECT:
+      return {
+        ...state,
+        currentCondo: action.payload,
       }
     case CONDO_FORM_CLEAN:
       return {

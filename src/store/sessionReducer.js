@@ -74,6 +74,7 @@ export function globalHandleChange(e, reducer) {
       name,
       value,
     }
+    console.log('condo', newState)
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
 }
