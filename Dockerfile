@@ -7,4 +7,3 @@ COPY . .
 EXPOSE 3000
 VOLUME /usr/src/app/
 CMD ["yarn" , "start"]
-

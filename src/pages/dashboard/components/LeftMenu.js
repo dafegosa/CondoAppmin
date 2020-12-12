@@ -4,7 +4,7 @@ import logo from '../../../logo.svg'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const Container = styled.div`
+const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
   background-color: #ffbf5b;
   min-width: 15vw;

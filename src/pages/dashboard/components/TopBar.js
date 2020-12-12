@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import UserSection from './UserSection'
 
-export const TopBarDiv = styled.div`
+export const TopBarDiv = styled.header`
   background-color: ${(props) => props.theme.mainColor};
   grid-area: 1 / 3 / 2 / 13;
   display: flex;
