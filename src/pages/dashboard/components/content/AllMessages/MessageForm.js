@@ -65,9 +65,8 @@ const MessageForm = (props) => {
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
-  
   useEffect(() => {
-    async function getUserEmail () {
+    async function getUserEmail() {
       const { getResident, getAdmin, type } = await dispatch(verifyUser())
       if (getAdmin) {
         setUserEmail(getAdmin.data.email)
@@ -77,7 +76,7 @@ const MessageForm = (props) => {
     }
     getUserEmail()
   }, [])
-  
+
   const handleChange = (event, editor) => {
     setMessage('')
     setAlert('')
@@ -90,14 +89,14 @@ const MessageForm = (props) => {
   }
   const createTicket = (e) => {
     e.preventDefault()
-    
+
     const token = localStorage.getItem('token')
-    const { from, to, subject, body, date, read } = state
-    
+    const { from, to, subject, body, date, read, ticketState } = state
+
     let userDestinationType = ''
     let messageType = ''
-    admin ? userDestinationType = 'resident' : userDestinationType = 'admin'
-    admin ? messageType = 'message' : messageType = 'ticket'
+    admin ? (userDestinationType = 'resident') : (userDestinationType = 'admin')
+    admin ? (messageType = 'message') : (messageType = 'ticket')
 
     axios({
       method: 'PUT',
@@ -123,6 +122,7 @@ const MessageForm = (props) => {
             body,
             date,
             read,
+            ticketState,
           },
           headers: {
             Authorization: `Bearer ${token}`,

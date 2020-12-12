@@ -8,6 +8,7 @@ const initialState = {
   body: '',
   date: '',
   read: 'false',
+  ticketState: 'true',
 }
 
 function messageFormReducer(state = initialState, action) {

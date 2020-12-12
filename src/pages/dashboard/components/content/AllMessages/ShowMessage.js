@@ -9,6 +9,7 @@ import { MessageContainerMenu } from './CentralMessagesList'
 import { useHistory } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { verifyUser } from '../../../../../store/sessionReducer'
+import { CREATE_MESSAGE } from '../../../../../store/messageFormReducer'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -25,7 +26,7 @@ const BigCentarlMessagesContainer = styled.form`
     border-radius: 4px;
   }
   .ck-content {
-    height: 300px;
+    height: 10%;
   }
 `
 
@@ -36,11 +37,12 @@ const Input = styled.input`
   width: 100%;
 `
 const MessageZone = styled.div`
-  color: red;
   width: 100%;
-  height: 15px;
-  display: flex;
-  flex-direction: row;
+  height: 80%;
+  background-color: white;
+  overflow-y: scroll;
+  margin-bottom: 2%;
+  color: rgba(96, 125, 139, 1);
 `
 const SuccessMessage = styled.p`
   color: green;
@@ -66,6 +68,16 @@ const ShowMessage = (props) => {
   const [alert, setAlert] = useState('')
   const [addData, setVal] = useState('')
 
+  const handleChange = (event, editor) => {
+    setMessage('')
+    setAlert('')
+    const CKEdata = editor.getData()
+    console.log(CKEdata)
+    const name = 'body'
+    setVal(addData)
+    const value = CKEdata
+    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
+  }
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
     if (getAdmin) {
@@ -75,12 +87,12 @@ const ShowMessage = (props) => {
     }
   }, [])
 
-  const createTicket = (e) => {
+  const createSubTicket = (e) => {
     history.push(`/dashboard/messagesform`)
   }
 
   return (
-    <BigCentarlMessagesContainer onSubmit={createTicket}>
+    <BigCentarlMessagesContainer onSubmit={createSubTicket}>
       <MessageContainerMenu>
         <WriteMessagessButton
           type='submit'
@@ -88,50 +100,30 @@ const ShowMessage = (props) => {
           value='Responder'
         />
       </MessageContainerMenu>
-      <p>
-        Para
-        <Input
-          id='to'
-          name='to'
-          type='email'
-          required={true}
-          value={userEmail}
-          readOnly
-        />
-      </p>
-      <p>
-        De
-        <Input
-          id='from'
-          name='from'
-          type='text'
-          value={from}
-          required={true}
-          readOnly
-        />
-      </p>
-      <p>
-        Asunto
-        <Input
-          id='subject'
-          name='subject'
-          type='text'
-          value={subject}
-          readOnly
-        />
-      </p>
 
       <MessageZone>
-        <Alert>{alert}</Alert>
-        <SuccessMessage>{message}</SuccessMessage>
+        <p>Para: {userEmail}</p>
+        <p>De: {from}</p>
+        <p>Asunto: {subject}</p>
+        <p
+          name='body'
+          readOnly
+          style={{ border: '1px solid black', rows: '10' }}
+          dangerouslySetInnerHTML={{
+            __html: body,
+          }}
+        />
       </MessageZone>
-      <br></br>
-      <p
+      <CKEditor
+        style={{ height: '300px', rows: '10' }}
+        editor={ClassicEditor}
         name='body'
-        readOnly
-        dangerouslySetInnerHTML={{
-          __html: body,
+        config={{
+          ckfinder: {
+            uploadUrl: 'http://localhost:8000/uploads',
+          },
         }}
+        // onChange={handleChange}
       />
     </BigCentarlMessagesContainer>
   )

@@ -8,6 +8,7 @@ import {
   readMessage,
 } from '../../../../../store/messageReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
+import axios from 'axios'
 
 const BigCentarlMessagesContainer = styled.div`
   width: 100%;
@@ -69,6 +70,7 @@ const Message = styled.div`
   }
 `
 const MessagesArea = () => {
+  const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
     ({ messageReducer: { messagesList } }) => {
@@ -90,43 +92,61 @@ const MessagesArea = () => {
     dispatch(readMessage(id, route, messages, history))
   }
 
-  // useEffect(async () => {
-  //   const { getResident, getAdmin, type } = await dispatch(verifyUser())
-  //   if (getAdmin) {
-  //     user = 'admin'
-  //   } else if (getResident) {
-  //     user = 'resident'
-  //   }
-
-  //   axios
-  //     .get('http://localhost:8000/ticket', {
-  //       url: `/${getAdmin.data.id}/${user}`,
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((list) => {
-  //       const unReadMessages = list.data.data.filter((message) => {
-  //         return getAdmin.data.id == message.to
-  //       })
-
-  useEffect(() => {
-    async function getTickets() {
-      const { getResident, getAdmin, type } = await dispatch(
-        verifyUser(history)
-      )
-
-      if (getAdmin) {
-        console.log('Es un admin!')
-        console.log('id', getAdmin.data.id)
-        dispatch(retrieveMessages(getAdmin.data.id, 'ticket', ''))
-      } else if (getResident) {
-        console.log('Es un Resident!')
-        dispatch(retrieveMessages(getResident.data.id, 'message', ''))
-      }
+  useEffect(async () => {
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    let user = ''
+    let getUser = ''
+    if (getAdmin) {
+      user = 'admin'
+      getUser = getAdmin
+    } else if (getResident) {
+      user = 'resident'
+      getUser = getResident
     }
-    console.log(getTickets())
+    console.log('Este es el puto user: ', user)
+    console.log(getUser)
+    axios
+      .get('http://localhost:8000/ticket', {
+        url: `/${getUser.data.id}/${user}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((list) => {
+        if (getAdmin) {
+          const unReadMessages = list.data.data.filter((message) => {
+            return getUser.data.id == message.to
+          })
+          dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
+        }
+
+        if (getResident) {
+          const unReadMessages = list.data.data.filter((message) => {
+            return getUser.data.email == message.from
+          })
+          dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
+        }
+      })
+      .catch((err) => {})
   }, [])
+
+  // useEffect(() => {
+  //   async function getTickets() {
+  //     const { getResident, getAdmin, type } = await dispatch(
+  //       verifyUser(history)
+  //     )
+
+  //     if (getAdmin) {
+  //       console.log('Es un admin!')
+  //       console.log('id', getAdmin.data.id)
+  //       dispatch(retrieveMessages(getAdmin.data.id, 'ticket', ''))
+  //     } else if (getResident) {
+  //       console.log('Es un Resident!')
+  //       dispatch(retrieveMessages(getResident.data.id, 'message', ''))
+  //     }
+  //   }
+  //   console.log(getTickets())
+  // }, [])
 
   return (
     <BigCentarlMessagesContainer>
