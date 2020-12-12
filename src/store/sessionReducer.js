@@ -97,11 +97,11 @@ export function globalCreateDocument(endpoint, document) {
       })
       dispatch({
         type: `${endpoint.toUpperCase()}_CREATE`,
-        payload: {
-          data: data.data,
-        },
+        payload: data.message,
       })
-    } catch (err) {}
+    } catch (err) {
+      console.dir('error', err.body)
+    }
   }
 }
 

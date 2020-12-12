@@ -78,7 +78,6 @@ const MessagesArea = () => {
       return { messagesList }
     }
   )
-
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })

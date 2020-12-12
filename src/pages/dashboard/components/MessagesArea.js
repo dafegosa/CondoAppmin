@@ -8,7 +8,7 @@ import messageReducer, {
 } from '../../../store/messageReducer'
 import sessionReducer, { verifyUser } from '../../../store/sessionReducer'
 
-const MessageContainer = styled.div`
+const MessageContainer = styled.section`
   grid-area: 2 / 11 / 9 / 13;
   display: flex;
   flex-direction: column;
