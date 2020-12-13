@@ -17,6 +17,9 @@ const BigCentarlMessagesContainer = styled.form`
   .ck-content {
     height: 300px;
   }
+  .alert {
+    color: red;
+  }
 `
 
 const Input = styled.input`
@@ -46,6 +49,7 @@ const Alert = styled.p`
 let aux = {}
 
 const MessageForm = (props) => {
+  const token = localStorage.getItem('token')
   const { admin, resident } = useSelector(
     ({ sessionReducer: { admin, resident } }) => {
       return { admin, resident }
@@ -53,6 +57,7 @@ const MessageForm = (props) => {
   )
   const state = useSelector((state) => state.messageFormReducer)
   const [userEmail, setUserEmail] = useState('')
+  const [openTicket, setOpenTicket] = useState([])
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
   const dispatch = useDispatch()
@@ -72,8 +77,32 @@ const MessageForm = (props) => {
         setUserEmail(getAdmin.data.email)
       } else if (getResident) {
         setUserEmail(getResident.data.email)
+        axios
+          .get('http://localhost:8000/ticket', {
+            url: `/${getResident.data.id}/resident`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((list) => {
+            if (getResident) {
+              const unReadMessages = list.data.data.filter((message) => {
+                return getResident.data.email == message.from
+              })
+              dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
+
+              console.log('Aqui estamos', unReadMessages)
+              const openTicket = unReadMessages.filter(
+                (el) => el.ticketState === true
+              )
+              setOpenTicket(openTicket)
+              console.log(openTicket[0].subject)
+            }
+          })
+          .catch((err) => {})
       }
     }
+
     getUserEmail()
   }, [])
 
@@ -81,7 +110,6 @@ const MessageForm = (props) => {
     setMessage('')
     setAlert('')
     const CKEdata = editor.getData()
-    console.log(CKEdata)
     const name = 'body'
     setVal(addData)
     const value = CKEdata
@@ -122,7 +150,7 @@ const MessageForm = (props) => {
             body,
             date,
             read,
-            ticketState,
+            ticketState: true,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -138,13 +166,23 @@ const MessageForm = (props) => {
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
-      <MessageContainerMenu>
-        <WriteMessagessButton
-          type='submit'
-          className='toRight'
-          value='enviar'
-        />
-      </MessageContainerMenu>
+      {openTicket.length > 0 && (
+        <p className='alert'>
+          Usted Tiene un ticket en estado activo. (Asunto:{' '}
+          {openTicket[0].subject}
+          ).
+        </p>
+      )}
+      {openTicket.length == 0 && (
+        <MessageContainerMenu>
+          <WriteMessagessButton
+            type='submit'
+            className='toRight'
+            value='enviar'
+          />
+        </MessageContainerMenu>
+      )}
+
       <p>
         Para
         <Input

@@ -89,8 +89,9 @@ const MessagesArea = () => {
   let history = useHistory()
 
   const ticketRead = (id) => {
-    console.log('Hola', id)
-    const route = admin ? 'ticket' : 'message'
+    const thisId = id
+    const route = admin ? 'ticket' : 'ticket'
+    dispatch({ type: 'ID_TICKET_SELECTED', payload: thisId })
     dispatch(readMessage(id, route, messages, history))
   }
 
@@ -105,8 +106,6 @@ const MessagesArea = () => {
       user = 'resident'
       getUser = getResident
     }
-    console.log('Este es el puto user: ', user)
-    console.log(getUser)
     axios
       .get('http://localhost:8000/ticket', {
         url: `/${getUser.data.id}/${user}`,
@@ -139,15 +138,11 @@ const MessagesArea = () => {
   //     )
 
   //     if (getAdmin) {
-  //       console.log('Es un admin!')
-  //       console.log('id', getAdmin.data.id)
   //       dispatch(retrieveMessages(getAdmin.data.id, 'ticket', ''))
   //     } else if (getResident) {
-  //       console.log('Es un Resident!')
   //       dispatch(retrieveMessages(getResident.data.id, 'message', ''))
   //     }
   //   }
-  //   console.log(getTickets())
   // }, [])
 
   return (

@@ -54,7 +54,19 @@ const Alert = styled.p`
   margin: 5px;
   width: 35%;
 `
+const SubTicketCreator = styled.button`
+  padding: 5px;
+  border: 1px solid rgba(96, 125, 139, 0.7);
+  color: rgba(96, 125, 139, 0.7);
+  margin-right: 3px;
+  cursor: pointer;
+  transition: 400ms;
 
+  &.active {
+    background-color: rgba(96, 125, 139, 0.7);
+    color: white;
+  }
+`
 const token = localStorage.getItem('token')
 
 const ShowMessage = (props) => {
@@ -62,7 +74,7 @@ const ShowMessage = (props) => {
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
 
-  const { from, to, subject, body, date, ticketState } = state
+  const { from, to, subject, body, date, ticketState, thisId, subBody } = state
   const [userEmail, setUserEmail] = useState('')
   const [user, setUser] = useState('')
   const [message, setMessage] = useState('')
@@ -73,15 +85,11 @@ const ShowMessage = (props) => {
     setMessage('')
     setAlert('')
     const CKEdata = editor.getData()
-    console.log(CKEdata)
-    const name = 'body'
     setVal(addData)
     const value = CKEdata
-    dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
+    dispatch({ type: 'CREATE_SUBTICKET', payload: { value } })
   }
-  const ticketCLosed = () => {
-    console.log('Vamo a cerrarlo')
-  }
+
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
 
@@ -94,25 +102,44 @@ const ShowMessage = (props) => {
   }, [])
 
   const createSubTicket = (e) => {
-    history.push(`/dashboard/messagesform`)
+    e.preventDefault()
+    console.log('Aqu[i eestamos mi pez')
+    // history.push(`/dashboard/messagesform`)
+    console.log('PILLEN: ', userEmail, thisId, subBody, date)
+    axios({
+      method: 'POST',
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: `/subTicket`,
+      data: {
+        from: userEmail,
+        ticketFather: thisId,
+        body: subBody,
+        date,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
   }
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
       <MessageContainerMenu>
         {ticketState === true && (
-          <WriteMessagessButton
-            type='submit'
+          <SubTicketCreator
+            type='button'
             className='toRight'
             value='Responder'
-          />
+            onClick={createSubTicket}
+          >
+            Responder
+          </SubTicketCreator>
         )}
         {user === 'iAmAdmin' && ticketState === true && (
           <WriteMessagessButton
-            type='submit'
+            type='button'
             className='toRight'
             value='Ticket Solucionado'
-            onClick={ticketCLosed}
           />
         )}
       </MessageContainerMenu>
@@ -140,7 +167,7 @@ const ShowMessage = (props) => {
               uploadUrl: 'http://localhost:8000/uploads',
             },
           }}
-          // onChange={handleChange}
+          onChange={handleChange}
         />
       )}
       {!ticketState && <p>Asunto solucionado</p>}

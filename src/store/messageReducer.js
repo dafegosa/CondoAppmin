@@ -8,7 +8,6 @@ const MESSAGE_LIST = 'MESSAGE_LIST'
 export function retrieveMessages(user, type, query = '') {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
-    console.log(user + ' y el query ' + query)
     try {
       const { data } = await axios({
         method: 'GET',
@@ -18,7 +17,6 @@ export function retrieveMessages(user, type, query = '') {
           Authorization: `Bearer ${token}`,
         },
       })
-      console.log(`/${type}/${user}${query}`)
       !query
         ? dispatch({ type: MESSAGE_LIST, payload: data.data })
         : dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
@@ -51,7 +49,6 @@ function MessagesList(user, type) {
 export function readMessage(id, route, messages, history) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
-    console.log('Llegamos al read', id, route, messages, history)
     axios({
       method: 'PUT',
       baseURL: process.env.REACT_APP_SERVER_URL,
