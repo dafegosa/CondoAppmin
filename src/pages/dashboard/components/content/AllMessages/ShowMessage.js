@@ -43,6 +43,12 @@ const MessageZone = styled.div`
   overflow-y: scroll;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
+  .ticketBody {
+    margin-left: 25px;
+  }
+  .ticketHeader {
+    color: #4f4e4d;
+  }
 `
 const SuccessMessage = styled.p`
   color: green;
@@ -67,6 +73,17 @@ const SubTicketCreator = styled.button`
     color: white;
   }
 `
+
+const SubTicket = styled.div`
+  border-bottom: solid 1px #ebe9e6;
+  .date {
+    font-size: 9px;
+  }
+  .body {
+    color: #4f4e4d;
+    margin-left: 50px;
+  }
+`
 const token = localStorage.getItem('token')
 
 const ShowMessage = (props) => {
@@ -78,12 +95,37 @@ const ShowMessage = (props) => {
   const [userEmail, setUserEmail] = useState('')
   const [user, setUser] = useState('')
   const [message, setMessage] = useState('')
-  const [alert, setAlert] = useState('')
   const [addData, setVal] = useState('')
+  const [subTickets, setSubTickets] = useState([])
 
+  useEffect(async () => {
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    console.log(thisId)
+    let user = ''
+    let getUser = ''
+    if (getAdmin) {
+      user = 'admin'
+      getUser = getAdmin
+    } else if (getResident) {
+      user = 'resident'
+      getUser = getResident
+    }
+    axios({
+      method: 'PUT',
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: `/subTicket`,
+      data: {
+        thisId,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((data) => setSubTickets(data.data.data))
+      .catch((err) => {})
+  }, [])
   const handleChange = (event, editor) => {
     setMessage('')
-    setAlert('')
     const CKEdata = editor.getData()
     setVal(addData)
     const value = CKEdata
@@ -102,6 +144,7 @@ const ShowMessage = (props) => {
   }, [])
 
   const createSubTicket = (e) => {
+    setMessage('Respuesta enviada')
     e.preventDefault()
     console.log('Aqu[i eestamos mi pez')
     // history.push(`/dashboard/messagesform`)
@@ -142,20 +185,41 @@ const ShowMessage = (props) => {
             value='Ticket Solucionado'
           />
         )}
+        <SuccessMessage>{message}</SuccessMessage>
       </MessageContainerMenu>
 
       <MessageZone>
-        <p>Para: {userEmail}</p>
-        <p>De: {from}</p>
-        <p>Asunto: {subject}</p>
+        <p className='ticketHeader'>Para: {userEmail}</p>
+        <p className='ticketHeader'>De: {from}</p>
+        <p className='ticketHeader'>Asunto: {subject}</p>
+        <br></br>
         <p
           name='body'
           readOnly
-          style={{ border: '1px solid black', rows: '10' }}
+          className='ticketBody'
           dangerouslySetInnerHTML={{
             __html: body,
           }}
         />
+        <br></br>
+        <br></br>
+        {!!subTickets &&
+          subTickets.length > 0 &&
+          subTickets.map((subTickets, indx) => (
+            <SubTicket>
+              <p> {subTickets.from}: </p>
+              <p className='date'> {subTickets.date} </p>
+              <br></br>
+              <p
+                className='body'
+                dangerouslySetInnerHTML={{
+                  __html: subTickets.body,
+                }}
+              />
+              <br></br>
+              <br></br>
+            </SubTicket>
+          ))}
       </MessageZone>
       {ticketState && (
         <CKEditor
@@ -170,6 +234,7 @@ const ShowMessage = (props) => {
           onChange={handleChange}
         />
       )}
+
       {!ticketState && <p>Asunto solucionado</p>}
     </BigCentarlMessagesContainer>
   )
