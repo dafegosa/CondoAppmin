@@ -5,7 +5,11 @@ export const CONDO_CREATE = 'CONDO_CREATE'
 export const CONDOS_RETRIEVE = 'CONDOS_RETRIEVE'
 export const CONDO_SELECT = 'CONDO_SELECT'
 export const CONDO_FORM_CLEAN = 'CONDO_FORM_CLEAN'
+export const CONDO_DELETE = 'CONDO_DELETE'
 export const CONDO_MESSAGE_CLEAN = 'CONDO_MESSAGE_CLEAN'
+export const CONDO_MESSAGE_SET = 'CONDO_MESSAGE_SET'
+export const CONDO_ERROR_CLEAN = 'CONDO_ERROR_CLEAN'
+export const CONDO_ERROR_SET = 'CONDO_ERROR_SET'
 
 export function getCondos () {
   return async function (dispatch) {
@@ -33,10 +37,12 @@ export function getCondos () {
 
 const initialState = {
   chosenCondo: '',
-  currentCondo: '',
+  currentCondoId: '',
+  currentCondoName: '',
   condos: [],
   condoName: '',
   condoAddress: '',
+  error: '',
   message: ''
 }
 
@@ -59,9 +65,11 @@ function condoReducer(state = initialState, action) {
         condos: [...action.payload],
       }
     case CONDO_SELECT:
+      const { id, condoName } = action.payload
       return {
         ...state,
-        currentCondo: action.payload,
+        currentCondoId: id,
+        currentCondoName: condoName
       }
     case CONDO_FORM_CLEAN:
       return {
@@ -69,10 +77,30 @@ function condoReducer(state = initialState, action) {
         condoName: '',
         condoAddress: '',
       }
+    case CONDO_DELETE:
+      return {
+        ...state,
+        condos: action.payload
+      }
     case CONDO_MESSAGE_CLEAN:
       return {
         ...state,
         message: '',
+      }
+    case CONDO_MESSAGE_SET:
+      return {
+        ...state,
+        message: action.payload,
+      }
+    case CONDO_ERROR_CLEAN:
+      return {
+        ...state,
+        error: '',
+      }
+    case CONDO_ERROR_SET:
+      return {
+        ...state,
+        error: action.payload,
       }
     default:
       return state;

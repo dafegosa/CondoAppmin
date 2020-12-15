@@ -2,7 +2,13 @@ import axios from 'axios'
 
 const UNIT_HANDLE_CHANGE = 'UNIT_HANDLE_CHANGE'
 const UNIT_CREATE = 'UNIT_CREATE'
-const GET_UNITS = 'GET_UNITS'
+export const UNIT_FORM_CLEAN = 'UNIT_FORM_CLEAN'
+export const UNIT_MESSAGE_CLEAN = 'UNIT_MESSAGE_CLEAN'
+export const UNIT_MESSAGE_SET = 'UNIT_MESSAGE_SET'
+export const UNIT_ERROR_CLEAN = 'UNIT_ERROR_CLEAN'
+export const UNIT_ERROR_SET = 'UNIT_ERROR_SET'
+export const UNIT_DELETE = 'UNIT_DELETE'
+const UNITS_RETRIEVE = 'UNITS_RETRIEVE'
 
 export function retrieveUnits(condoid) {
   return async function (dispatch) {
@@ -18,7 +24,7 @@ export function retrieveUnits(condoid) {
         },
       })
 
-      dispatch({ type: GET_UNITS, payload: data.data })
+      dispatch({ type: UNITS_RETRIEVE, payload: data.data })
     } catch (err) {}
   }
 }
@@ -26,7 +32,8 @@ export function retrieveUnits(condoid) {
 const initialState = {
   units: [],
   unitName: '',
-  message: ''
+  message: '',
+  error: ''
 }
 
 function unitReducer(state = initialState, action) {
@@ -43,10 +50,40 @@ function unitReducer(state = initialState, action) {
         ...state,
         message: action.payload
       }
-    case GET_UNITS:
+    case UNIT_DELETE:
       return {
         ...state,
         units: action.payload
+      }
+    case UNITS_RETRIEVE:
+      return {
+        ...state,
+        units: action.payload
+      }
+    case UNIT_FORM_CLEAN:
+      return {
+        ...state,
+        unitName: ''
+      }
+    case UNIT_MESSAGE_CLEAN:
+      return {
+        ...state,
+        message: ''
+      }
+    case UNIT_MESSAGE_SET:
+      return {
+        ...state,
+        message: action.payload
+      }
+    case UNIT_ERROR_CLEAN:
+      return {
+        ...state,
+        error: ''
+      }
+    case UNIT_ERROR_SET:
+      return {
+        ...state,
+        error: action.payload
       }
     default:
       return state;

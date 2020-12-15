@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
-import styled from "styled-components";
+import styled from "styled-components"
 import { CONDO_SELECT, getCondos } from '../../../../store/condoReducer'
 import { globalHandleChange } from '../../../../store/sessionReducer'
 
 const ChooseCondoDiv = styled.div`
-  border: 1px solid red;
   box-sizing: border-box;
   height: 12.5%;
   width: 100%;
@@ -20,13 +19,12 @@ const ChooseCondoForm = styled.form`
 `
 
 function ChooseCondo () {
-  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
-    return { admin }
-  })
-  const { chosenCondo, currentCondo, condos } = useSelector(({ condoReducer: { chosenCondo, currentCondo, condos } }) => {
-    return { chosenCondo, currentCondo, condos }
+  
+  const { chosenCondo, condos } = useSelector(({ condoReducer: { chosenCondo, condos } }) => {
+    return { chosenCondo, condos }
   })
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(getCondos())
   }, [])
@@ -37,10 +35,11 @@ function ChooseCondo () {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch({type: CONDO_SELECT, payload: chosenCondo })
+    
+    const condo = condos.find(condo => condo._id === chosenCondo)
+    dispatch({type: CONDO_SELECT, payload: { id: chosenCondo, condoName: condo.name } })
   }
-  console.log('condo seleccionado', chosenCondo)
-  console.log('condo seleccionado', currentCondo)
+
   return (
     <ChooseCondoDiv>
       <ChooseCondoForm onSubmit={handleSubmit}>

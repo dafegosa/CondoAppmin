@@ -40,9 +40,9 @@ const CondosForm = styled.form`
 
 function ContentPostCondo () {
 
-  const { currentCondo, condoName, condoAddress, message } = useSelector(
-    ({ condoReducer: { currentCondo, condoName, condoAddress, message } }) => {
-    return { currentCondo, condoName, condoAddress, message }
+  const { currentCondoId, condoName, condoAddress, message } = useSelector(
+    ({ condoReducer: { currentCondoId, condoName, condoAddress, message } }) => {
+    return { currentCondoId, condoName, condoAddress, message }
     }) 
   const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
     return { admin, resident }
