@@ -59,7 +59,7 @@ const CondoUnitsTitle = styled.h3`
 `
 
 const UnitNameInput = styled.input`
-
+  border: 0;
 `
 
 function ContentPostUnit () {
