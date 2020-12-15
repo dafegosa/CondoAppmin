@@ -1,7 +1,32 @@
-
+import axios from 'axios'
 const RESIDENT_HANDLE_CHANGE = 'RESIDENT_HANDLE_CHANGE'
 const RESIDENT_CREATE = 'RESIDENT_CREATE'
+export const RESIDENT_FORM_CLEAN = 'RESIDENT_FORM_CLEAN'
+export const RESIDENT_MESSAGE_CLEAN = 'RESIDENT_MESSAGE_CLEAN'
+export const RESIDENT_MESSAGE_SET = 'RESIDENT_MESSAGE_SET'
+export const RESIDENT_ERROR_CLEAN = 'RESIDENT_ERROR_CLEAN'
+export const RESIDENT_ERROR_SET = 'RESIDENT_ERROR_SET'
+export const RESIDENT_DELETE = 'RESIDENT_DELETE'
+const RESIDENTS_RETRIEVE = 'RESIDENTS_RETRIEVE'
 
+export function retrieveResidents(condoid) {
+  return async function (dispatch) {
+
+    const token = localStorage.getItem('token');
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/resident/${condoid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      dispatch({ type: UNITS_RETRIEVE, payload: data.data })
+    } catch (err) {}
+  }
+}
 
 const initialState = {
   resName: '',
@@ -11,7 +36,8 @@ const initialState = {
   resEmail: '',
   resPassword: '',
   resUnit: '',
-  message: ''
+  message: '',
+  error: ''
 }
 
 function residentReducer(state = initialState, action) {

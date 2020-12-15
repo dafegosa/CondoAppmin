@@ -1,9 +1,9 @@
 import React from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
-import ContentAddResident from './add-residents/ContentAddResident'
 import Condos from './condos/Condos'
 import Units from './units/Units'
+import Residents from './residents/Residents'
 import ContentMessages from './AllMessages/CentralMessagesList'
 import ContentMessagesForm from './AllMessages/MessageForm'
 import ShowMessage from './AllMessages/ShowMessage'
@@ -34,8 +34,8 @@ function Content() {
         return <Condos />
       case 'unit':
         return <Units />
-      case 'addresident':
-        return <ContentAddResident />
+      case 'resident':
+        return <Residents />
       case 'messages':
         return <ContentMessages />
       case 'messagesform':

@@ -104,12 +104,10 @@ function ContentPostCondo () {
   const [condoToDelete, setCondoToDelete] = useState('')
   const [deleteCondo, setDeleteCondo] = useState(false)
   const [condoToEdit, setCondoToEdit] = useState('')
-  const [editCondo, setEditCondo] = useState(false)
 
 
-
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   const dispatch = useDispatch()
 

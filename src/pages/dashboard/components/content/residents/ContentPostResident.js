@@ -30,7 +30,7 @@ const ResidentsForm = styled.form`
   width: 70%;
 `
 
-function ContentAddResident () {
+function ContentPostResident () {
 
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
@@ -61,7 +61,7 @@ function ContentAddResident () {
       dispatch(retrieveUnits(currentCondoId))
     }
     getUnits()
-  }, [])
+  }, [currentCondoId])
 
   const handleChange = (e) => {
     dispatch(globalHandleChange(e, 'RESIDENT'))
@@ -86,7 +86,7 @@ function ContentAddResident () {
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>
-      <SectionTitle>Agregar Usuarios</SectionTitle>
+      <SectionTitle>Agregar Residentes</SectionTitle>
       <ResidentsForm onSubmit={createDocument}>
         <label htmlFor="resName">Nombre</label>
         <input
@@ -161,4 +161,4 @@ function ContentAddResident () {
   )
 }
 
-export default ContentAddResident
+export default ContentPostResident
