@@ -40,7 +40,7 @@ const MessageZone = styled.div`
   width: 100%;
   height: 80%;
   background-color: white;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
   .ticketBody {
@@ -90,7 +90,8 @@ const ShowMessage = (props) => {
   let history = useHistory()
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
-
+  const renderSubTicket = useSelector((state) => state.subTicketReducer)
+  console.log('Miralo', renderSubTicket)
   const { from, to, subject, body, date, ticketState, thisId, subBody } = state
   const [userEmail, setUserEmail] = useState('')
   const [user, setUser] = useState('')
@@ -99,8 +100,8 @@ const ShowMessage = (props) => {
   const [subTickets, setSubTickets] = useState([])
 
   useEffect(async () => {
+    console.log('ACÁ ENTRAMOS')
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
-    console.log(thisId)
     let user = ''
     let getUser = ''
     if (getAdmin) {
@@ -121,9 +122,13 @@ const ShowMessage = (props) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((data) => setSubTickets(data.data.data))
+      .then((data) => {
+        setSubTickets(data.data.data)
+        console.log('vea papitoo', subTickets)
+      })
+
       .catch((err) => {})
-  }, [])
+  }, [renderSubTicket])
   const handleChange = (event, editor) => {
     setMessage('')
     const CKEdata = editor.getData()
@@ -146,9 +151,7 @@ const ShowMessage = (props) => {
   const createSubTicket = (e) => {
     setMessage('Respuesta enviada')
     e.preventDefault()
-    console.log('Aqu[i eestamos mi pez')
     // history.push(`/dashboard/messagesform`)
-    console.log('PILLEN: ', userEmail, thisId, subBody, date)
     axios({
       method: 'POST',
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -162,6 +165,19 @@ const ShowMessage = (props) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }).then(() => {
+      axios({
+        method: 'PUT',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/ticket/updateTicket`,
+        data: {
+          _id: thisId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
     })
   }
 

@@ -36,6 +36,7 @@ function messageFormReducer(state = initialState, action) {
         ticketState,
       }
     case ID_TICKET_SELECTED:
+      console.log('Está llegando esta mierda', action.payload)
       return {
         ...state,
         thisId: action.payload,

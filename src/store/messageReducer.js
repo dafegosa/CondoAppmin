@@ -61,11 +61,34 @@ export function readMessage(id, route, messages, history) {
       },
     })
       .then(({ data }) => {
+        console.log('putoo', data)
         const unReadMessages = messages.filter((message) => {
           return message._id !== data.data._id
         })
         dispatch({ type: MESSAGE_SELECTED, payload: data })
         dispatch({ type: RETRIEVE_MESSAGES, payload: unReadMessages })
+        history.push(`/dashboard/ticket/${data.data._id}`)
+      })
+      .catch((err) => err)
+  }
+}
+
+export function selectedTicket(id, history) {
+  return async function (dispatch) {
+    const token = localStorage.getItem('token')
+    axios({
+      method: 'put',
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: `/ticket/selected`,
+      data: {
+        _id: id,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(({ data }) => {
+        dispatch({ type: MESSAGE_SELECTED, payload: data })
         history.push(`/dashboard/ticket/${data.data._id}`)
       })
       .catch((err) => err)

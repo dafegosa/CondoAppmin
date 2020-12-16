@@ -82,6 +82,7 @@ const Message = styled.div`
 
 function MessagesArea(props) {
   const dispatch = useDispatch()
+  const renderSubTicket = useSelector((state) => state.subTicketReducer)
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })
@@ -93,19 +94,27 @@ function MessagesArea(props) {
   let history = useHistory()
 
   const ticketRead = (id) => {
+    console.log(id)
+    const thisId = id
     const route = admin ? 'ticket' : 'message'
+    dispatch({ type: 'ID_TICKET_SELECTED', payload: id })
+    dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
     dispatch(readMessage(id, route, messages, history))
   }
 
   useEffect(() => {
     async function getTickets() {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+      const { getResident, getAdmin, type } = await dispatch(
+        verifyUser(history)
+      )
 
       if (messages.length === 0) {
         if (getAdmin) {
           dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '?read=false'))
         } else if (getResident) {
-          dispatch(retrieveMessages(getResident.data.id, 'message', '?read=false'))
+          dispatch(
+            retrieveMessages(getResident.data.id, 'message', '?read=false')
+          )
         }
       }
     }

@@ -29,7 +29,6 @@ const WriteMessagessButton = (props) => {
   const { thisId } = state
   if (props.value === 'Ticket Solucionado') {
     var newMessage = () => {
-      console.log('Que se dice', thisId)
       axios({
         method: 'PUT',
         baseURL: process.env.REACT_APP_SERVER_URL,
@@ -42,15 +41,12 @@ const WriteMessagessButton = (props) => {
         },
       })
         .then(({ data }) => {
-          console.log(data)
           history.push(`/dashboard`)
         })
         .catch((err) => err)
     }
   } else if (props.value === 'Responder') {
-    var newMessage = () => {
-      console.log('Por acá estamos')
-    }
+    var newMessage = () => {}
   } else {
     var newMessage = () => {
       history.push('/dashboard/messagesform')

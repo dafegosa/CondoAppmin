@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import WriteMessagessButton from './WriteMessagesButton'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   retrieveMessages,
-  readMessage,
+  selectedTicket,
 } from '../../../../../store/messageReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
 import axios from 'axios'
@@ -23,7 +23,7 @@ export const MessageContainerMenu = styled.div`
 `
 
 const MessageContainer = styled.div`
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   margin: 0;
@@ -58,7 +58,11 @@ const Message = styled.div`
     margin-top: 0.5%;
     box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
   }
-  h6 {
+  h5 {
+    margin: 2%;
+    width: 33%;
+  }
+  .h6 {
     margin: 2%;
     width: 33%;
   }
@@ -71,6 +75,7 @@ const Message = styled.div`
   }
 `
 const MessagesArea = () => {
+  const [iAmUser, setIAmUser] = useState('')
   const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
@@ -90,9 +95,8 @@ const MessagesArea = () => {
 
   const ticketRead = (id) => {
     const thisId = id
-    const route = admin ? 'ticket' : 'ticket'
     dispatch({ type: 'ID_TICKET_SELECTED', payload: thisId })
-    dispatch(readMessage(id, route, messages, history))
+    dispatch(selectedTicket(id, history))
   }
 
   useEffect(async () => {
@@ -100,9 +104,11 @@ const MessagesArea = () => {
     let user = ''
     let getUser = ''
     if (getAdmin) {
+      setIAmUser('admin')
       user = 'admin'
       getUser = getAdmin
     } else if (getResident) {
+      setIAmUser('resident')
       user = 'resident'
       getUser = getResident
     }
@@ -144,21 +150,32 @@ const MessagesArea = () => {
   //     }
   //   }
   // }, [])
+  let messagesListReverse = []
+  for (let i in messagesList) {
+    messagesListReverse.push(messagesList[messagesList.length - 1 - i])
+  }
 
+  console.log('la reversa', messagesListReverse)
+  console.log(messagesList)
   return (
     <BigCentarlMessagesContainer>
       <MessageContainerMenu>
-        <WriteMessagessButton value='Nuevo mensaje +' />
+        {iAmUser !== 'admin' && (
+          <WriteMessagessButton value='Nuevo mensaje +' />
+        )}
       </MessageContainerMenu>
       <MessageContainer>
-        {!!messagesList &&
-          messagesList.length > 0 &&
-          messagesList.map((tickets, indx) => (
+        {!!messagesListReverse &&
+          messagesListReverse.length > 0 &&
+          messagesListReverse.map((tickets, indx) => (
             <Message
               key={tickets.id}
               onClick={ticketRead.bind(indx, tickets._id)}
             >
-              <h6> {tickets.from} </h6>
+              {tickets.ticketState === true && <h5> {tickets.from} </h5>}
+              {tickets.ticketState === false && (
+                <p className='h6'> {tickets.from} </p>
+              )}
               <p> {tickets.subject} </p>
               <p> {tickets.date} </p>
             </Message>

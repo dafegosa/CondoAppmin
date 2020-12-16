@@ -91,12 +91,10 @@ const MessageForm = (props) => {
               })
               dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
 
-              console.log('Aqui estamos', unReadMessages)
               const openTicket = unReadMessages.filter(
                 (el) => el.ticketState === true
               )
               setOpenTicket(openTicket)
-              console.log(openTicket[0].subject)
             }
           })
           .catch((err) => {})
