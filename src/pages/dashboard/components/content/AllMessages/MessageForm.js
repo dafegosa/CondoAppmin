@@ -158,7 +158,6 @@ const MessageForm = (props) => {
           .then(setUserEmail(''))
       })
       .catch((err) => {
-        console.dir(err)
         setAlert('Destinatario no Existe')
       })
   }
@@ -227,6 +226,7 @@ const MessageForm = (props) => {
             uploadUrl: 'http://localhost:8000/uploads',
           },
         }}
+        required
         onChange={handleChange}
       />
     </BigCentarlMessagesContainer>

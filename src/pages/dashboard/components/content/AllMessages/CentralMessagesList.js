@@ -137,32 +137,15 @@ const MessagesArea = () => {
       .catch((err) => {})
   }, [])
 
-  // useEffect(() => {
-  //   async function getTickets() {
-  //     const { getResident, getAdmin, type } = await dispatch(
-  //       verifyUser(history)
-  //     )
-
-  //     if (getAdmin) {
-  //       dispatch(retrieveMessages(getAdmin.data.id, 'ticket', ''))
-  //     } else if (getResident) {
-  //       dispatch(retrieveMessages(getResident.data.id, 'message', ''))
-  //     }
-  //   }
-  // }, [])
   let messagesListReverse = []
   for (let i in messagesList) {
     messagesListReverse.push(messagesList[messagesList.length - 1 - i])
   }
 
-  console.log('la reversa', messagesListReverse)
-  console.log(messagesList)
   return (
     <BigCentarlMessagesContainer>
       <MessageContainerMenu>
-        {iAmUser !== 'admin' && (
-          <WriteMessagessButton value='Nuevo mensaje +' />
-        )}
+        {iAmUser !== 'admin' && <WriteMessagessButton value='Nuevo Ticket' />}
       </MessageContainerMenu>
       <MessageContainer>
         {!!messagesListReverse &&
@@ -180,6 +163,9 @@ const MessagesArea = () => {
               <p> {tickets.date} </p>
             </Message>
           ))}
+        {messagesListReverse.length === 0 && (
+          <p> No hay historial de tickets </p>
+        )}
       </MessageContainer>
     </BigCentarlMessagesContainer>
   )

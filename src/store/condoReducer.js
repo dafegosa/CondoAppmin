@@ -6,12 +6,11 @@ export const CONDOS_RETRIEVE = 'CONDOS_RETRIEVE'
 export const CONDO_FORM_CLEAN = 'CONDO_FORM_CLEAN'
 export const CONDO_MESSAGE_CLEAN = 'CONDO_MESSAGE_CLEAN'
 
-export function getCondos () {
+export function getCondos() {
   return async function (dispatch) {
-
     const token = localStorage.getItem('token')
     try {
-      const { data } = await axios({
+      const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/condo',
@@ -21,12 +20,9 @@ export function getCondos () {
       })
       dispatch({
         type: CONDOS_RETRIEVE,
-        payload: data.data
+        payload: data.data,
       })
-    } catch (err) {
-      console.dir(err)
-    }
-    
+    } catch (err) {}
   }
 }
 
@@ -35,7 +31,7 @@ const initialState = {
   condos: [],
   condoName: '',
   condoAddress: '',
-  message: ''
+  message: '',
 }
 
 function condoReducer(state = initialState, action) {
@@ -44,7 +40,7 @@ function condoReducer(state = initialState, action) {
       const { name, value } = action.payload
       return {
         ...state,
-        [name]: value
+        [name]: value,
       }
     case CONDO_CREATE:
       return {
@@ -68,10 +64,8 @@ function condoReducer(state = initialState, action) {
         message: '',
       }
     default:
-      return state;
+      return state
   }
-
 }
-
 
 export default condoReducer

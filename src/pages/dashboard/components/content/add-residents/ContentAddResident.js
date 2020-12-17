@@ -163,17 +163,7 @@ function ContentAddResident() {
           value={resUnit}
           onChange={handleChange}
           required
-        >
-          {/* {!!units &&
-            units.length &&
-            units.map((unit) => {
-              return (
-                <option value={unit._id} key={unit._id}>
-                  {unit.name}
-                </option>
-              );
-            })} */}
-        </input>
+        ></input>
         <label htmlFor='resPassword'>password</label>
         <input
           id='resPassword'

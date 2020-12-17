@@ -95,9 +95,7 @@ export function globalCreateDocument(endpoint, document) {
         type: `${endpoint.toUpperCase()}_CREATE`,
         payload: data.message,
       })
-    } catch (err) {
-      console.dir('error', err.body)
-    }
+    } catch (err) {}
   }
 }
 
