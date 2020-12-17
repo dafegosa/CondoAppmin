@@ -27,22 +27,25 @@ export function retrieveMessages(user, type, query = '') {
   }
 }
 
-function MessagesList(user, type) {
+export function retrieveResidentTickets(user, type, query = '') {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
-
     try {
       const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/${type}/${user}`,
+        url: `/${type}/residentTickets/${user}${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
+      !query
+        ? dispatch({ type: MESSAGE_LIST, payload: data.data })
+        : dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
       return data.data
-    } catch (err) {}
+    } catch (err) {
+      console.dir(err)
+    }
   }
 }
 
@@ -61,7 +64,6 @@ export function readMessage(id, route, messages, history) {
       },
     })
       .then(({ data }) => {
-        console.log('putoo', data)
         const unReadMessages = messages.filter((message) => {
           return message._id !== data.data._id
         })

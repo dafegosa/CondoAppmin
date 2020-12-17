@@ -227,6 +227,7 @@ const MessageForm = (props) => {
             uploadUrl: 'http://localhost:8000/uploads',
           },
         }}
+        required
         onChange={handleChange}
       />
     </BigCentarlMessagesContainer>

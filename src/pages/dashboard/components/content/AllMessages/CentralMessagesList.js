@@ -155,14 +155,10 @@ const MessagesArea = () => {
     messagesListReverse.push(messagesList[messagesList.length - 1 - i])
   }
 
-  console.log('la reversa', messagesListReverse)
-  console.log(messagesList)
   return (
     <BigCentarlMessagesContainer>
       <MessageContainerMenu>
-        {iAmUser !== 'admin' && (
-          <WriteMessagessButton value='Nuevo mensaje +' />
-        )}
+        {iAmUser !== 'admin' && <WriteMessagessButton value='Nuevo Ticket' />}
       </MessageContainerMenu>
       <MessageContainer>
         {!!messagesListReverse &&
@@ -180,6 +176,9 @@ const MessagesArea = () => {
               <p> {tickets.date} </p>
             </Message>
           ))}
+        {messagesListReverse.length === 0 && (
+          <p> No hay historial de tickets </p>
+        )}
       </MessageContainer>
     </BigCentarlMessagesContainer>
   )

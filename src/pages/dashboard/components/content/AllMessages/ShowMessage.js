@@ -91,7 +91,6 @@ const ShowMessage = (props) => {
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
   const renderSubTicket = useSelector((state) => state.subTicketReducer)
-  console.log('Miralo', renderSubTicket)
   const { from, to, subject, body, date, ticketState, thisId, subBody } = state
   const [userEmail, setUserEmail] = useState('')
   const [user, setUser] = useState('')
@@ -100,7 +99,6 @@ const ShowMessage = (props) => {
   const [subTickets, setSubTickets] = useState([])
 
   useEffect(async () => {
-    console.log('ACÁ ENTRAMOS')
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
     let user = ''
     let getUser = ''
@@ -124,11 +122,11 @@ const ShowMessage = (props) => {
     })
       .then((data) => {
         setSubTickets(data.data.data)
-        console.log('vea papitoo', subTickets)
       })
 
       .catch((err) => {})
   }, [renderSubTicket])
+
   const handleChange = (event, editor) => {
     setMessage('')
     const CKEdata = editor.getData()
@@ -151,7 +149,6 @@ const ShowMessage = (props) => {
   const createSubTicket = (e) => {
     setMessage('Respuesta enviada')
     e.preventDefault()
-    // history.push(`/dashboard/messagesform`)
     axios({
       method: 'POST',
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -205,7 +202,6 @@ const ShowMessage = (props) => {
       </MessageContainerMenu>
 
       <MessageZone>
-        <p className='ticketHeader'>Para: {userEmail}</p>
         <p className='ticketHeader'>De: {from}</p>
         <p className='ticketHeader'>Asunto: {subject}</p>
         <br></br>
@@ -247,6 +243,7 @@ const ShowMessage = (props) => {
               uploadUrl: 'http://localhost:8000/uploads',
             },
           }}
+          required
           onChange={handleChange}
         />
       )}
