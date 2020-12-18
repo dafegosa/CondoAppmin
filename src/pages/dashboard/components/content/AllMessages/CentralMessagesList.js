@@ -94,8 +94,7 @@ const MessagesArea = () => {
   let history = useHistory()
 
   const ticketRead = (id) => {
-    const thisId = id
-    dispatch({ type: 'ID_TICKET_SELECTED', payload: thisId })
+    dispatch({ type: 'ID_TICKET_SELECTED', payload: id })
     dispatch(selectedTicket(id, history))
   }
 

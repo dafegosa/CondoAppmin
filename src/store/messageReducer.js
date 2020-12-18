@@ -41,7 +41,9 @@ export function retrieveResidentTickets(user, type, query = '') {
         ? dispatch({ type: MESSAGE_LIST, payload: data.data })
         : dispatch({ type: RETRIEVE_MESSAGES, payload: data.data })
       return data.data
-    } catch (err) {}
+    } catch (err) {
+      console.dir(err)
+    }
   }
 }
 
