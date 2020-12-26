@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
 import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
+import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
 
 const AddResidentDiv = styled.div`
   padding: 10px;
@@ -51,8 +52,8 @@ function ContentPostResident () {
       resEmail, resPassword, resUnit, message
     }
   })
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   const dispatch = useDispatch()
 
@@ -60,6 +61,8 @@ function ContentPostResident () {
     async function getUnits () {
       dispatch(retrieveUnits(currentCondoId))
     }
+    dispatch({ type: RESIDENT_FORM_CLEAN })
+    dispatch({ type: RESIDENT_MESSAGE_CLEAN })
     getUnits()
   }, [currentCondoId])
 
@@ -77,12 +80,13 @@ function ContentPostResident () {
       phone: resPhone,
       email: resEmail,
       password: resPassword,
-      unitId: resUnit
+      unitId: resUnit,
+      condoId: currentCondoId
     }
-
+    console.log('a crear en db', newDocument)
     dispatch(globalCreateDocument('resident', newDocument))
   }
-
+  console.log('unidades', units)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>
@@ -136,6 +140,9 @@ function ContentPostResident () {
           onChange={handleChange}
           required
         >
+          <option>
+            Escoge unidad
+          </option>
           {!!units &&
             units.length &&
             units.map((unit) => {

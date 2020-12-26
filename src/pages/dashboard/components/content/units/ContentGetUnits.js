@@ -88,7 +88,7 @@ function ContentPostUnit () {
     dispatch(retrieveUnits(currentCondoId))
     dispatch({type: UNIT_ERROR_CLEAN})
     dispatch({type: UNIT_MESSAGE_CLEAN})
-  }, [currentCondoId, unitToEdit])
+  }, [currentCondoId, unitToEdit, showDialog])
 
   const onDeleteUnit = (unitId) => {
     setUnitToDelete(unitId)
@@ -152,6 +152,8 @@ function ContentPostUnit () {
     }
   }
 
+  if(message) return <p>{message}</p>
+  if(error) return <p>{error}</p>
   return (
     !admin ? <Redirect to="/dashboard" /> :
     (<ListUnitsDiv>
@@ -159,7 +161,7 @@ function ContentPostUnit () {
       <Dialog
         open={showDialog}
         o>
-        ¿Estas seguro que deseas borrar la unidad?
+        ¿Estas seguro que deseas borrar la unidad, si borras una unidad con residente ?
         <DialogActions>
           <button onClick={onDeleteModal.bind(this, 'Si')} color="primary">
             Si
@@ -170,21 +172,22 @@ function ContentPostUnit () {
         </DialogActions>
       </Dialog>
       <UnitListSection>
-        {!!units && units.length > 0 ? 
+        {units && units.length > 0 ? 
           units.map(unit => {
             return (
               <SingleUnitOuterDiv key={unit._id}>
                 <SingleUnitInnerDiv>
                   {showUnitInfo(unit._id, unit.name)}
                 </SingleUnitInnerDiv>
-                <SingleUnitInnerDiv>
-                  <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
-                  <p>Emilio Suarez</p>
-                </SingleUnitInnerDiv>
-                <SingleUnitInnerDiv>
-                  <CondoUnitsTitle>Ocupado?</CondoUnitsTitle>
-                  <p>Si</p>
-                </SingleUnitInnerDiv>
+                {unit.resident ? 
+                  <SingleUnitInnerDiv>
+                    <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
+                    <p>{`${unit.resident.name} ${unit.resident.lastName}`}</p>
+                  </SingleUnitInnerDiv> : 
+                  <SingleUnitInnerDiv>
+                    <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
+                    <p>No asignado</p>
+                  </SingleUnitInnerDiv> }
                 <SingleUnitInnerDiv>
                   <IconButton style={{ padding: '0px' }}>
                     <DeleteIcon

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import { IconButton, Dialog, DialogActions } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
-import { retrieveResidents /* UNIT_ERROR_CLEAN, UNIT_MESSAGE_CLEAN */ } from '../../../../../store/residentReducer'
+import { retrieveResidents, RESIDENT_ERROR_CLEAN, RESIDENT_MESSAGE_CLEAN, SET_CURRENT_RESIDENT_ID, SET_CURRENT_RESIDENT_NAME } from '../../../../../store/residentReducer'
 import { globalRemoveDocument, globalHandleChange, globalUpdateDocument } from '../../../../../store/sessionReducer'
 import { ListCondosDiv as ListResidentsDiv, GetCondosTitle as GetResidentsTitle } from '../condos/ContentGetCondos'
 
@@ -28,11 +28,17 @@ const SingleResidentOuterDiv = styled.div`
   border-radius: 5px;
   box-sizing: border-box;
   padding: 10px;
-  width: 45%;
+  width: 100%;
   color: white;
   border: 1px solid rgba(96, 125, 139, 0.7);
   background-color: rgba(96, 125, 139, 0.6);
   overflow: scroll;
+  transition: 400ms;
+
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
 
 `
 const SingleResidentInnerDiv = styled.div`
@@ -70,9 +76,9 @@ function ContentPostResident () {
   const [editResident, setEditResident] = useState(false)
   const [residentToEdit, setResidentToEdit] = useState('')
 
-  const { units } = useSelector(
-    ({ unitReducer: { units } }) => {
-    return { units }
+  const { residents } = useSelector(
+    ({ residentReducer: { residents } }) => {
+    return { residents }
     }) 
   const { currentCondoId, currentCondoName } = useSelector(
     ({ condoReducer: { currentCondoId, currentCondoName } }) => {
@@ -81,85 +87,53 @@ function ContentPostResident () {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
+
+  const history = useHistory()
   
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(retrieveResidents(currentCondoId))
-    dispatch({type: UNIT_ERROR_CLEAN})
-    dispatch({type: UNIT_MESSAGE_CLEAN})
-  }, [currentCondoId, unitToEdit])
+    dispatch({type: RESIDENT_ERROR_CLEAN})
+    dispatch({type: RESIDENT_MESSAGE_CLEAN})
+  }, [currentCondoId, showDialog])
 
-  const onDeleteUnit = (unitId) => {
-    setUnitToDelete(unitId)
+  const onDeleteResident = (unitId) => {
+    setResidentToDelete(unitId)
     setShowDialog(true)
     
   }
-  const onEditUnit = (unitId, name) => {
-    dispatch({ type: UNIT_MESSAGE_CLEAN })
-    if (!unitToEdit) {
-      
-      dispatch(globalHandleChange({ target: { name: 'unitName', value: name }}, 'UNIT'))
-      setUnitToEdit(unitId)
-
-    } else {
-      setUnitToEdit('')
-    }
+  const onEditResident = (residentId, name) => {
+   
   }
 
   const onDeleteModal = (value) => {
     if (value === 'Si') {
-      setDeleteUnit(true)
+      setDeleteResident(true)
       
-      dispatch(globalRemoveDocument('unit', unitToDelete, units))
+      dispatch(globalRemoveDocument('resident', residentToDelete, residents))
       setShowDialog(false)
     } else {
-      setUnitToDelete('')
+      setDeleteResident('')
       setShowDialog(false)
     }
-  }
+  }  
 
-  const handleChange = (e) => {
-    dispatch(globalHandleChange(e, 'UNIT'))
-  }
+  const seeResident = (residentId, name, lastName) => {
+    dispatch({ type: SET_CURRENT_RESIDENT_ID, payload: residentId })
+    dispatch({ type: SET_CURRENT_RESIDENT_NAME, payload: `${name} ${lastName}` })
+    history.push(`/dashboard/resident/view/${residentId}`)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const updatedUnit = {
-      name: unitName,
-    }
-    dispatch(globalUpdateDocument('unit', unitToEdit, updatedUnit, units))
-  }
-  const showUnitInfo = (unitId, name) => {
-    
-    if (unitId === unitToEdit) {
-      return (
-        <form onSubmit={handleSubmit}>
-          <UnitNameInput 
-            id='unitName'
-            name='unitName'
-            type="text" 
-            onChange={handleChange}
-            value={unitName}
-            required
-          />
-          <button type="submit">Actualizar</button>
-          {message || error}
-        </form>
-        )
-    } else {
-      return <UnitName>{name}</UnitName>
-    }
   }
 
   return (
     !admin ? <Redirect to="/dashboard" /> :
-    (<ListUnitsDiv>
-      <GetUnitsTitle>{`Listado de Unidades de ${currentCondoName}`}</GetUnitsTitle>
+    (<ListResidentsDiv>
+      <GetResidentsTitle>{`Listado de Residentes de ${currentCondoName}`}</GetResidentsTitle>
       <Dialog
         open={showDialog}
-        o>
-        ¿Estas seguro que deseas borrar la unidad?
+      >
+        ¿Estas seguro que deseas borrar el residente?
         <DialogActions>
           <button onClick={onDeleteModal.bind(this, 'Si')} color="primary">
             Si
@@ -169,41 +143,40 @@ function ContentPostResident () {
           </button>
         </DialogActions>
       </Dialog>
-      <UnitListSection>
-        {!!units && units.length > 0 ? 
-          units.map(unit => {
+      <ResidentListSection>
+        {!!residents && residents.length > 0 ? 
+          residents.map(resident => {
             return (
-              <SingleUnitOuterDiv key={unit._id}>
-                <SingleUnitInnerDiv>
-                  {showUnitInfo(unit._id, unit.name)}
-                </SingleUnitInnerDiv>
-                <SingleUnitInnerDiv>
-                  <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
-                  <p>Emilio Suarez</p>
-                </SingleUnitInnerDiv>
-                <SingleUnitInnerDiv>
-                  <CondoUnitsTitle>Ocupado?</CondoUnitsTitle>
-                  <p>Si</p>
-                </SingleUnitInnerDiv>
-                <SingleUnitInnerDiv>
+              <SingleResidentOuterDiv
+                key={resident._id}
+                onClick={seeResident.bind(this, resident._id, resident.name, resident.lastName)}
+              >
+                <SingleResidentInnerDiv>
+                  <CondoResidentsTitle>{`${resident.name} ${resident.lastName}`}</CondoResidentsTitle>
+                </SingleResidentInnerDiv>
+                <SingleResidentInnerDiv>
+                  <CondoResidentsTitle>Unidad Ocupada</CondoResidentsTitle>
+                  <p>{resident.unitId.name}</p>
+                </SingleResidentInnerDiv>
+                <SingleResidentInnerDiv>
                   <IconButton style={{ padding: '0px' }}>
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteUnit.bind(unit, unit._id)}
+                      onClick={onDeleteResident.bind(resident, resident._id)}
                     />
                   </IconButton>
                   <IconButton style={{ padding: '0px', display: 'block' }}>
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditUnit.bind(unit, unit._id, unit.name)}
+                      onClick={onEditResident.bind(resident, resident._id, resident.name)}
                     />
                   </IconButton>
-                </SingleUnitInnerDiv>
-              </SingleUnitOuterDiv>
+                </SingleResidentInnerDiv>
+              </SingleResidentOuterDiv>
             )
-          }) : <p>No tienes unidades por el momento</p>}
-      </UnitListSection>
-    </ListUnitsDiv>)
+          }) : <p>No tienes residentes por el momento</p>}
+      </ResidentListSection>
+    </ListResidentsDiv>)
   )
 }
 

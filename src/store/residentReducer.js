@@ -8,6 +8,8 @@ export const RESIDENT_ERROR_CLEAN = 'RESIDENT_ERROR_CLEAN'
 export const RESIDENT_ERROR_SET = 'RESIDENT_ERROR_SET'
 export const RESIDENT_DELETE = 'RESIDENT_DELETE'
 const RESIDENTS_RETRIEVE = 'RESIDENTS_RETRIEVE'
+export const SET_CURRENT_RESIDENT_ID = 'SET_CURRENT_RESIDENT_ID'
+export const SET_CURRENT_RESIDENT_NAME = 'SET_CURRENT_RESIDENT_NAME'
 
 export function retrieveResidents(condoid) {
   return async function (dispatch) {
@@ -23,12 +25,33 @@ export function retrieveResidents(condoid) {
         },
       })
 
-      dispatch({ type: UNITS_RETRIEVE, payload: data.data })
+      dispatch({ type: RESIDENTS_RETRIEVE, payload: data.data })
+    } catch (err) {}
+  }
+}
+export function retrieveSingleResident (residentId) {
+  return async function (dispatch) {
+
+    const token = localStorage.getItem('token');
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/resident/single/${residentId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      dispatch({ type: RESIDENTS_RETRIEVE, payload: data.data })
     } catch (err) {}
   }
 }
 
 const initialState = {
+  currentResidentId: '',
+  currentResidentName: '',
+  residents: [],
   resName: '',
   resLastname: '',
   resIdNumber: '',
@@ -53,6 +76,37 @@ function residentReducer(state = initialState, action) {
       return {
         ...state,
         message: action.payload
+      }
+    case RESIDENTS_RETRIEVE:
+      return {
+        ...state,
+        residents: action.payload
+      }
+    case RESIDENT_FORM_CLEAN:
+      return {
+        ...state,
+        resName: '',
+        resLastname: '',
+        resIdNumber: '',
+        resPhone: '',
+        resEmail: '',
+        resPassword: '',
+        resUnit: ''
+      }
+    case RESIDENT_MESSAGE_CLEAN:
+      return {
+        ...state,
+        message: '',
+      }
+    case SET_CURRENT_RESIDENT_ID:
+      return {
+        ...state,
+        currentResidentId: action.payload
+      }
+    case SET_CURRENT_RESIDENT_NAME:
+      return {
+        ...state,
+        currentResidentName: action.payload
       }
     default:
       return state;

@@ -70,6 +70,7 @@ export async function getAdmin() {
 export function globalHandleChange(e, reducer) {
   return async function (dispatch) {
     const { name, value } = e.target
+    console.log(name, value)
     const newState = {
       name,
       value,
