@@ -27,9 +27,7 @@ export function retrieveUnits(condoid) {
       })
 
       dispatch({ type: UNITS_RETRIEVE, payload: data.data })
-    } catch (err) {
-      /* dispatch({ type: UNIT_ERROR_SET, payload: err}) */
-    }
+    } catch (err) {}
   }
 }
 

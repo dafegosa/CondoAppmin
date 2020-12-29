@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import logo from '../../../../logo.svg'
 import { useHistory } from 'react-router-dom'
@@ -92,7 +92,6 @@ const LeftMenu = () => {
 
   useEffect(() => {
     async function checkForCondos () {
-      
       const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
       if (getAdmin) {
         dispatch(getCondos())
