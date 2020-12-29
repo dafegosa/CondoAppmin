@@ -8,6 +8,7 @@ import ContentMessages from './allMessages/CentralMessagesList'
 import ContentMessagesForm from './allMessages/MessageForm'
 import ShowMessage from './allMessages/ShowMessage'
 
+
 const ContentDiv = styled.main`
   display: grid;
   background-color: rgb(239, 239, 239);

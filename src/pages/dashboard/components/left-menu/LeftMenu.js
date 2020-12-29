@@ -104,6 +104,7 @@ const LeftMenu = () => {
       )}
       <SideMenu>
         <ul>
+
           {!!leftMenuNav &&
             leftMenuNav.length > 0 &&
             leftMenuNav.map((el, i) => (
@@ -113,6 +114,7 @@ const LeftMenu = () => {
                   <span>{el.name}</span>
                 </Select>
               </li>
+
             ))}
         </ul>
       </SideMenu>

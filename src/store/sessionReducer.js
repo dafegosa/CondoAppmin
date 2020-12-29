@@ -126,6 +126,7 @@ export function globalUpdateDocument(endpoint, documentId, updatedDocument, docu
     }
   }
 }
+
 export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {
     try {
