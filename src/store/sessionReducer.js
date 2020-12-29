@@ -74,6 +74,7 @@ export function globalHandleChange(e, reducer) {
       name,
       value,
     }
+    console.log('condo', newState)
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
 }
@@ -98,6 +99,56 @@ export function globalCreateDocument(endpoint, document) {
     } catch (err) {
       console.dir('error', err.body)
     }
+  }
+}
+export function globalUpdateDocument(endpoint, documentId, updatedDocument, documents) {
+  return async function (dispatch) {
+    try {
+      const token = localStorage.getItem('token')
+      const { data } = await axios({
+        method: 'PUT',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/${endpoint}/${documentId}`,
+        data: updatedDocument,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+     
+      dispatch({
+        type: `${endpoint.toUpperCase()}_MESSAGE_SET`,
+        payload: data.message
+      })
+      
+    } catch (err) {
+      dispatch({
+        type: `${endpoint.toUpperCase()}_ERROR_SET`,
+        payload: err.response.data.message
+      })
+    }
+  }
+}
+export function globalRemoveDocument(endpoint, documentid, documents = null) {
+  return async function (dispatch) {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios({
+        method: 'DELETE',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/${endpoint}/${documentid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const filteredDocuments = documents.filter(unit => {
+        return unit._id !== documentid
+      })
+      dispatch({
+        type: `${endpoint.toUpperCase()}_DELETE`,
+        payload: filteredDocuments,
+      })
+    } catch (err) {}
   }
 }
 
