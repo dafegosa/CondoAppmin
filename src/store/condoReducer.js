@@ -11,12 +11,11 @@ export const CONDO_MESSAGE_SET = 'CONDO_MESSAGE_SET'
 export const CONDO_ERROR_CLEAN = 'CONDO_ERROR_CLEAN'
 export const CONDO_ERROR_SET = 'CONDO_ERROR_SET'
 
-export function getCondos () {
+export function getCondos() {
   return async function (dispatch) {
-
     const token = localStorage.getItem('token')
     try {
-      const { data } = await axios({
+      const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/condo',
@@ -26,12 +25,9 @@ export function getCondos () {
       })
       dispatch({
         type: CONDOS_RETRIEVE,
-        payload: data.data
+        payload: data.data,
       })
-    } catch (err) {
-      console.dir(err)
-    }
-    
+    } catch (err) {}
   }
 }
 
@@ -43,7 +39,7 @@ const initialState = {
   condoName: '',
   condoAddress: '',
   error: '',
-  message: ''
+  message: '',
 }
 
 function condoReducer(state = initialState, action) {
@@ -52,7 +48,7 @@ function condoReducer(state = initialState, action) {
       const { name, value } = action.payload
       return {
         ...state,
-        [name]: value
+        [name]: value,
       }
     case CONDO_CREATE:
       return {
@@ -69,7 +65,7 @@ function condoReducer(state = initialState, action) {
       return {
         ...state,
         currentCondoId: id,
-        currentCondoName: condoName
+        currentCondoName: condoName,
       }
     case CONDO_FORM_CLEAN:
       return {
@@ -80,7 +76,7 @@ function condoReducer(state = initialState, action) {
     case CONDO_DELETE:
       return {
         ...state,
-        condos: action.payload
+        condos: action.payload,
       }
     case CONDO_MESSAGE_CLEAN:
       return {
@@ -103,10 +99,8 @@ function condoReducer(state = initialState, action) {
         error: action.payload,
       }
     default:
-      return state;
+      return state
   }
-
 }
-
 
 export default condoReducer

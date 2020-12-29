@@ -31,7 +31,7 @@ export function verifyUser(history) {
       var getResident = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: '/resident',
+        url: '/resident/getResident',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -99,9 +99,7 @@ export function globalCreateDocument(endpoint, document) {
         type: `${endpoint.toUpperCase()}_CREATE`,
         payload: data.message,
       })
-    } catch (err) {
-      console.dir('error', err.body)
-    }
+    } catch (err) {}
   }
 }
 export function globalUpdateDocument(endpoint, documentId, updatedDocument, documents) {
@@ -131,6 +129,7 @@ export function globalUpdateDocument(endpoint, documentId, updatedDocument, docu
     }
   }
 }
+
 export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {
     try {

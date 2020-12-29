@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Redirect } from  'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
@@ -13,7 +13,8 @@ export const AddResidentDiv = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  & input, & select {
+  & input,
+  & select {
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
@@ -36,20 +37,10 @@ function ContentPostResident () {
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
   })
-  const { currentCondoId } = useSelector(( { condoReducer: { currentCondoId }}) => {
-    return { currentCondoId }
-  })
-  const { resName, resLastname, resIdNumber, resPhone, 
-          resEmail, resPassword, resUnit, message
-        } = useSelector(( { residentReducer: { resName, resLastname,
-                                               resIdNumber, resPhone,
-                                               resEmail, resPassword,
-                                               resUnit, message
-                                              }
-                          }) => {
-    return { 
-      resName, resLastname, resIdNumber, resPhone, 
-      resEmail, resPassword, resUnit, message
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
+      return { currentCondoId }
+
     }
   })
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
@@ -92,50 +83,51 @@ function ContentPostResident () {
     <AddResidentDiv>
       <SectionTitle>Agregar Residentes</SectionTitle>
       <ResidentsForm onSubmit={createDocument}>
-        <label htmlFor="resName">Nombre</label>
+        <label htmlFor='resName'>Nombre</label>
         <input
-          id="resName"
-          name="resName"
-          type="text"
+          id='resName'
+          name='resName'
+          type='text'
           onChange={handleChange}
           value={resName}
         />
-        <label htmlFor="resLastname">Apellido</label>
+        <label htmlFor='resLastname'>Apellido</label>
         <input
-          id="resLastname"
-          name="resLastname"
-          type="text"
+          id='resLastname'
+          name='resLastname'
+          type='text'
           onChange={handleChange}
           value={resLastname}
         />
-        <label htmlFor="resIdNumber">Cédula</label>
+        <label htmlFor='resIdNumber'>Cédula</label>
         <input
-          id="resIdNumber"
-          name="resIdNumber"
-          type="text"
+          id='resIdNumber'
+          name='resIdNumber'
+          type='text'
           onChange={handleChange}
           value={resIdNumber}
         />
-        <label htmlFor="resPhone">Teléfono</label>
+        <label htmlFor='resPhone'>Teléfono</label>
         <input
-          id="resPhone"
-          name="resPhone"
-          type="resPhone"
+          id='resPhone'
+          name='resPhone'
+          type='resPhone'
           onChange={handleChange}
           value={resPhone}
         />
-        <label htmlFor="resEmail">Email</label>
+        <label htmlFor='resEmail'>Email</label>
         <input
-          id="resEmail"
-          name="resEmail"
-          type="email"
+          id='resEmail'
+          name='resEmail'
+          type='email'
           onChange={handleChange}
           value={resEmail}
         />
-        <label htmlFor="resUnit">Unidad</label>
-        <select
-          name="resUnit"
-          id="service-select"
+        <label htmlFor='resUnit'>Unidad</label>
+        <input
+          type='text'
+          name='resUnit'
+          id='service-select'
           value={resUnit}
           onChange={handleChange}
           required
@@ -155,13 +147,13 @@ function ContentPostResident () {
         </select>
         <label htmlFor="resPassword">password</label>
         <input
-          id="resPassword"
-          name="resPassword"
-          type="password"
+          id='resPassword'
+          name='resPassword'
+          type='password'
           onChange={handleChange}
           value={resPassword}
         />
-        <button type="submit">Submit</button>
+        <button type='submit'>Submit</button>
         {message}
       </ResidentsForm>
     </AddResidentDiv>

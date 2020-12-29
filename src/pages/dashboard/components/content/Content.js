@@ -42,7 +42,7 @@ function Content() {
         return <Units />
       case 'resident':
         return <Residents />
-      case 'messages':
+      case 'tickets':
         return <ContentMessages />
       case 'messagesform':
         return <ContentMessagesForm />
