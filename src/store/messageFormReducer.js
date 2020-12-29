@@ -1,5 +1,8 @@
 export const CREATE_MESSAGE = 'CREATE_MESSAGE'
 export const MESSAGE_SELECTED = 'MESSAGE_SELECTED'
+export const ID_TICKET_SELECTED = 'ID_TICKET_SELECTED'
+export const CHANGE_TICKET_STATE = 'CHANGE_TICKET_STATE'
+export const CREATE_SUBTICKET = 'CREATE_SUBTICKET'
 
 const initialState = {
   from: '',
@@ -8,6 +11,9 @@ const initialState = {
   body: '',
   date: '',
   read: 'false',
+  ticketState: 'true',
+  thisId: '',
+  subBody: '',
 }
 
 function messageFormReducer(state = initialState, action) {
@@ -19,7 +25,7 @@ function messageFormReducer(state = initialState, action) {
         date: getDate() + ' / ' + getHour(),
       }
     case MESSAGE_SELECTED:
-      const { from, to, subject, body, date } = action.payload.data
+      const { from, to, subject, body, date, ticketState } = action.payload.data
       return {
         ...state,
         from,
@@ -27,6 +33,23 @@ function messageFormReducer(state = initialState, action) {
         subject,
         body,
         date,
+        ticketState,
+      }
+    case ID_TICKET_SELECTED:
+      return {
+        ...state,
+        thisId: action.payload,
+      }
+    case CHANGE_TICKET_STATE:
+      return {
+        ...state,
+        ticketState: false,
+      }
+    case CREATE_SUBTICKET:
+      return {
+        ...state,
+        subBody: action.payload.value,
+        date: getDate() + ' / ' + getHour(),
       }
     default:
       return state

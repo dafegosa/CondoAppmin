@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import ContentAddResident from './add-residents/ContentAddResident'
 import Condos from './condos/Condos'
 import Units from './units/Units'
-import ContentMessages from './AllMessages/CentralMessagesList'
-import ContentMessagesForm from './AllMessages/MessageForm'
-import ShowMessage from './AllMessages/ShowMessage'
+import ContentMessages from './allMessages/CentralMessagesList'
+import ContentMessagesForm from './allMessages/MessageForm'
+import ShowMessage from './allMessages/ShowMessage'
+
 
 const ContentDiv = styled.main`
   display: grid;
@@ -36,7 +37,7 @@ function Content() {
         return <Units />
       case 'addresident':
         return <ContentAddResident />
-      case 'messages':
+      case 'tickets':
         return <ContentMessages />
       case 'messagesform':
         return <ContentMessagesForm />

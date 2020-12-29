@@ -68,12 +68,12 @@ const LeftMenu = () => {
   const dispatch = useDispatch()
 
   let history = useHistory()
-  
+
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
     { name: 'Residentes', icon: 'fas fa-address-card', link: 'resident' },
-    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'ticket' },
+    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'tickets' },
     { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
     { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venues' },
@@ -104,17 +104,17 @@ const LeftMenu = () => {
       )}
       <SideMenu>
         <ul>
-          {!!leftMenuNav && leftMenuNav.length > 0 && 
-          leftMenuNav.map((el, i) => (
-          <li>
-            <Select
-                key={el.name}
-                onClick={leftMenuRouter.bind(i, el.link)}
-            >
-              <i className={el.icon}></i>
-              <span>{el.name}</span>
-            </Select>
-          </li>
+
+          {!!leftMenuNav &&
+            leftMenuNav.length > 0 &&
+            leftMenuNav.map((el, i) => (
+              <li>
+                <Select key={el.name} onClick={leftMenuRouter.bind(i, el.link)}>
+                  <i className={el.icon}></i>
+                  <span>{el.name}</span>
+                </Select>
+              </li>
+
             ))}
         </ul>
       </SideMenu>

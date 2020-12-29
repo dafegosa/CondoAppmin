@@ -17,6 +17,9 @@ const BigCentarlMessagesContainer = styled.form`
   .ck-content {
     height: 300px;
   }
+  .alert {
+    color: red;
+  }
 `
 
 const Input = styled.input`
@@ -46,6 +49,7 @@ const Alert = styled.p`
 let aux = {}
 
 const MessageForm = (props) => {
+  const token = localStorage.getItem('token')
   const { admin, resident } = useSelector(
     ({ sessionReducer: { admin, resident } }) => {
       return { admin, resident }
@@ -53,6 +57,7 @@ const MessageForm = (props) => {
   )
   const state = useSelector((state) => state.messageFormReducer)
   const [userEmail, setUserEmail] = useState('')
+  const [openTicket, setOpenTicket] = useState([])
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
   const dispatch = useDispatch()
@@ -65,19 +70,40 @@ const MessageForm = (props) => {
     dispatch({ type: CREATE_MESSAGE, payload: { name, value } })
   }
 
-  
   useEffect(() => {
-    async function getUserEmail () {
+    async function getUserEmail() {
       const { getResident, getAdmin, type } = await dispatch(verifyUser())
       if (getAdmin) {
         setUserEmail(getAdmin.data.email)
       } else if (getResident) {
         setUserEmail(getResident.data.email)
+        axios
+          .get('http://localhost:8000/ticket', {
+            url: `/${getResident.data.id}/resident`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((list) => {
+            if (getResident) {
+              const unReadMessages = list.data.data.filter((message) => {
+                return getResident.data.email == message.from
+              })
+              dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
+
+              const openTicket = unReadMessages.filter(
+                (el) => el.ticketState === true
+              )
+              setOpenTicket(openTicket)
+            }
+          })
+          .catch((err) => {})
       }
     }
+
     getUserEmail()
   }, [])
-  
+
   const handleChange = (event, editor) => {
     setMessage('')
     setAlert('')
@@ -89,14 +115,14 @@ const MessageForm = (props) => {
   }
   const createTicket = (e) => {
     e.preventDefault()
-    
+
     const token = localStorage.getItem('token')
-    const { from, to, subject, body, date, read } = state
-    
+    const { from, to, subject, body, date, read, ticketState } = state
+
     let userDestinationType = ''
     let messageType = ''
-    admin ? userDestinationType = 'resident' : userDestinationType = 'admin'
-    admin ? messageType = 'message' : messageType = 'ticket'
+    admin ? (userDestinationType = 'resident') : (userDestinationType = 'admin')
+    admin ? (messageType = 'message') : (messageType = 'ticket')
 
     axios({
       method: 'PUT',
@@ -122,6 +148,7 @@ const MessageForm = (props) => {
             body,
             date,
             read,
+            ticketState: true,
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,19 +158,28 @@ const MessageForm = (props) => {
           .then(setUserEmail(''))
       })
       .catch((err) => {
-        console.dir(err)
         setAlert('Destinatario no Existe')
       })
   }
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
-      <MessageContainerMenu>
-        <WriteMessagessButton
-          type='submit'
-          className='toRight'
-          value='enviar'
-        />
-      </MessageContainerMenu>
+      {openTicket.length > 0 && (
+        <p className='alert'>
+          Usted Tiene un ticket en estado activo. (Asunto:{' '}
+          {openTicket[0].subject}
+          ).
+        </p>
+      )}
+      {openTicket.length == 0 && (
+        <MessageContainerMenu>
+          <WriteMessagessButton
+            type='submit'
+            className='toRight'
+            value='enviar'
+          />
+        </MessageContainerMenu>
+      )}
+
       <p>
         Para
         <Input
@@ -190,6 +226,7 @@ const MessageForm = (props) => {
             uploadUrl: 'http://localhost:8000/uploads',
           },
         }}
+        required
         onChange={handleChange}
       />
     </BigCentarlMessagesContainer>
