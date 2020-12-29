@@ -38,9 +38,11 @@ function ContentAddResident() {
   const { units } = useSelector(({ unitReducer: { units } }) => {
     return { units }
   })
-  const { currentCondo } = useSelector(({ condoReducer: { currentCondo } }) => {
-    return { currentCondo }
-  })
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
+      return { currentCondoId }
+    }
+  )
   const {
     resName,
     resLastname,
@@ -84,7 +86,7 @@ function ContentAddResident() {
 
   useEffect(() => {
     async function getUnits() {
-      dispatch(retrieveUnits(currentCondo))
+      dispatch(retrieveUnits(currentCondoId))
     }
     getUnits()
   }, [])

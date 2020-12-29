@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import logo from '../../../logo.svg'
+import logo from '../../../../logo.svg'
 import { useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import ChooseCondo from './ChooseCondo'
+import { getCondos } from '../../../../store/condoReducer'
+import { verifyUser } from '../../../../store/sessionReducer'
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
@@ -59,6 +62,10 @@ const LeftMenu = () => {
       return { admin, resident }
     }
   )
+  const { condos } = useSelector(({ condoReducer: { condos } }) => {
+    return { condos }
+  })
+  const dispatch = useDispatch()
 
   let history = useHistory()
 
@@ -77,11 +84,24 @@ const LeftMenu = () => {
     history.push(`/dashboard/${el.toLowerCase()}`)
   }
 
+  useEffect(() => {
+    async function checkForCondos () {
+      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+      if (getAdmin) {
+        dispatch(getCondos())
+      }
+    }
+
+    checkForCondos()
+  }, [])
+
   return (
     <Container>
-      <Logo>
-        <img src={logo} alt='logo' />
-      </Logo>
+      {admin && condos.length > 0 ? <ChooseCondo /> : (
+        <Logo>
+          <img src={logo} alt='logo' />
+        </Logo>
+      )}
       <SideMenu>
         <ul>
           {!!leftMenuNav &&

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect } from  'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
+import { UNIT_FORM_CLEAN, UNIT_MESSAGE_CLEAN } from '../../../../../store/unitReducer'
 
 const AddUnitDiv = styled.div`
   padding: 10px;
@@ -42,14 +43,19 @@ function ContentAddUnit () {
     ({ unitReducer: { unitName, message } }) => {
     return { unitName, message }
     }) 
-  const { currentCondo } = useSelector(
-    ({ condoReducer: { currentCondo } }) => {
-    return { currentCondo }
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
+    return { currentCondoId }
     }) 
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({ type: UNIT_FORM_CLEAN })
+    dispatch({ type: UNIT_MESSAGE_CLEAN })
+  }, [])
 
   const handleChange = (e) => {
     dispatch(globalHandleChange(e, 'UNIT'))
@@ -60,7 +66,7 @@ function ContentAddUnit () {
 
     const newDocument = {
       name: unitName,
-      condoId: currentCondo,
+      condoId: currentCondoId,
     }
 
     dispatch(globalCreateDocument('unit', newDocument))
