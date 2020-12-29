@@ -5,12 +5,12 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import { IconButton, Dialog, DialogActions } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
-import { retrieveResidents, RESIDENT_ERROR_CLEAN, RESIDENT_MESSAGE_CLEAN, SET_CURRENT_RESIDENT_ID, SET_CURRENT_RESIDENT_NAME } from '../../../../../store/residentReducer'
+import { retrieveResidents, RESIDENT_ERROR_CLEAN, RESIDENT_MESSAGE_CLEAN, SET_CURRENT_RESIDENT_ID, SET_CURRENT_RESIDENT_NAME, SET_CURRENT_RESIDENT } from '../../../../../store/residentReducer'
 import { globalRemoveDocument, globalHandleChange, globalUpdateDocument } from '../../../../../store/sessionReducer'
 import { ListCondosDiv as ListResidentsDiv, GetCondosTitle as GetResidentsTitle } from '../condos/ContentGetCondos'
 
 const ResidentListSection = styled.div`
-  width: 80%;
+  width: auto;
   padding-bottom: 50px;
   display: flex;
   flex-wrap: wrap;
@@ -27,7 +27,7 @@ const SingleResidentOuterDiv = styled.div`
   justify-content: space-between;
   border-radius: 5px;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 0px;
   width: 100%;
   color: white;
   border: 1px solid rgba(96, 125, 139, 0.7);
@@ -35,22 +35,33 @@ const SingleResidentOuterDiv = styled.div`
   overflow: scroll;
   transition: 400ms;
 
-  &:hover {
-    opacity: 0.9;
-    cursor: pointer;
-  }
+  
 
 `
 const SingleResidentInnerDiv = styled.div`
   padding: 5px;
   border-left: 1px solid white;
-  width: 30%;
+  width: auto;
   &:first-child {
     border-left: 0px;
   } 
   &:last-child {
     border-left: 1px solid white;
   } 
+  &.icon-section {
+    width: auto;
+  }
+`
+
+const SingleResidentInnerSectionDiv = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  transition: 400ms;
+  width: auto;
+  &:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
 `
 
 const ResidentName = styled.h2`
@@ -58,10 +69,15 @@ const ResidentName = styled.h2`
   font-weight: 400;
   font-size: 22px;
 `
-const CondoResidentsTitle = styled.h3`
+const CondoResidentsTitle = styled.h2`
   margin: 0 0 10px 0;
   font-weight: 400;
   font-size: 18px;
+`
+const CondoResidentsInfoTitle = styled.h3`
+  margin: 0 0 10px 0;
+  font-weight: 400;
+  font-size: 16px;
 `
 
 const ResidentNameInput = styled.input`
@@ -103,8 +119,11 @@ function ContentPostResident () {
     setShowDialog(true)
     
   }
-  const onEditResident = (residentId, name) => {
-   
+  const onEditResident = (resident) => {
+    dispatch({ type: SET_CURRENT_RESIDENT_ID, payload: resident._id })
+    dispatch({ type: SET_CURRENT_RESIDENT_NAME, payload: `${resident.name} ${resident.lastName}` }) 
+    dispatch({ type: SET_CURRENT_RESIDENT, payload: resident })
+    history.push(`/dashboard/resident/edit/${resident._id}`)
   }
 
   const onDeleteModal = (value) => {
@@ -149,26 +168,29 @@ function ContentPostResident () {
             return (
               <SingleResidentOuterDiv
                 key={resident._id}
-                onClick={seeResident.bind(this, resident._id, resident.name, resident.lastName)}
               >
-                <SingleResidentInnerDiv>
-                  <CondoResidentsTitle>{`${resident.name} ${resident.lastName}`}</CondoResidentsTitle>
-                </SingleResidentInnerDiv>
-                <SingleResidentInnerDiv>
-                  <CondoResidentsTitle>Unidad Ocupada</CondoResidentsTitle>
-                  <p>{resident.unitId.name}</p>
-                </SingleResidentInnerDiv>
-                <SingleResidentInnerDiv>
-                  <IconButton style={{ padding: '0px' }}>
+                <SingleResidentInnerSectionDiv 
+                  onClick={seeResident.bind(this, resident._id, resident.name, resident.lastName)}
+                >
+                  <SingleResidentInnerDiv>
+                    <CondoResidentsTitle>{`${resident.name} ${resident.lastName}`}</CondoResidentsTitle>
+                  </SingleResidentInnerDiv>
+                  <SingleResidentInnerDiv>
+                    <CondoResidentsInfoTitle>Unidad Ocupada</CondoResidentsInfoTitle>
+                    <p>{resident.unitId.name}</p>
+                  </SingleResidentInnerDiv>
+                </SingleResidentInnerSectionDiv>
+                <SingleResidentInnerDiv className="icon-section">
+                  <IconButton title="Borrar residente" style={{ padding: '0px' }}>
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteResident.bind(resident, resident._id)}
+                      onClick={onDeleteResident.bind(resident, resident._id, resident.name)}
                     />
                   </IconButton>
-                  <IconButton style={{ padding: '0px', display: 'block' }}>
+                  <IconButton title="Editar residente" style={{ padding: '0px', display: 'block' }}>
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditResident.bind(resident, resident._id, resident.name)}
+                      onClick={onEditResident.bind(resident, resident)}
                     />
                   </IconButton>
                 </SingleResidentInnerDiv>

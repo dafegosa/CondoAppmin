@@ -10,6 +10,7 @@ export const RESIDENT_DELETE = 'RESIDENT_DELETE'
 const RESIDENTS_RETRIEVE = 'RESIDENTS_RETRIEVE'
 export const SET_CURRENT_RESIDENT_ID = 'SET_CURRENT_RESIDENT_ID'
 export const SET_CURRENT_RESIDENT_NAME = 'SET_CURRENT_RESIDENT_NAME'
+export const SET_CURRENT_RESIDENT = 'SET_CURRENT_RESIDENT'
 
 export function retrieveResidents(condoid) {
   return async function (dispatch) {
@@ -43,14 +44,17 @@ export function retrieveSingleResident (residentId) {
         },
       })
 
-      dispatch({ type: RESIDENTS_RETRIEVE, payload: data.data })
-    } catch (err) {}
+      dispatch({ type: SET_CURRENT_RESIDENT, payload: data.data[0] })
+    } catch (err) {
+      dispatch({ type: RESIDENT_ERROR_SET, payload: err})
+    }
   }
 }
 
 const initialState = {
   currentResidentId: '',
   currentResidentName: '',
+  currentResident: {},
   residents: [],
   resName: '',
   resLastname: '',
@@ -98,6 +102,16 @@ function residentReducer(state = initialState, action) {
         ...state,
         message: '',
       }
+    case RESIDENT_MESSAGE_SET:
+      return {
+        ...state,
+        message: action.payload,
+      }
+    case RESIDENT_ERROR_SET:
+      return {
+        ...state,
+        error: action.payload
+      }
     case SET_CURRENT_RESIDENT_ID:
       return {
         ...state,
@@ -107,6 +121,11 @@ function residentReducer(state = initialState, action) {
       return {
         ...state,
         currentResidentName: action.payload
+      }
+    case SET_CURRENT_RESIDENT:
+      return {
+        ...state,
+        currentResident: action.payload
       }
     default:
       return state;

@@ -1,8 +1,10 @@
 import axios from 'axios'
+import { SET_CURRENT_RESIDENT } from './residentReducer'
 
 export const LOGGED_ADMIN = 'LOGGED_ADMIN'
 export const LOGGED_RESIDENT = 'LOGGED_RESIDENT'
 export const SIGNOUT = 'SIGNOUT'
+export const SET_CURRENT_OPTION = 'SET_CURRENT_OPTION'
 
 export function signoutDispatch() {
   return {
@@ -156,6 +158,7 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
 const initialState = {
   admin: false,
   resident: false,
+  currentOption: ''
 }
 
 function sessionReducer(state = initialState, action) {
@@ -176,6 +179,11 @@ function sessionReducer(state = initialState, action) {
         admin: false,
         resident: false,
       }
+    case SET_CURRENT_OPTION:
+        return {
+          ...state,
+          currentOption: action.payload
+        }
     default:
       return state
   }

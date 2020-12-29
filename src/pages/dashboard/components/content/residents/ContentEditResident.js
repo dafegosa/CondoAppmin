@@ -3,8 +3,8 @@ import { Redirect } from  'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
-import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
-import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
+import { globalHandleChange, globalUpdateDocument } from '../../../../../store/sessionReducer'
+import { RESIDENT_ERROR_SET, RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
 
 export const AddResidentDiv = styled.div`
   padding: 10px;
@@ -31,7 +31,7 @@ const ResidentsForm = styled.form`
   width: 70%;
 `
 
-function ContentPostResident () {
+function ContentEditResident () {
 
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
@@ -39,17 +39,16 @@ function ContentPostResident () {
   const { currentCondoId } = useSelector(( { condoReducer: { currentCondoId }}) => {
     return { currentCondoId }
   })
-  const { resName, resLastname, resIdNumber, resPhone, 
-          resEmail, resPassword, resUnit, message
-        } = useSelector(( { residentReducer: { resName, resLastname,
+  const { residents, currentResident, resName, resLastname, resIdNumber, resPhone, resEmail, resUnit, message, error
+        } = useSelector(( { residentReducer: { residents, currentResident, resName, resLastname,
                                                resIdNumber, resPhone,
                                                resEmail, resPassword,
-                                               resUnit, message
+                                               resUnit, message, error
                                               }
                           }) => {
     return { 
-      resName, resLastname, resIdNumber, resPhone, 
-      resEmail, resPassword, resUnit, message
+      residents, currentResident, resName, resLastname, resIdNumber, resPhone, 
+      resEmail, resPassword, resUnit, message, error
     }
   })
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
@@ -58,40 +57,54 @@ function ContentPostResident () {
   const dispatch = useDispatch()
 
   useEffect(() => {
+
+    dispatch({ type: RESIDENT_FORM_CLEAN })
+    dispatch({ type: RESIDENT_ERROR_SET })
+    dispatch({ type: RESIDENT_MESSAGE_CLEAN })
+
+    dispatch(globalHandleChange({ target: { name: 'resName', value: currentResident.name }}, 'RESIDENT'))
+    dispatch(globalHandleChange({ target: { name: 'resLastname', value: currentResident.lastName }}, 'RESIDENT'))
+    dispatch(globalHandleChange({ target: { name: 'resIdNumber', value: currentResident.idNumber }}, 'RESIDENT'))
+    dispatch(globalHandleChange({ target: { name: 'resPhone', value: currentResident.phone }}, 'RESIDENT'))
+    dispatch(globalHandleChange({ target: { name: 'resEmail', value: currentResident.email }}, 'RESIDENT'))
+    dispatch(globalHandleChange({ target: { name: 'resUnit', value: currentResident.unitId._id }}, 'RESIDENT'))
+
     async function getUnits () {
       await dispatch(retrieveUnits(currentCondoId))
     }
-    dispatch({ type: RESIDENT_FORM_CLEAN })
-    dispatch({ type: RESIDENT_MESSAGE_CLEAN })
     getUnits()
-  }, [currentCondoId])
+  }, [])
 
   const handleChange = (e) => {
     dispatch(globalHandleChange(e, 'RESIDENT'))
   }
 
-  const createDocument = async (e) => {
+  const updateDocument = async (e) => {
     e.preventDefault()
 
-    const newDocument = {
+    const updatedResident = {
       name: resName,
       lastName: resLastname,
       idNumber: resIdNumber,
       phone: resPhone,
       email: resEmail,
-      password: resPassword,
+      password: currentResident.password,
       unitId: resUnit,
-      condoId: currentCondoId
+      condoId: currentResident.condoId
     }
-    console.log('a crear en db', newDocument)
-    dispatch(globalCreateDocument('resident', newDocument))
+    console.log('a actualizar en db', updatedResident)
+    dispatch(globalUpdateDocument('resident', currentResident._id, updatedResident, residents))
   }
   console.log('unidades', units)
+  console.log('residente actual', currentResident)
+  console.log('unidad', resUnit)
+  console.log('mensaje', message)
+  console.log('error', error)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>
       <SectionTitle>Agregar Residentes</SectionTitle>
-      <ResidentsForm onSubmit={createDocument}>
+      <ResidentsForm onSubmit={updateDocument}>
         <label htmlFor="resName">Nombre</label>
         <input
           id="resName"
@@ -140,9 +153,6 @@ function ContentPostResident () {
           onChange={handleChange}
           required
         >
-          <option>
-            Escoge unidad
-          </option>
           {!!units &&
             units.length &&
             units.map((unit) => {
@@ -153,19 +163,11 @@ function ContentPostResident () {
               );
             })}
         </select>
-        <label htmlFor="resPassword">password</label>
-        <input
-          id="resPassword"
-          name="resPassword"
-          type="password"
-          onChange={handleChange}
-          value={resPassword}
-        />
         <button type="submit">Submit</button>
-        {message}
+        {message || error}
       </ResidentsForm>
     </AddResidentDiv>
   )
 }
 
-export default ContentPostResident
+export default ContentEditResident

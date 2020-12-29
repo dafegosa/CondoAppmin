@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import logo from '../../../../logo.svg'
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import ChooseCondo from './ChooseCondo'
 import { getCondos } from '../../../../store/condoReducer'
-import { verifyUser } from '../../../../store/sessionReducer'
+import { SET_CURRENT_OPTION, verifyUser } from '../../../../store/sessionReducer'
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
@@ -39,8 +39,10 @@ const Select = styled.div`
   color: #0a0f0f;
   width: 100%;
   box-sizing: border-box;
+  transition: 300ms;
 
-  &:hover {
+  &:hover,
+  &.active-item {
     background-color: white;
   }
   & i {
@@ -50,6 +52,7 @@ const Select = styled.div`
     margin-right: 15px;
   }
 `
+const liClass = 'menu-item'
 
 const Picture = styled.div`
   padding: 40px;
@@ -57,17 +60,20 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { admin, resident, currentOption } = useSelector(
+    ({ sessionReducer: { admin, resident, currentOption } }) => {
+      return { admin, resident, currentOption }
     }
   )
   const { condos } = useSelector(({ condoReducer: { condos } }) => {
     return { condos }
   })
+
+  /* const chosenItem = useRef(null) */
   const dispatch = useDispatch()
 
   let history = useHistory()
+  const { location: { pathname } } = history
   
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
@@ -86,15 +92,24 @@ const LeftMenu = () => {
 
   useEffect(() => {
     async function checkForCondos () {
+      
       const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
       if (getAdmin) {
         dispatch(getCondos())
       }
     }
-
     checkForCondos()
   }, [])
 
+  const addClassToMenuItem = (link) => {
+    if (link === currentOption) {
+      return 'active-item'
+    } else {
+      return 
+    }
+  }
+
+  console.log('current option', currentOption)
   return (
     <Container>
       {admin && condos.length > 0 ? <ChooseCondo /> : (
@@ -106,10 +121,10 @@ const LeftMenu = () => {
         <ul>
           {!!leftMenuNav && leftMenuNav.length > 0 && 
           leftMenuNav.map((el, i) => (
-          <li>
+          <li key={el.name}>
             <Select
-                key={el.name}
                 onClick={leftMenuRouter.bind(i, el.link)}
+                className={addClassToMenuItem(el.link)}
             >
               <i className={el.icon}></i>
               <span>{el.name}</span>
