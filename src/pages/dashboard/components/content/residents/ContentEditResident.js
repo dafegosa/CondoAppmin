@@ -92,14 +92,8 @@ function ContentEditResident () {
       unitId: resUnit,
       condoId: currentResident.condoId
     }
-    console.log('a actualizar en db', updatedResident)
     dispatch(globalUpdateDocument('resident', currentResident._id, updatedResident, residents))
   }
-  console.log('unidades', units)
-  console.log('residente actual', currentResident)
-  console.log('unidad', resUnit)
-  console.log('mensaje', message)
-  console.log('error', error)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>

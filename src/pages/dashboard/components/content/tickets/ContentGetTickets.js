@@ -103,10 +103,8 @@ const ContentGetTickets = () => {
     async function getTickets () {
       const { getResident, getAdmin } = await dispatch(verifyUser(history))
       if (getAdmin) {
-        console.log('soy un admin')
         dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '', currentCondoId))
       } else if (getResident) {
-        console.log('soy un resident')
         dispatch(retrieveResidentTickets(getResident.data.email, 'ticket', '', currentCondoId)
         )
       }
@@ -118,7 +116,6 @@ const ContentGetTickets = () => {
   for (let i in messagesList) {
     messagesListReverse.push(messagesList[messagesList.length - 1 - i])
   }
-
   return (
     <BigCentralMessagesContainer>
       <MessageContainerMenu>

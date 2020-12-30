@@ -69,6 +69,9 @@ const Tickets = () => {
       case 'Ver Tickets':
         history.push('/dashboard/ticket/list')
         return
+      case 'Tickets Enviados':
+        history.push('/dashboard/ticket/list')
+        return
       case 'Nuevo Ticket':
         history.push('/dashboard/ticket/add')
         return
@@ -93,7 +96,7 @@ const Tickets = () => {
   return (
     <TicketsOuterDiv>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>Ver Tickets</ContentTopBarTab>
+        <ContentTopBarTab onClick={pickTab}>{admin ? 'Ver Tickets' : 'Tickets Enviados'}</ContentTopBarTab>
         { !admin && <ContentTopBarTab onClick={pickTab}>Nuevo Ticket</ContentTopBarTab> }
         <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>{`Ver ticket`}</ContentTopBarTab>
         

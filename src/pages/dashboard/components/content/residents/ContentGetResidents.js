@@ -6,7 +6,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import { IconButton, Dialog, DialogActions } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveResidents, RESIDENT_ERROR_CLEAN, RESIDENT_MESSAGE_CLEAN, SET_CURRENT_RESIDENT_ID, SET_CURRENT_RESIDENT_NAME, SET_CURRENT_RESIDENT } from '../../../../../store/residentReducer'
-import { globalRemoveDocument, globalHandleChange, globalUpdateDocument } from '../../../../../store/sessionReducer'
+import { globalRemoveDocument } from '../../../../../store/sessionReducer'
 import { ListCondosDiv as ListResidentsDiv, GetCondosTitle as GetResidentsTitle } from '../condos/ContentGetCondos'
 
 const ResidentListSection = styled.div`
@@ -54,7 +54,6 @@ const SingleResidentInnerDiv = styled.div`
 `
 
 const SingleResidentInnerSectionDiv = styled.div`
-  /* border: 1px solid red; */
   display: flex;
   transition: 400ms;
   width: auto;
@@ -69,19 +68,11 @@ const ResidentName = styled.h2`
   font-weight: 400;
   font-size: 22px;
 `
-const CondoResidentsTitle = styled.h2`
-  margin: 0 0 10px 0;
-  font-weight: 400;
-  font-size: 18px;
-`
+
 const CondoResidentsInfoTitle = styled.h3`
   margin: 0 0 10px 0;
   font-weight: 400;
   font-size: 16px;
-`
-
-const ResidentNameInput = styled.input`
-
 `
 
 function ContentPostResident () {
@@ -89,8 +80,6 @@ function ContentPostResident () {
   const [showDialog, setShowDialog] = useState(false)
   const [deleteResident, setDeleteResident] = useState(false)
   const [residentToDelete, setResidentToDelete] = useState('')
-  const [editResident, setEditResident] = useState(false)
-  const [residentToEdit, setResidentToEdit] = useState('')
 
   const { residents } = useSelector(
     ({ residentReducer: { residents } }) => {
@@ -173,7 +162,7 @@ function ContentPostResident () {
                   onClick={seeResident.bind(this, resident._id, resident.name, resident.lastName)}
                 >
                   <SingleResidentInnerDiv>
-                    <CondoResidentsTitle>{`${resident.name} ${resident.lastName}`}</CondoResidentsTitle>
+                    <ResidentName>{`${resident.name} ${resident.lastName}`}</ResidentName>
                   </SingleResidentInnerDiv>
                   <SingleResidentInnerDiv>
                     <CondoResidentsInfoTitle>Unidad Ocupada</CondoResidentsInfoTitle>

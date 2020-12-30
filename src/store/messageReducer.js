@@ -4,15 +4,16 @@ import { MESSAGE_SELECTED } from './messageFormReducer'
 
 const RETRIEVE_MESSAGES = 'RETRIEVE_MESSAGES'
 const MESSAGE_LIST = 'MESSAGE_LIST'
+export const MESSAGE_LIST_CLEAN = 'MESSAGE_LIST_CLEAN'
 
-export function retrieveMessages(user, type, query = '') {
+export function retrieveMessages(user, type, query = '', condoId) {
   return async function (dispatch) {
     const token = localStorage.getItem('token')
     try {
       const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/${type}/${user}${query}`,
+        url: `/${type}/${user}/${condoId}${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,7 +33,7 @@ export function retrieveResidentTickets(user, type, query = '') {
       const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/${type}/residentTickets/${user}${query}`,
+        url: `/${type}/resident/${user}${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +68,7 @@ export function readMessage(id, route, messages, history) {
         })
         dispatch({ type: MESSAGE_SELECTED, payload: data })
         dispatch({ type: RETRIEVE_MESSAGES, payload: unReadMessages })
-        history.push(`/dashboard/ticket/${data.data._id}`)
+        history.push(`/dashboard/ticket/view/${data.data._id}`)
       })
       .catch((err) => err)
   }
@@ -89,7 +90,7 @@ export function selectedTicket(id, history) {
     })
       .then(({ data }) => {
         dispatch({ type: MESSAGE_SELECTED, payload: data })
-        history.push(`/dashboard/ticket/${data.data._id}`)
+        history.push(`/dashboard/ticket/view/${data.data._id}`)
       })
       .catch((err) => err)
   }
@@ -116,6 +117,11 @@ function messageReducer(state = initialState, action) {
       return {
         ...state,
         messagesList: action.payload,
+      }
+    case MESSAGE_LIST_CLEAN:
+      return {
+        ...state,
+        messagesList : []
       }
 
     default:

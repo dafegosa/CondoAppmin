@@ -31,7 +31,7 @@ function Content() {
 
   const renderContent = () => {
     const urlItems = pathname.substr(1).split('/')
-    console.log('pathname', urlItems)
+    
     dispatch({ type: SET_CURRENT_OPTION, payload: `${urlItems[1]}` })
     switch (urlItems[1]) {
       case 'condo':

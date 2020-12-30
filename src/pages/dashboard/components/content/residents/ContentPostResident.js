@@ -74,10 +74,8 @@ function ContentPostResident () {
       unitId: resUnit,
       condoId: currentCondoId
     }
-    console.log('a crear en db', newDocument)
     dispatch(globalCreateDocument('resident', newDocument))
   }
-  console.log('unidades', units)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddResidentDiv>

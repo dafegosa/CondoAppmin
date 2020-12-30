@@ -37,7 +37,6 @@ const ContentViewResident = () => {
     dispatch(retrieveSingleResident(currentResidentId))
   }, [])
 
-  console.log('el residente', currentResident)
   return (
     <ViewResidentDiv>
       <SectionTitle>Información del Residente</SectionTitle>
