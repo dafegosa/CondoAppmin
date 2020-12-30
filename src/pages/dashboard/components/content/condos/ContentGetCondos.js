@@ -239,20 +239,6 @@ function ContentPostCondo () {
                     />
                   </IconButton>
                 </SingleCondoInnerDiv>
-                <SingleCondoInnerDiv>
-                <IconButton style={{ padding: '0px' }}>
-                    <DeleteIcon
-                      style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteCondo.bind(this, condo._id)}
-                    />
-                  </IconButton>
-                  <IconButton style={{ padding: '0px', display: 'block' }}>
-                    <EditIcon
-                      style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditCondo.bind(this, condo._id, condo.name, condo.address)}
-                    />
-                  </IconButton>
-                </SingleCondoInnerDiv>
               </SingleCondoOuterDiv>
             )
           }) : <p>No tienes condominios por el momento</p>}

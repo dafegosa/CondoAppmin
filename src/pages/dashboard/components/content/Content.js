@@ -5,10 +5,8 @@ import styled from 'styled-components'
 import Condos from './condos/Condos'
 import Units from './units/Units'
 import Residents from './residents/Residents'
-import ContentMessages from './AllMessages/CentralMessagesList'
-import ContentMessagesForm from './AllMessages/MessageForm'
-import ShowMessage from './AllMessages/ShowMessage'
 import { SET_CURRENT_OPTION } from '../../../../store/sessionReducer'
+import Tickets from './tickets/Tickets'
 
 const ContentDiv = styled.main`
   display: grid;
@@ -42,12 +40,8 @@ function Content() {
         return <Units />
       case 'resident':
         return <Residents />
-      case 'tickets':
-        return <ContentMessages />
-      case 'messagesform':
-        return <ContentMessagesForm />
       case 'ticket':
-        return <ShowMessage />
+        return <Tickets />
       default:
         return <h1>Bienvenido al Dashboard</h1>
     }

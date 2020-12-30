@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { MessageContainerMenu } from './CentralMessagesList'
+import { MessageContainerMenu } from './ContentGetTickets'
 import { useHistory } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { verifyUser } from '../../../../../store/sessionReducer'
@@ -86,7 +86,7 @@ const SubTicket = styled.div`
 `
 const token = localStorage.getItem('token')
 
-const ShowMessage = (props) => {
+const ContentViewTicket = (props) => {
   let history = useHistory()
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
@@ -253,4 +253,4 @@ const ShowMessage = (props) => {
   )
 }
 
-export default ShowMessage
+export default ContentViewTicket

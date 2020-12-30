@@ -34,14 +34,14 @@ const ResidentsForm = styled.form`
 
 function ContentPostResident () {
 
+  const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error } = useSelector(( { unitReducer: { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }}) => {
+    return { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }
+  })
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
   })
-  const { currentCondoId } = useSelector(
-    ({ condoReducer: { currentCondoId } }) => {
+  const { currentCondoId } = useSelector(({ condoReducer: { currentCondoId } }) => {
       return { currentCondoId }
-
-    }
   })
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
@@ -124,7 +124,7 @@ function ContentPostResident () {
           value={resEmail}
         />
         <label htmlFor='resUnit'>Unidad</label>
-        <input
+        <select
           type='text'
           name='resUnit'
           id='service-select'
@@ -154,7 +154,7 @@ function ContentPostResident () {
           value={resPassword}
         />
         <button type='submit'>Submit</button>
-        {message}
+        {message || error}
       </ResidentsForm>
     </AddResidentDiv>
   )

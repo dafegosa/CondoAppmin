@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { MessageContainerMenu } from './CentralMessagesList'
+import { MessageContainerMenu } from './ContentGetTickets'
 import { CREATE_MESSAGE } from '../../../../../store/messageFormReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
 
@@ -48,11 +48,17 @@ const Alert = styled.p`
 
 let aux = {}
 
-const MessageForm = (props) => {
+const ContentPostTicket = (props) => {
+
   const token = localStorage.getItem('token')
   const { admin, resident } = useSelector(
     ({ sessionReducer: { admin, resident } }) => {
       return { admin, resident }
+    }
+  )
+  const { currentCondoId, currentCondoName } = useSelector(
+    ({ condoReducer: { currentCondoId, currentCondoName } }) => {
+      return { currentCondoId, currentCondoName }
     }
   )
   const state = useSelector((state) => state.messageFormReducer)
@@ -149,6 +155,7 @@ const MessageForm = (props) => {
             date,
             read,
             ticketState: true,
+            condoId: currentCondoId
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -161,6 +168,8 @@ const MessageForm = (props) => {
         setAlert('Destinatario no Existe')
       })
   }
+
+  console.log('currentCondo', currentCondoName)
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
       {openTicket.length > 0 && (
@@ -233,4 +242,4 @@ const MessageForm = (props) => {
   )
 }
 
-export default MessageForm
+export default ContentPostTicket
