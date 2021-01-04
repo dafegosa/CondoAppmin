@@ -69,7 +69,6 @@ const LeftMenu = () => {
     return { condos }
   })
 
-  /* const chosenItem = useRef(null) */
   const dispatch = useDispatch()
 
   let history = useHistory()
