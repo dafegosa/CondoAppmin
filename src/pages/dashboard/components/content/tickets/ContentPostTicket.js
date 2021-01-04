@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { MessageContainerMenu } from './CentralMessagesList'
+import { MessageContainerMenu } from './ContentGetTickets'
 import { CREATE_MESSAGE } from '../../../../../store/messageFormReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
 
@@ -46,13 +47,17 @@ const Alert = styled.p`
   width: 35%;
 `
 
-let aux = {}
+const ContentPostTicket = (props) => {
 
-const MessageForm = (props) => {
   const token = localStorage.getItem('token')
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { admin } = useSelector(
+    ({ sessionReducer: { admin } }) => {
+      return { admin }
+    }
+  )
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
+      return { currentCondoId }
     }
   )
   const state = useSelector((state) => state.messageFormReducer)
@@ -60,8 +65,10 @@ const MessageForm = (props) => {
   const [openTicket, setOpenTicket] = useState([])
   const [message, setMessage] = useState('')
   const [alert, setAlert] = useState('')
-  const dispatch = useDispatch()
   const [addData, setVal] = useState('')
+  const dispatch = useDispatch()
+
+  const history = useHistory()
 
   const handleInputChange = (e) => {
     setMessage('')
@@ -72,7 +79,7 @@ const MessageForm = (props) => {
 
   useEffect(() => {
     async function getUserEmail() {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser())
+      const { getResident, getAdmin } = await dispatch(verifyUser(history))
       if (getAdmin) {
         setUserEmail(getAdmin.data.email)
       } else if (getResident) {
@@ -87,7 +94,7 @@ const MessageForm = (props) => {
           .then((list) => {
             if (getResident) {
               const unReadMessages = list.data.data.filter((message) => {
-                return getResident.data.email == message.from
+                return getResident.data.email === message.from
               })
               dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
 
@@ -149,6 +156,7 @@ const MessageForm = (props) => {
             date,
             read,
             ticketState: true,
+            condoId: currentCondoId
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -161,6 +169,7 @@ const MessageForm = (props) => {
         setAlert('Destinatario no Existe')
       })
   }
+
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
       {openTicket.length > 0 && (
@@ -170,7 +179,7 @@ const MessageForm = (props) => {
           ).
         </p>
       )}
-      {openTicket.length == 0 && (
+      {openTicket.length === 0 && (
         <MessageContainerMenu>
           <WriteMessagessButton
             type='submit'
@@ -233,4 +242,4 @@ const MessageForm = (props) => {
   )
 }
 
-export default MessageForm
+export default ContentPostTicket

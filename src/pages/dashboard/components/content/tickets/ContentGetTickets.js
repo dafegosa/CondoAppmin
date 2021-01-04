@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import WriteMessagessButton from './WriteMessagesButton'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   retrieveMessages,
+  retrieveResidentTickets,
   selectedTicket,
 } from '../../../../../store/messageReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
-import axios from 'axios'
 
-const BigCentarlMessagesContainer = styled.div`
+const BigCentralMessagesContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -74,21 +74,22 @@ const Message = styled.div`
     width: 33%;
   }
 `
-const MessagesArea = () => {
-  const [iAmUser, setIAmUser] = useState('')
-  const token = localStorage.getItem('token')
+const ContentGetTickets = () => {
+
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
     ({ messageReducer: { messagesList } }) => {
       return { messagesList }
     }
   )
-  const { messages } = useSelector(({ messageReducer: { messages } }) => {
-    return { messages }
-  })
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { admin } = useSelector(
+    ({ sessionReducer: { admin } }) => {
+      return { admin }
+    }
+  )
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
+      return { currentCondoId }
     }
   )
   let history = useHistory()
@@ -98,53 +99,27 @@ const MessagesArea = () => {
     dispatch(selectedTicket(id, history))
   }
 
-  useEffect(async () => {
-    const { getResident, getAdmin, type } = await dispatch(verifyUser())
-    let user = ''
-    let getUser = ''
-    if (getAdmin) {
-      setIAmUser('admin')
-      user = 'admin'
-      getUser = getAdmin
-    } else if (getResident) {
-      setIAmUser('resident')
-      user = 'resident'
-      getUser = getResident
+  useEffect(() => {
+    async function getTickets () {
+      const { getResident, getAdmin } = await dispatch(verifyUser(history))
+      if (getAdmin) {
+        dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '', currentCondoId))
+      } else if (getResident) {
+        dispatch(retrieveResidentTickets(getResident.data.email, 'ticket', '', currentCondoId)
+        )
+      }
     }
-    axios
-      .get('http://localhost:8000/ticket', {
-        url: `/${getUser.data.id}/${user}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((list) => {
-        if (getAdmin) {
-          const unReadMessages = list.data.data.filter((message) => {
-            return getUser.data.id == message.to
-          })
-          dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
-        }
-
-        if (getResident) {
-          const unReadMessages = list.data.data.filter((message) => {
-            return getUser.data.email == message.from
-          })
-          dispatch({ type: 'MESSAGE_LIST', payload: unReadMessages })
-        }
-      })
-      .catch((err) => {})
-  }, [])
+    getTickets()
+  }, [currentCondoId])
 
   let messagesListReverse = []
   for (let i in messagesList) {
     messagesListReverse.push(messagesList[messagesList.length - 1 - i])
   }
-
   return (
-    <BigCentarlMessagesContainer>
+    <BigCentralMessagesContainer>
       <MessageContainerMenu>
-        {iAmUser !== 'admin' && <WriteMessagessButton value='Nuevo Ticket' />}
+        {!admin && <WriteMessagessButton value='Nuevo Ticket' />}
       </MessageContainerMenu>
       <MessageContainer>
         {!!messagesListReverse &&
@@ -166,8 +141,8 @@ const MessagesArea = () => {
           <p> No hay historial de tickets </p>
         )}
       </MessageContainer>
-    </BigCentarlMessagesContainer>
+    </BigCentralMessagesContainer>
   )
 }
 
-export default MessagesArea
+export default ContentGetTickets

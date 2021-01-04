@@ -25,7 +25,7 @@ class App extends React.Component {
               <Route exact path='/register' component={Register} />
               <PrivateRoute
                 exact
-                path='/dashboard/:path?/:innerpath?'
+                path='/dashboard/:path?/:innerpath?/:superinner?'
                 component={Dashboard}
               />
             </Switch>

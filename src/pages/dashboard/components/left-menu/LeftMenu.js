@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import ChooseCondo from './ChooseCondo'
 import { getCondos } from '../../../../store/condoReducer'
-import { verifyUser } from '../../../../store/sessionReducer'
+import { SET_CURRENT_OPTION, verifyUser } from '../../../../store/sessionReducer'
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
@@ -39,8 +39,10 @@ const Select = styled.div`
   color: #0a0f0f;
   width: 100%;
   box-sizing: border-box;
+  transition: 300ms;
 
-  &:hover {
+  &:hover,
+  &.active-item {
     background-color: white;
   }
   & i {
@@ -50,6 +52,7 @@ const Select = styled.div`
     margin-right: 15px;
   }
 `
+const liClass = 'menu-item'
 
 const Picture = styled.div`
   padding: 40px;
@@ -57,23 +60,26 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { admin, resident, currentOption } = useSelector(
+    ({ sessionReducer: { admin, resident, currentOption } }) => {
+      return { admin, resident, currentOption }
     }
   )
   const { condos } = useSelector(({ condoReducer: { condos } }) => {
     return { condos }
   })
+
+  /* const chosenItem = useRef(null) */
   const dispatch = useDispatch()
 
   let history = useHistory()
-
+  const { location: { pathname } } = history
+  
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
     { name: 'Residentes', icon: 'fas fa-address-card', link: 'resident' },
-    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'tickets' },
+    { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'ticket' },
     { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
     { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venues' },
@@ -91,9 +97,16 @@ const LeftMenu = () => {
         dispatch(getCondos())
       }
     }
-
     checkForCondos()
   }, [])
+
+  const addClassToMenuItem = (link) => {
+    if (link === currentOption) {
+      return 'active-item'
+    } else {
+      return 
+    }
+  }
 
   return (
     <Container>
@@ -104,17 +117,17 @@ const LeftMenu = () => {
       )}
       <SideMenu>
         <ul>
-
-          {!!leftMenuNav &&
-            leftMenuNav.length > 0 &&
-            leftMenuNav.map((el, i) => (
-              <li>
-                <Select key={el.name} onClick={leftMenuRouter.bind(i, el.link)}>
-                  <i className={el.icon}></i>
-                  <span>{el.name}</span>
-                </Select>
-              </li>
-
+          {!!leftMenuNav && leftMenuNav.length > 0 && 
+          leftMenuNav.map((el, i) => (
+          <li key={el.name}>
+            <Select
+                onClick={leftMenuRouter.bind(i, el.link)}
+                className={addClassToMenuItem(el.link)}
+            >
+              <i className={el.icon}></i>
+              <span>{el.name}</span>
+            </Select>
+          </li>
             ))}
         </ul>
       </SideMenu>

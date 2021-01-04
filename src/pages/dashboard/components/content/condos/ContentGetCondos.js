@@ -104,12 +104,10 @@ function ContentPostCondo () {
   const [condoToDelete, setCondoToDelete] = useState('')
   const [deleteCondo, setDeleteCondo] = useState(false)
   const [condoToEdit, setCondoToEdit] = useState('')
-  const [editCondo, setEditCondo] = useState(false)
 
 
-
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   const dispatch = useDispatch()
 
@@ -224,10 +222,11 @@ function ContentPostCondo () {
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
                   <CondoUnitsTitle>Ocupación</CondoUnitsTitle>
-                  <p>28%</p>
+                  {!!condo.unitIds && condo.unitIds.length > 0 ? 
+                    <p>{`${Math.floor((condo.residentIds.length / condo.unitIds.length) * 100)}%`}</p> : <p>N/A</p>}  
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                <IconButton style={{ padding: '0px' }}>
+                  <IconButton style={{ padding: '0px' }}>
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
                       onClick={onDeleteCondo.bind(this, condo._id)}

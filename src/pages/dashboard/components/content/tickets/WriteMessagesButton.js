@@ -28,6 +28,7 @@ const WriteMessagessButton = (props) => {
 
   const { thisId } = state
   if (props.value === 'Ticket Solucionado') {
+
     var newMessage = () => {
       axios({
         method: 'PUT',
@@ -49,7 +50,7 @@ const WriteMessagessButton = (props) => {
     var newMessage = () => {}
   } else {
     var newMessage = () => {
-      history.push('/dashboard/messagesform')
+      history.push('/dashboard/ticket/add')
     }
   }
 

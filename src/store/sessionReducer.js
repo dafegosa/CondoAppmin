@@ -1,12 +1,17 @@
 import axios from 'axios'
+import { CONDO_SELECT, CONDO_SELECT_CLEAN } from './condoReducer'
+import { MESSAGE_LIST_CLEAN } from './messageReducer'
 
 export const LOGGED_ADMIN = 'LOGGED_ADMIN'
 export const LOGGED_RESIDENT = 'LOGGED_RESIDENT'
 export const SIGNOUT = 'SIGNOUT'
+export const SET_CURRENT_OPTION = 'SET_CURRENT_OPTION'
 
 export function signoutDispatch() {
-  return {
-    type: SIGNOUT,
+  return function (dispatch) {
+    dispatch({ type: SIGNOUT })
+    dispatch({ type: CONDO_SELECT_CLEAN })
+    dispatch({ type: MESSAGE_LIST_CLEAN })
   }
 }
 
@@ -38,9 +43,13 @@ export function verifyUser(history) {
 
     if (getAdmin) {
       dispatch({ type: LOGGED_ADMIN })
+      dispatch({ type: MESSAGE_LIST_CLEAN })
+      
       return { getAdmin, type: 'admin' }
     } else if (getResident) {
       dispatch({ type: LOGGED_RESIDENT })
+      dispatch({ type: MESSAGE_LIST_CLEAN })
+      dispatch({ type: CONDO_SELECT, payload: {id: getResident.data.condoId, condoName: getResident.data.condoName} })
       return { getResident, type: 'resident' }
     } else {
       localStorage.removeItem('token')
@@ -74,7 +83,6 @@ export function globalHandleChange(e, reducer) {
       name,
       value,
     }
-    console.log('condo', newState)
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
 }
@@ -154,6 +162,7 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
 const initialState = {
   admin: false,
   resident: false,
+  currentOption: ''
 }
 
 function sessionReducer(state = initialState, action) {
@@ -174,6 +183,11 @@ function sessionReducer(state = initialState, action) {
         admin: false,
         resident: false,
       }
+    case SET_CURRENT_OPTION:
+        return {
+          ...state,
+          currentOption: action.payload
+        }
     default:
       return state
   }
