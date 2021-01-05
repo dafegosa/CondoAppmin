@@ -25,13 +25,13 @@ export function userLogin(history, user, type) {
         dispatch({ type: CONDO_SELECT_CLEAN })
       }
 
-      dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Inicio de sesión exisoso' })
+      dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Inicio de sesión exitoso' })
       history.push('/dashboard')
       dispatch({ type: CLEAN_LOGIN })
     } catch (err) {
       dispatch({
         type: SET_LOGIN_MESSAGE,
-        payload: 'Usuario o contraseña inválida',
+        payload: err.response.data.message,
       })
     }
   }

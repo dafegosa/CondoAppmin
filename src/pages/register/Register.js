@@ -42,7 +42,7 @@ function Register () {
 
   return (
     <EnterFormDiv>
-      <EnterForm onSubmit={createUser}>
+      <EnterForm onSubmit={createUser} data-testid="register">
         <FormHeading>Registrate</FormHeading>
         <FormDescription>
           Registrate para empezar a usar nuestros servicios
@@ -114,7 +114,7 @@ function Register () {
           />
         </InputDiv>
         <Button type='submit'>Registrarme</Button>
-        {message}
+        {message && <p>{message}</p>}
         <Paragraph>
           ¿Ya tienes una cuenta?{' '}
           <Link to='/login' className='Register-link'>
