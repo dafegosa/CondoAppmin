@@ -26,7 +26,8 @@ function ChooseCondo () {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCondos())
+    const token = localStorage.getItem('token')
+    dispatch(getCondos(token))
   }, [])
 
   const handleChange = (e) => {

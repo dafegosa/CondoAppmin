@@ -37,7 +37,7 @@ const UnitsForm = styled.form`
   }
 `
 
-function ContentAddUnit () {
+function ContentPostUnit () {
 
   const { unitName, message } = useSelector(
     ({ unitReducer: { unitName, message } }) => {
@@ -94,4 +94,4 @@ function ContentAddUnit () {
   )
 }
 
-export default ContentAddUnit
+export default ContentPostUnit

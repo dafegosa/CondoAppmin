@@ -93,7 +93,7 @@ const CondoAddressInput = styled.input`
 
 `
 
-function ContentPostCondo () {
+function ContentGetCondos () {
 
   const { condos, condoName, condoAddress, message, error } = useSelector(
     ({ condoReducer: { condos, condoName, condoAddress, message, error } }) => {
@@ -112,7 +112,8 @@ function ContentPostCondo () {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCondos())
+    const token = localStorage.getItem('token')
+    dispatch(getCondos(token))
     dispatch({type: CONDO_ERROR_CLEAN})
     dispatch({type: CONDO_MESSAGE_CLEAN})
   }, [condoToEdit])
@@ -211,7 +212,7 @@ function ContentPostCondo () {
         {!!condos && condos.length > 0 ? 
           condos.map(condo => {
             return (
-              <SingleCondoOuterDiv key={condo._id}>
+              <SingleCondoOuterDiv key={condo._id} data-testid="condo">
                 <SingleCondoInnerDiv>
                   {showCondoInfo(condo._id, condo.name, condo.address)}
                 </SingleCondoInnerDiv>
@@ -226,16 +227,23 @@ function ContentPostCondo () {
                     <p>{`${Math.floor((condo.residentIds.length / condo.unitIds.length) * 100)}%`}</p> : <p>N/A</p>}  
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                  <IconButton style={{ padding: '0px' }}>
+                  <IconButton 
+                    title="Borrar condominio"
+                    style={{ padding: '0px' }}
+                    onClick={onDeleteCondo.bind(this, condo._id)} 
+                    data-testid="delete"
+                  >
                     <DeleteIcon
-                      style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteCondo.bind(this, condo._id)}
+                      style={{ color: 'white', fontSize: '24px' }}    
                     />
                   </IconButton>
-                  <IconButton style={{ padding: '0px', display: 'block' }}>
+                  <IconButton 
+                    style={{ padding: '0px', display: 'block' }}
+                    onClick={onEditCondo.bind(this, condo._id, condo.name, condo.address)}
+                    data-testid="edit"
+                  >
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditCondo.bind(this, condo._id, condo.name, condo.address)}
                     />
                   </IconButton>
                 </SingleCondoInnerDiv>
@@ -248,4 +256,4 @@ function ContentPostCondo () {
 }
 
 
-export default ContentPostCondo
+export default ContentGetCondos

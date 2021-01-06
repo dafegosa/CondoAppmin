@@ -93,7 +93,8 @@ const LeftMenu = () => {
     async function checkForCondos () {
       const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
       if (getAdmin) {
-        dispatch(getCondos())
+        const token = localStorage.getItem('token')
+        dispatch(getCondos(token))
       }
     }
     checkForCondos()

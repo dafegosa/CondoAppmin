@@ -53,7 +53,7 @@ describe('Login reducer', () => {
 
     const currentUserType = 'resident'
     const currentUser = {
-    email: 'alejo9226@gmail.com',
+    email: 'alejo@test.com',
     password: '12345'
     }
     const { dispatch, getActions } = mockLoginReducer()

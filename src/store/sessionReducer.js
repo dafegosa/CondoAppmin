@@ -139,6 +139,7 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {
     try {
       const token = localStorage.getItem('token')
+      console.log('doc id', documentid)
       const response = await axios({
         method: 'DELETE',
         baseURL: process.env.REACT_APP_SERVER_URL,

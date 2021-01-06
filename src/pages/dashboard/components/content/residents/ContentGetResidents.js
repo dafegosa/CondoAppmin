@@ -157,6 +157,7 @@ function ContentPostResident () {
             return (
               <SingleResidentOuterDiv
                 key={resident._id}
+                data-testid="resident"
               >
                 <SingleResidentInnerSectionDiv 
                   onClick={seeResident.bind(this, resident._id, resident.name, resident.lastName)}
@@ -170,16 +171,23 @@ function ContentPostResident () {
                   </SingleResidentInnerDiv>
                 </SingleResidentInnerSectionDiv>
                 <SingleResidentInnerDiv className="icon-section">
-                  <IconButton title="Borrar residente" style={{ padding: '0px' }}>
+                  <IconButton 
+                    title="Borrar residente" 
+                    style={{ padding: '0px' }}
+                    onClick={onDeleteResident.bind(resident, resident._id, resident.name)}
+                    data-testid="delete"
+                  >
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteResident.bind(resident, resident._id, resident.name)}
                     />
                   </IconButton>
-                  <IconButton title="Editar residente" style={{ padding: '0px', display: 'block' }}>
+                  <IconButton 
+                    title="Editar residente" 
+                    style={{ padding: '0px', display: 'block' }}
+                    onClick={onEditResident.bind(resident, resident)}
+                  >
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditResident.bind(resident, resident)}
                     />
                   </IconButton>
                 </SingleResidentInnerDiv>

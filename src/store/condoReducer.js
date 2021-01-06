@@ -13,23 +13,26 @@ export const CONDO_ERROR_CLEAN = 'CONDO_ERROR_CLEAN'
 export const CONDO_ERROR_SET = 'CONDO_ERROR_SET'
 export const CHOSEN_CONDO_CLEAN = 'CHOSEN_CONDO_CLEAN'
 
-export function getCondos() {
+export function getCondos(token) {
   return async function (dispatch) {
-    const token = localStorage.getItem('token')
-      axios({
+    
+    try {
+      const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/condo',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then(({ data }) => {
-        dispatch({
-          type: CONDOS_RETRIEVE,
-          payload: data.data,
-        })
-      }).catch(err => dispatch({ type: CONDO_ERROR_SET, payload: err.response.data.message }))
-      
+      })
+      dispatch({
+        type: CONDOS_RETRIEVE,
+        payload: data.data,
+      })
+
+    } catch (err) {
+      dispatch({ type: CONDO_ERROR_SET, payload: err.response.data.message })
+    }
   }
 }
 
