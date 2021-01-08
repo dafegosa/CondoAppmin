@@ -79,7 +79,8 @@ const ContentPostTicket = (props) => {
 
   useEffect(() => {
     async function getUserEmail() {
-      const { getResident, getAdmin } = await dispatch(verifyUser(history))
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
       if (getAdmin) {
         setUserEmail(getAdmin.data.email)
       } else if (getResident) {

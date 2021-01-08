@@ -15,10 +15,9 @@ export function signoutDispatch() {
   }
 }
 
-export function verifyUser(history) {
+export function verifyUser(history, token) {
   return async function (dispatch) {
-    const token = localStorage.getItem('token')
-
+    
     try {
       var getAdmin = await axios({
         method: 'GET',
@@ -28,6 +27,8 @@ export function verifyUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
+      //console.log('verifying user')
+      dispatch({ type: LOGGED_ADMIN })
     } catch (err) {}
 
     try {
@@ -39,18 +40,18 @@ export function verifyUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
+      dispatch({ type: LOGGED_RESIDENT })
     } catch (err) {}
 
+    dispatch({ type: MESSAGE_LIST_CLEAN })
+
     if (getAdmin) {
-      dispatch({ type: LOGGED_ADMIN })
-      dispatch({ type: MESSAGE_LIST_CLEAN })
-      
       return { getAdmin, type: 'admin' }
+
     } else if (getResident) {
-      dispatch({ type: LOGGED_RESIDENT })
-      dispatch({ type: MESSAGE_LIST_CLEAN })
       dispatch({ type: CONDO_SELECT, payload: {id: getResident.data.condoId, condoName: getResident.data.condoName} })
       return { getResident, type: 'resident' }
+
     } else {
       localStorage.removeItem('token')
       history.push('/login')
@@ -87,10 +88,10 @@ export function globalHandleChange(e, reducer) {
   }
 }
 
-export function globalCreateDocument(endpoint, document) {
+export function globalCreateDocument(endpoint, document, token) {
   return async function (dispatch) {
     try {
-      const token = localStorage.getItem('token')
+      
       const { data } = await axios({
         method: 'POST',
         baseURL: process.env.REACT_APP_SERVER_URL,
@@ -139,7 +140,6 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {
     try {
       const token = localStorage.getItem('token')
-      console.log('doc id', documentid)
       const response = await axios({
         method: 'DELETE',
         baseURL: process.env.REACT_APP_SERVER_URL,
@@ -149,8 +149,8 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
         },
       })
 
-      const filteredDocuments = documents.filter(unit => {
-        return unit._id !== documentid
+      const filteredDocuments = documents.filter(document => {
+        return document._id !== documentid
       })
       dispatch({
         type: `${endpoint.toUpperCase()}_DELETE`,
@@ -160,13 +160,13 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
   }
 }
 
-const initialState = {
+export const initialState = {
   admin: false,
   resident: false,
   currentOption: ''
 }
 
-function sessionReducer(state = initialState, action) {
+export function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case LOGGED_ADMIN:
       return {

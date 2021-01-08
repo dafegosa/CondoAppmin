@@ -2,9 +2,15 @@ import { fireEvent, getByTestId, render, cleanup, act } from "@testing-library/r
 import '@testing-library/jest-dom'
 import Register from "./Register"
 import { Provider } from 'react-redux'
+import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import store from '../../store'
+import App from '../../App'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import moxios from 'moxios'
+
+const middlewares  = [thunk]
+const mockRegisterReducer = configureStore(middlewares)
 
 describe('Sign Up form', () => {
   beforeEach(() => {
@@ -23,14 +29,41 @@ describe('Sign Up form', () => {
     email: 'alejo9226@gmail.com',
     password: '12345'
   }
-  const incorrectAdmin = {
-    name: 'Alejandro',
-    lastName: 'Alfaro',
-    id: '1020769340',
-    phone: '3502106375',
-    email: 'alejo9226@gmail.com',
-    password: '12345'
-  }
+
+  it('Ingresar button should redirect to Sign Up', async () => {
+
+    const mockedStore = mockRegisterReducer({
+      loginReducer: {
+        email: '',
+        password: '',
+        type: '',
+        message: ''
+      },
+      signupReducer: {
+        name: '',
+        lastName: '',
+        idnumber: '',
+        phone: '',
+        email: '',
+        password: '',
+        message: ''
+      }
+      
+    })
+
+    const { getByText } = render(
+      <Provider store={mockedStore}>
+        <App />
+      </Provider>
+    )
+    const registerLink = getByText(/Sign Up/)
+    fireEvent.click(registerLink)
+    expect(document.body.textContent).toMatch(/registrate para empezar/i)
+
+    const goLoginLink = document.querySelector('.Login-link')
+    fireEvent.click(goLoginLink)
+    expect(document.body.textContent).toMatch(/.*?inicia sesión/i)
+  })
 
   it('should change form fields and render success message on admin created', async () => {
     const successMessage = 'Cuenta creada exitosamente'

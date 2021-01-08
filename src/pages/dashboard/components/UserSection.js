@@ -78,7 +78,8 @@ function UserSection(props) {
 
   useEffect(() => {
     async function getName() {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin, type } = await dispatch(verifyUser(history,  token))
       if (getAdmin) {
         setCurrentUserName(getAdmin.data.name)
       } else if (getResident) {
@@ -102,11 +103,13 @@ function UserSection(props) {
     <UserTopBarDiv>
       <WelcomeMsg> ¡Hola, {currentUserName}!</WelcomeMsg>
       <AccountCircleIcon />
-      <IconButton style={{ padding: '0px' }}>
+      <IconButton 
+        style={{ padding: '0px' }}
+        onClick={userSectionOptionsClick}
+      >
         <ArrowDropDownIcon
           className='arrow-drop-down-icon'
           style={{ color: 'white', fontSize: '28px' }}
-          onClick={userSectionOptionsClick}
         />
       </IconButton>
       <CSSTransition

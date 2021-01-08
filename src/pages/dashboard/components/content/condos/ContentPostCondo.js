@@ -68,7 +68,8 @@ function ContentPostCondo () {
       admin: data.id
     }
 
-    dispatch(globalCreateDocument('condo', newDocument))
+    const token = localStorage.getItem('token')
+    dispatch(globalCreateDocument('condo', newDocument, token))
     dispatch({ type: CONDO_FORM_CLEAN })
 
   }

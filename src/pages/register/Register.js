@@ -117,7 +117,7 @@ function Register () {
         {message && <p>{message}</p>}
         <Paragraph>
           ¿Ya tienes una cuenta?{' '}
-          <Link to='/login' className='Register-link'>
+          <Link to='/login' className='Login-link'>
             Ingresar
           </Link>
         </Paragraph>

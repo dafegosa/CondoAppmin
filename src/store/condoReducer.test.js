@@ -46,9 +46,6 @@ describe('Condo reducer', () => {
   it('should trigger CONDOS_RETRIEVE', async () => {
 
     const { dispatch, getActions } = mockCondoReducer()
-    const history = {
-      push: jest.fn()
-    } 
     
     getCondos(token)(dispatch)
 

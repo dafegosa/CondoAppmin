@@ -99,7 +99,8 @@ const ContentViewTicket = (props) => {
   const [subTickets, setSubTickets] = useState([])
 
   useEffect(async () => {
-    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    const token = localStorage.getItem('token')
+    const { getResident, getAdmin, type } = await dispatch(verifyUser(history, token))
     let user = ''
     let getUser = ''
     if (getAdmin) {
@@ -136,7 +137,8 @@ const ContentViewTicket = (props) => {
   }
 
   useEffect(async () => {
-    const { getResident, getAdmin, type } = await dispatch(verifyUser())
+    const token = localStorage.getItem('token')
+    const { getResident, getAdmin, type } = await dispatch(verifyUser(history, token))
 
     if (getAdmin) {
       setUser('iAmAdmin')

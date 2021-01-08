@@ -68,8 +68,8 @@ function ContentPostUnit () {
       name: unitName,
       condoId: currentCondoId,
     }
-
-    dispatch(globalCreateDocument('unit', newDocument))
+    const token = localStorage.getItem('token')
+    dispatch(globalCreateDocument('unit', newDocument, token))
   }
   
   return (

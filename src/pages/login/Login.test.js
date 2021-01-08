@@ -1,7 +1,5 @@
 import { fireEvent, render, cleanup, act, screen } from "@testing-library/react"
-import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
-import { createMemoryHistory } from 'history'
 import Login from "./Login"
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -37,8 +35,27 @@ describe('Login form', () => {
   }
   it('Registrarme button should redirect to Sign Up', async () => {
 
-    const { getByText, debug } = render(
-      <Provider store={store}>
+    const mockedStore = mockLoginReducer({
+      loginReducer: {
+        email: '',
+        password: '',
+        type: '',
+        message: ''
+      },
+      signupReducer: {
+        name: '',
+        lastName: '',
+        idnumber: '',
+        phone: '',
+        email: '',
+        password: '',
+        message: ''
+      }
+      
+    })
+
+    const { getByText } = render(
+      <Provider store={mockedStore}>
         <App />
       </Provider>
     )
@@ -52,9 +69,8 @@ describe('Login form', () => {
 
   })
  
-  
   it('should change form fields, and install a token on login success', async () => {
-    const successMessage = 'Inicio de sesión exitoso'
+  
     const { getByLabelText, getByTestId, getByText, debug } = render(
       <Provider store={store} >
         <Router>
@@ -62,7 +78,11 @@ describe('Login form', () => {
         </Router>
       </Provider>
     )
-    
+
+    const adminRadioField = getByLabelText('Administrador')
+    fireEvent.change(adminRadioField, { target: { value: currentUser.type } })
+    expect(adminRadioField.value).toBe(currentUser.type)  
+
     const emailField =  getByLabelText('Email')
     fireEvent.change(emailField, { target: { value: currentUser.email } })
     expect(emailField.value).toBe(currentUser.email)
@@ -87,6 +107,7 @@ describe('Login form', () => {
     }) 
     const currentToken = localStorage.getItem('token')
     expect(currentToken).toMatch(token)
+    expect(document.location.href).toMatch(/dashboard/i)
   })
 
   it('should change form fields and show failure message', async () => {
@@ -99,14 +120,15 @@ describe('Login form', () => {
         </Router>
       </Provider>
     )
-    const adminRadioField = getByLabelText('Administrador')
-    fireEvent.change(adminRadioField, { target: { value: currentUser.type } })
-    expect(adminRadioField.value).toBe(currentUser.type)  
-
+    
     const residentRadioField = getByLabelText('Residente')
     fireEvent.change(residentRadioField, { target: { value: 'resident' } })
     expect(residentRadioField.value).toBe('resident')  
 
+    const adminRadioField = getByLabelText('Administrador')
+    fireEvent.change(adminRadioField, { target: { value: currentUser.type } })
+    expect(adminRadioField.value).toBe(currentUser.type)  
+    
     const emailField =  getByLabelText('Email')
     fireEvent.change(emailField, { target: { value: currentUser.email } })
     expect(emailField.value).toBe(currentUser.email)
@@ -134,6 +156,5 @@ describe('Login form', () => {
     const message = getByText(failureMessage)
     expect(message.innerHTML).toBe(failureMessage)
   })
-  
 
 })
