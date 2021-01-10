@@ -199,41 +199,4 @@ describe('Left Menu', () => {
     const condosOption = getByTestId(optionSelected)
     expect(condosOption.className).toMatch(/active/i)
   })
-
-  it('should dispatch some actions', () => {
-
-    const mockedStore = mockStore({
-      sessionReducer: {
-        admin: true,
-        resident: false,
-        currentOption: ''
-      },
-      condoReducer: {
-        condos: []
-      },
-    }) 
-    const { dispatch, getActions } = mockedStore
-
-    const theme = {
-      mainColor: 'rgba(96, 125, 139, 1)',
-      secondaryColor: 'rgba(96, 125, 139, 0.7)',
-      thirdColor: 'rgba(255, 191, 91, 0.9)',
-    }
-
-    const { queryByText, debug, getByTestId, container } = render(
-      <Provider store={mockedStore}>
-        <MemoryRouter>
-          <ThemeProvider theme={theme}>
-            <LeftMenu />
-          </ThemeProvider>
-        </MemoryRouter>
-      </Provider>
-    )
-    
-    /* const actions = getActions()
-    console.log('acciones', actions) */
-    
-
-
-  })
 })

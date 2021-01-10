@@ -6,8 +6,6 @@ import ContentGetResidents from './ContentGetResidents'
 import { MemoryRouter } from 'react-router-dom'
 import moxios from 'moxios'
 import '@testing-library/jest-dom'
-import { getCondos } from '../../../../../store/condoReducer'
-// import store from '../../../../../store'
 
 const middlewares  = [thunk]
 const mockResidentReducer = configureStore(middlewares)

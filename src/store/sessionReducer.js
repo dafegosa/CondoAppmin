@@ -27,7 +27,6 @@ export function verifyUser(history, token) {
           Authorization: `Bearer ${token}`,
         },
       })
-      //console.log('verifying user')
       dispatch({ type: LOGGED_ADMIN })
     } catch (err) {}
 

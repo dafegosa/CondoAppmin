@@ -6,8 +6,6 @@ import ContentGetUnits from './ContentGetUnits'
 import { MemoryRouter } from 'react-router-dom'
 import moxios from 'moxios'
 import '@testing-library/jest-dom'
-import { getCondos } from '../../../../../store/condoReducer'
-// import store from '../../../../../store'
 
 const middlewares  = [thunk]
 const mockUnitReducer = configureStore(middlewares)
