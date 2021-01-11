@@ -61,7 +61,7 @@ const CondoUnitsTitle = styled.h3`
 const UnitNameInput = styled.input`
 `
 
-function ContentPostUnit () {
+function ContentGetUnits () {
 
   const [showDialog, setShowDialog] = useState(false)
   const [deleteUnit, setDeleteUnit] = useState(false)
@@ -77,8 +77,8 @@ function ContentPostUnit () {
     ({ condoReducer: { currentCondoId, currentCondoName } }) => {
     return { currentCondoId, currentCondoName }
     }) 
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   
   const dispatch = useDispatch()
@@ -159,7 +159,7 @@ function ContentPostUnit () {
       <GetUnitsTitle>{`Listado de Unidades de ${currentCondoName}`}</GetUnitsTitle>
       <Dialog
         open={showDialog}
-        o>
+      >
         ¿Estas seguro que deseas borrar la unidad, si borras una unidad con residente ?
         <DialogActions>
           <button onClick={onDeleteModal.bind(this, 'Si')} color="primary">
@@ -174,7 +174,10 @@ function ContentPostUnit () {
         {units && units.length > 0 ? 
           units.map(unit => {
             return (
-              <SingleUnitOuterDiv key={unit._id}>
+              <SingleUnitOuterDiv 
+                key={unit._id}
+                data-testid="unit"
+              >
                 <SingleUnitInnerDiv>
                   {showUnitInfo(unit._id, unit.name)}
                 </SingleUnitInnerDiv>
@@ -188,16 +191,22 @@ function ContentPostUnit () {
                     <p>No asignado</p>
                   </SingleUnitInnerDiv> }
                 <SingleUnitInnerDiv>
-                  <IconButton style={{ padding: '0px' }}>
+                  <IconButton 
+                    style={{ padding: '0px' }}
+                    onClick={onDeleteUnit.bind(unit, unit._id)}
+                    data-testid="delete"
+                  >
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteUnit.bind(unit, unit._id)}
                     />
                   </IconButton>
-                  <IconButton style={{ padding: '0px', display: 'block' }}>
+                  <IconButton 
+                    style={{ padding: '0px', display: 'block' }}
+                    onClick={onEditUnit.bind(unit, unit._id, unit.name)}
+                    data-testid="edit"
+                  >
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditUnit.bind(unit, unit._id, unit.name)}
                     />
                   </IconButton>
                 </SingleUnitInnerDiv>
@@ -210,4 +219,4 @@ function ContentPostUnit () {
 }
 
 
-export default ContentPostUnit
+export default ContentGetUnits

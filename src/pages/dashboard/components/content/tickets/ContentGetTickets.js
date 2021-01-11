@@ -101,7 +101,8 @@ const ContentGetTickets = () => {
 
   useEffect(() => {
     async function getTickets () {
-      const { getResident, getAdmin } = await dispatch(verifyUser(history))
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
       if (getAdmin) {
         dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '', currentCondoId))
       } else if (getResident) {

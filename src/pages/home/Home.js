@@ -71,12 +71,12 @@ class Home extends React.Component {
       <HomeOuterDiv>
         <Navbar>
           <Link to='/login'>
-            <LoginButtonDiv>
+            <LoginButtonDiv data-testid="login-button">
               <p>Login</p>
             </LoginButtonDiv>
           </Link>
           <Link to='/register'>
-            <SignupButtonDiv>
+            <SignupButtonDiv data-testid="register-button">
               <p>Sign Up</p>
             </SignupButtonDiv>
           </Link>

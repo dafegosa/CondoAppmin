@@ -143,12 +143,12 @@ function Login () {
   }
   return (
     <EnterFormDiv>
-      <EnterForm onSubmit={userValidation}>
+      <EnterForm onSubmit={userValidation} data-testid="login">
         <FormHeading>Bienvenido</FormHeading>
         <FormDescription>
           Inicia sesión para seguir administrando tu conjunto
         </FormDescription>
-        <InputDiv onChange={handleInputChange} className="radioInputs">
+        <InputDiv onChange={handleInputChange} className="radioInputs" data-testid="radio">
           <div>
             <input
               type="radio"
@@ -187,7 +187,7 @@ function Login () {
           />
         </InputDiv>
         <Button type="submit">Ingresar</Button>
-        {message}
+        {message && <p>{message}</p>}
         <Paragraph>
           ¿No tienes una cuenta?{' '}
           <Link to="/register" className="Register-link">

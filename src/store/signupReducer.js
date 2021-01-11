@@ -7,7 +7,7 @@ export const CLEAN_SIGNUP = 'CLEAN_SIGNUP'
 export function userSignup(newUser) {
   return async function (dispatch) {
     try {
-      const createdUser = await axios({
+      const { data } = await axios({
         method: 'POST',
         baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/admin/signup',
@@ -15,7 +15,7 @@ export function userSignup(newUser) {
       })
       dispatch({
         type: SET_SIGNUP_MESSAGE,
-        payload: 'Cuenta creada exitosamente',
+        payload: data.message,
       })
       dispatch({ type: CLEAN_SIGNUP })
     } catch (err) {

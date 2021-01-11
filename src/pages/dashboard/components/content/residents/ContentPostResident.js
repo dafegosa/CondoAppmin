@@ -74,7 +74,8 @@ function ContentPostResident () {
       unitId: resUnit,
       condoId: currentCondoId
     }
-    dispatch(globalCreateDocument('resident', newDocument))
+    const token = localStorage.getItem('token')
+    dispatch(globalCreateDocument('resident', newDocument, token))
   }
   return (
     !admin ? <Redirect to="/dashboard" /> :

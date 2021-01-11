@@ -69,7 +69,6 @@ const LeftMenu = () => {
     return { condos }
   })
 
-  /* const chosenItem = useRef(null) */
   const dispatch = useDispatch()
 
   let history = useHistory()
@@ -82,7 +81,7 @@ const LeftMenu = () => {
     { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'ticket' },
     { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
-    { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venues' },
+    { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venue' },
   ]
   if (resident) leftMenuNav.splice(0, 3)
 
@@ -92,9 +91,11 @@ const LeftMenu = () => {
 
   useEffect(() => {
     async function checkForCondos () {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
       if (getAdmin) {
-        dispatch(getCondos())
+        const token = localStorage.getItem('token')
+        dispatch(getCondos(token))
       }
     }
     checkForCondos()
@@ -109,7 +110,7 @@ const LeftMenu = () => {
   }
 
   return (
-    <Container>
+    <Container data-testid="left-menu">
       {admin && condos.length > 0 ? <ChooseCondo /> : (
         <Logo>
           <img src={logo} alt='logo' />
@@ -121,8 +122,9 @@ const LeftMenu = () => {
           leftMenuNav.map((el, i) => (
           <li key={el.name}>
             <Select
-                onClick={leftMenuRouter.bind(i, el.link)}
-                className={addClassToMenuItem(el.link)}
+              data-testid={el.link}
+              onClick={leftMenuRouter.bind(i, el.link)}
+              className={addClassToMenuItem(el.link)}
             >
               <i className={el.icon}></i>
               <span>{el.name}</span>
