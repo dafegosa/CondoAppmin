@@ -15,8 +15,7 @@ export const CHOSEN_CONDO_CLEAN = 'CHOSEN_CONDO_CLEAN'
 
 export function getCondos(token) {
   return async function (dispatch) {
-    
-    try {
+     try {
       const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
