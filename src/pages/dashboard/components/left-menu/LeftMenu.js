@@ -119,13 +119,10 @@ const LeftMenu = () => {
 
   return (
     <Container data-testid='left-menu'>
-      {admin && condos.length > 0 ? (
-        <ChooseCondo />
-      ) : (
-        <Logo>
-          <img src={logo} alt='logo' />
-        </Logo>
-      )}
+      <Logo>
+        <img src={logo} alt='logo' />
+      </Logo>
+      {admin && condos.length > 0 ? <ChooseCondo /> : null}
       <SideMenu>
         <ul>
           {!!leftMenuNav &&

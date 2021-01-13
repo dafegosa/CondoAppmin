@@ -7,14 +7,24 @@ import { globalHandleChange } from '../../../../store/sessionReducer'
 const ChooseCondoDiv = styled.div`
   box-sizing: border-box;
   height: 12.5%;
-  width: 100%;
+  width: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  margin-left: 15%;
+`
+
+const Button = styled.button`
+  background: rgba(96, 125, 139, 1);
+  color: white;
+  text-align: center;
+  padding: 2px;
 `
 const ChooseCondoForm = styled.form`
   display: flex;
   height: 20px;
+  flex-direction: column;
 `
 
 function ChooseCondo() {
@@ -47,6 +57,7 @@ function ChooseCondo() {
   return (
     <ChooseCondoDiv>
       <ChooseCondoForm onSubmit={handleSubmit}>
+        <Button type='submit'>Seleccionar</Button>
         <select
           name='chosenCondo'
           id='condo-select'
@@ -65,7 +76,6 @@ function ChooseCondo() {
               )
             })}
         </select>
-        <button type='submit'>Seleccionar</button>
       </ChooseCondoForm>
     </ChooseCondoDiv>
   )
