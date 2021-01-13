@@ -15,7 +15,7 @@ const ContentDiv = styled.main`
   padding: 10px;
   box-sizing: border-box;
   display: flex;
-
+  overflow-y: scroll;
   @media (max-width: 768px) {
     grid-area: 2 / 2 / 9 / 13;
   }

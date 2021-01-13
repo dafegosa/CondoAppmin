@@ -17,7 +17,6 @@ export function signoutDispatch() {
 
 export function verifyUser(history, token) {
   return async function (dispatch) {
-    
     try {
       var getAdmin = await axios({
         method: 'GET',
@@ -46,11 +45,15 @@ export function verifyUser(history, token) {
 
     if (getAdmin) {
       return { getAdmin, type: 'admin' }
-
     } else if (getResident) {
-      dispatch({ type: CONDO_SELECT, payload: {id: getResident.data.condoId, condoName: getResident.data.condoName} })
+      dispatch({
+        type: CONDO_SELECT,
+        payload: {
+          id: getResident.data.condoId,
+          condoName: getResident.data.condoName,
+        },
+      })
       return { getResident, type: 'resident' }
-
     } else {
       localStorage.removeItem('token')
       history.push('/login')
@@ -83,7 +86,7 @@ export function globalHandleChange(e, reducer) {
       name,
       value,
     }
-    console.log('condo', newState)
+    console.log('condoooo', newState)
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
 }
@@ -91,7 +94,6 @@ export function globalHandleChange(e, reducer) {
 export function globalCreateDocument(endpoint, document, token) {
   return async function (dispatch) {
     try {
-      
       const { data } = await axios({
         method: 'POST',
         baseURL: process.env.REACT_APP_SERVER_URL,
@@ -108,7 +110,12 @@ export function globalCreateDocument(endpoint, document, token) {
     } catch (err) {}
   }
 }
-export function globalUpdateDocument(endpoint, documentId, updatedDocument, documents) {
+export function globalUpdateDocument(
+  endpoint,
+  documentId,
+  updatedDocument,
+  documents
+) {
   return async function (dispatch) {
     try {
       const token = localStorage.getItem('token')
@@ -121,20 +128,43 @@ export function globalUpdateDocument(endpoint, documentId, updatedDocument, docu
           Authorization: `Bearer ${token}`,
         },
       })
-     
+
       dispatch({
         type: `${endpoint.toUpperCase()}_MESSAGE_SET`,
-        payload: data.message
+        payload: data.message,
       })
-      
     } catch (err) {
       dispatch({
         type: `${endpoint.toUpperCase()}_ERROR_SET`,
-        payload: err.response.data.message
+        payload: err.response.data.message,
       })
     }
   }
 }
+// export function globalRemoveDocument(endpoint, documentid, documents = null) {
+//   return async function (dispatch) {
+//     try {
+//       const token = localStorage.getItem('token')
+//       const response = await axios({
+//         method: 'DELETE',
+//         baseURL: process.env.REACT_APP_SERVER_URL,
+//         url: `/${endpoint}/${documentid}`,
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       })
+
+//       const filteredDocuments = documents.filter(unit => {
+//         return unit._id !== documentid
+//       })
+//       dispatch({
+//         type: `${endpoint.toUpperCase()}_DELETE`,
+//         payload: filteredDocuments,
+//       })
+//     } catch (err) {}
+//   }
+// }
+
 export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {
     try {
@@ -148,31 +178,7 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
         },
       })
 
-      const filteredDocuments = documents.filter(unit => {
-        return unit._id !== documentid
-      })
-      dispatch({
-        type: `${endpoint.toUpperCase()}_DELETE`,
-        payload: filteredDocuments,
-      })
-    } catch (err) {}
-  }
-}
-
-export function globalRemoveDocument(endpoint, documentid, documents = null) {
-  return async function (dispatch) {
-    try {
-      const token = localStorage.getItem('token')
-      const response = await axios({
-        method: 'DELETE',
-        baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/${endpoint}/${documentid}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      const filteredDocuments = documents.filter(document => {
+      const filteredDocuments = documents.filter((document) => {
         return document._id !== documentid
       })
       dispatch({
@@ -186,7 +192,7 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
 export const initialState = {
   admin: false,
   resident: false,
-  currentOption: ''
+  currentOption: '',
 }
 
 export function sessionReducer(state = initialState, action) {
@@ -208,10 +214,10 @@ export function sessionReducer(state = initialState, action) {
         resident: false,
       }
     case SET_CURRENT_OPTION:
-        return {
-          ...state,
-          currentOption: action.payload
-        }
+      return {
+        ...state,
+        currentOption: action.payload,
+      }
     default:
       return state
   }

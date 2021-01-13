@@ -48,6 +48,7 @@ const initialState = {
 function condoReducer(state = initialState, action) {
   switch (action.type) {
     case CONDO_HANDLE_CHANGE:
+      console.log('action payload', action.payload)
       const { name, value } = action.payload
       return {
         ...state,

@@ -233,7 +233,7 @@ function ContentEditResident() {
                 </option>
               )
             })}
-        </select>
+        </input>
         <button type='submit'>Submit</button>
         {message || error}
       </ResidentsForm>

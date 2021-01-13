@@ -27,6 +27,9 @@ const BigCentarlMessagesContainer = styled.form`
   }
   .ck-content {
     height: 10%;
+    max-height: 500px;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 `
 
@@ -38,9 +41,9 @@ const Input = styled.input`
 `
 const MessageZone = styled.div`
   width: 100%;
-  height: 80%;
+  height: 70%;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
   .ticketBody {
@@ -100,7 +103,9 @@ const ContentViewTicket = (props) => {
 
   useEffect(async () => {
     const token = localStorage.getItem('token')
-    const { getResident, getAdmin, type } = await dispatch(verifyUser(history, token))
+    const { getResident, getAdmin, type } = await dispatch(
+      verifyUser(history, token)
+    )
     let user = ''
     let getUser = ''
     if (getAdmin) {
@@ -138,7 +143,9 @@ const ContentViewTicket = (props) => {
 
   useEffect(async () => {
     const token = localStorage.getItem('token')
-    const { getResident, getAdmin, type } = await dispatch(verifyUser(history, token))
+    const { getResident, getAdmin, type } = await dispatch(
+      verifyUser(history, token)
+    )
 
     if (getAdmin) {
       setUser('iAmAdmin')
