@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { IconButton, Dialog, DialogActions } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import { useSelector, useDispatch } from 'react-redux'
-import { CONDO_ERROR_CLEAN, CONDO_MESSAGE_CLEAN, getCondos } from '../../../../../store/condoReducer'
-import { globalRemoveDocument, globalHandleChange, globalUpdateDocument } from '../../../../../store/sessionReducer'
+import {
+  CONDO_ERROR_CLEAN,
+  CONDO_MESSAGE_CLEAN,
+  getCondos,
+} from '../../../../../store/condoReducer'
+import {
+  globalRemoveDocument,
+  globalHandleChange,
+  globalUpdateDocument,
+} from '../../../../../store/sessionReducer'
 
 export const ListCondosDiv = styled.div`
   padding: 0 10px;
@@ -18,7 +26,8 @@ export const ListCondosDiv = styled.div`
   box-sizing: border-box;
   overflow-y: scroll;
 
-  & input, & select {
+  & input,
+  & select {
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
@@ -37,7 +46,6 @@ const CondoListSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 `
 
 const SingleCondoOuterDiv = styled.div`
@@ -53,10 +61,10 @@ const SingleCondoOuterDiv = styled.div`
   border: 1px solid rgba(96, 125, 139, 0.7);
   background-color: rgba(96, 125, 139, 0.6);
   overflow: scroll;
-  
+
   &:last-child {
     margin-bottom: 0;
-  } 
+  }
 `
 const SingleCondoInnerDiv = styled.div`
   padding: 5px;
@@ -64,10 +72,10 @@ const SingleCondoInnerDiv = styled.div`
   width: 30%;
   &:first-child {
     border-left: 0px;
-  } 
+  }
   &:last-child {
     border-left: 1px solid white;
-  } 
+  }
 `
 
 const CondoName = styled.h2`
@@ -86,37 +94,31 @@ const CondoAddress = styled.p`
   font-weight: 300;
   font-size: 16px;
 `
-const CondoNameInput = styled.input`
+const CondoNameInput = styled.input``
+const CondoAddressInput = styled.input``
 
-`
-const CondoAddressInput = styled.input`
-
-`
-
-function ContentPostCondo () {
-
+function ContentGetCondos() {
   const { condos, condoName, condoAddress, message, error } = useSelector(
     ({ condoReducer: { condos, condoName, condoAddress, message, error } }) => {
-    return { condos, condoName, condoAddress, message, error }
-    }) 
+      return { condos, condoName, condoAddress, message, error }
+    }
+  )
 
   const [showDialog, setShowDialog] = useState(false)
   const [condoToDelete, setCondoToDelete] = useState('')
   const [deleteCondo, setDeleteCondo] = useState(false)
   const [condoToEdit, setCondoToEdit] = useState('')
-  const [editCondo, setEditCondo] = useState(false)
 
-
-
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
   })
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCondos())
-    dispatch({type: CONDO_ERROR_CLEAN})
-    dispatch({type: CONDO_MESSAGE_CLEAN})
+    const token = localStorage.getItem('token')
+    dispatch(getCondos(token))
+    dispatch({ type: CONDO_ERROR_CLEAN })
+    dispatch({ type: CONDO_MESSAGE_CLEAN })
   }, [condoToEdit])
 
   const onDeleteCondo = (condoId) => {
@@ -124,10 +126,19 @@ function ContentPostCondo () {
     setShowDialog(true)
   }
   const onEditCondo = (condoId, name, address) => {
-
     if (!condoToEdit) {
-      dispatch(globalHandleChange({ target: { name: 'condoName', value: name }}, 'CONDO'))
-      dispatch(globalHandleChange({ target: { name: 'condoAddress', value: address }}, 'CONDO'))
+      dispatch(
+        globalHandleChange(
+          { target: { name: 'condoName', value: name } },
+          'CONDO'
+        )
+      )
+      dispatch(
+        globalHandleChange(
+          { target: { name: 'condoAddress', value: address } },
+          'CONDO'
+        )
+      )
       setCondoToEdit(condoId)
     } else {
       setCondoToEdit('')
@@ -137,7 +148,7 @@ function ContentPostCondo () {
   const onDeleteModal = (value) => {
     if (value === 'Si') {
       setDeleteCondo(true)
-      
+
       dispatch(globalRemoveDocument('condo', condoToDelete, condos))
       setShowDialog(false)
     } else {
@@ -150,11 +161,10 @@ function ContentPostCondo () {
     dispatch(globalHandleChange(e, 'CONDO'))
   }
   const handleSubmit = (e) => {
-
     e.preventDefault()
     const updatedCondo = {
       name: condoName,
-      address: condoAddress
+      address: condoAddress,
     }
     dispatch(globalUpdateDocument('condo', condoToEdit, updatedCondo, condos))
   }
@@ -162,72 +172,106 @@ function ContentPostCondo () {
     if (condoId === condoToEdit) {
       return (
         <form onSubmit={handleSubmit}>
-          <CondoNameInput 
+          <CondoNameInput
             id='condoName'
             name='condoName'
-            type="text" 
+            type='text'
             onChange={handleChange}
             value={condoName}
             required
           />
-          <CondoAddressInput 
+          <CondoAddressInput
             id='condoAddress'
             name='condoAddress'
-            type="text" 
+            type='text'
             onChange={handleChange}
             value={condoAddress}
             required
           />
-          <button type="submit">Actualizar</button>
+          <button type='submit'>Actualizar</button>
           {message || error}
         </form>
-        )
+      )
     } else {
       return (
-      <>
-        <CondoName>{name}</CondoName>
-        <CondoAddress>{address}</CondoAddress>
-      </>
+        <>
+          <CondoName>{name}</CondoName>
+          <CondoAddress>{address}</CondoAddress>
+        </>
       )
     }
   }
- 
-  return (
-    !admin ? <Redirect to="/dashboard" /> :
-    (<ListCondosDiv>
+
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
+    <ListCondosDiv>
       <GetCondosTitle>Listado de Condominios</GetCondosTitle>
-      <Dialog
-        open={showDialog}
-      >
+      <Dialog open={showDialog}>
         {`¿Estas seguro que deseas borrar ${condoToDelete}?`}
         <DialogActions>
-          <button onClick={onDeleteModal.bind(this, 'Si')} color="primary">
+          <button onClick={onDeleteModal.bind(this, 'Si')} color='primary'>
             Si
           </button>
-          <button onClick={onDeleteModal.bind(this, 'No')} color="primary" autoFocus>
+          <button
+            onClick={onDeleteModal.bind(this, 'No')}
+            color='primary'
+            autoFocus
+          >
             No
           </button>
         </DialogActions>
       </Dialog>
       <CondoListSection>
-        {!!condos && condos.length > 0 ? 
-          condos.map(condo => {
+        {!!condos && condos.length > 0 ? (
+          condos.map((condo) => {
             return (
-              <SingleCondoOuterDiv key={condo._id}>
+              <SingleCondoOuterDiv key={condo._id} data-testid='condo'>
                 <SingleCondoInnerDiv>
                   {showCondoInfo(condo._id, condo.name, condo.address)}
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
                   <CondoUnitsTitle>Total de unidades</CondoUnitsTitle>
-                  {!!condo.unitIds && condo.unitIds.length > 0 ? 
-                    <p>{condo.unitIds.length}</p> : <p>Sin unidades</p>}  
+                  {!!condo.unitIds && condo.unitIds.length > 0 ? (
+                    <p>{condo.unitIds.length}</p>
+                  ) : (
+                    <p>Sin unidades</p>
+                  )}
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
                   <CondoUnitsTitle>Ocupación</CondoUnitsTitle>
-                  <p>28%</p>
+                  {!!condo.unitIds && condo.unitIds.length > 0 ? (
+                    <p>{`${Math.floor(
+                      (condo.residentIds.length / condo.unitIds.length) * 100
+                    )}%`}</p>
+                  ) : (
+                    <p>N/A</p>
+                  )}
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                <IconButton style={{ padding: '0px' }}>
+                  <IconButton
+                    title='Borrar condominio'
+                    style={{ padding: '0px' }}
+                    onClick={onDeleteCondo.bind(this, condo._id)}
+                    data-testid='delete'
+                  >
+                    <DeleteIcon style={{ color: 'white', fontSize: '24px' }} />
+                  </IconButton>
+                  <IconButton
+                    style={{ padding: '0px', display: 'block' }}
+                    onClick={onEditCondo.bind(
+                      this,
+                      condo._id,
+                      condo.name,
+                      condo.address
+                    )}
+                    data-testid='edit'
+                  >
+                    <EditIcon style={{ color: 'white', fontSize: '24px' }} />
+                  </IconButton>
+                </SingleCondoInnerDiv>
+                <SingleCondoInnerDiv>
+                  <IconButton style={{ padding: '0px' }}>
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
                       onClick={onDeleteCondo.bind(this, condo._id)}
@@ -236,17 +280,24 @@ function ContentPostCondo () {
                   <IconButton style={{ padding: '0px', display: 'block' }}>
                     <EditIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditCondo.bind(this, condo._id, condo.name, condo.address)}
+                      onClick={onEditCondo.bind(
+                        this,
+                        condo._id,
+                        condo.name,
+                        condo.address
+                      )}
                     />
                   </IconButton>
                 </SingleCondoInnerDiv>
               </SingleCondoOuterDiv>
             )
-          }) : <p>No tienes condominios por el momento</p>}
+          })
+        ) : (
+          <p>No tienes condominios por el momento</p>
+        )}
       </CondoListSection>
-    </ListCondosDiv>)
+    </ListCondosDiv>
   )
 }
 
-
-export default ContentPostCondo
+export default ContentGetCondos

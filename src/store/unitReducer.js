@@ -12,8 +12,9 @@ const UNITS_RETRIEVE = 'UNITS_RETRIEVE'
 
 export function retrieveUnits(condoid) {
   return async function (dispatch) {
+    dispatch({ type: UNIT_MESSAGE_SET, payload: 'loading units...' })
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     try {
       const { data } = await axios({
         method: 'GET',
@@ -33,63 +34,61 @@ const initialState = {
   units: [],
   unitName: '',
   message: '',
-  error: ''
+  error: '',
 }
 
 function unitReducer(state = initialState, action) {
-
   switch (action.type) {
     case UNIT_HANDLE_CHANGE:
       const { name, value } = action.payload
       return {
         ...state,
-        [name]: value
+        [name]: value,
       }
     case UNIT_CREATE:
       return {
         ...state,
-        message: action.payload
+        message: action.payload,
       }
     case UNIT_DELETE:
       return {
         ...state,
-        units: action.payload
+        units: action.payload,
       }
     case UNITS_RETRIEVE:
       return {
         ...state,
-        units: action.payload
+        units: action.payload,
+        message: '',
       }
     case UNIT_FORM_CLEAN:
       return {
         ...state,
-        unitName: ''
+        unitName: '',
       }
     case UNIT_MESSAGE_CLEAN:
       return {
         ...state,
-        message: ''
+        message: '',
       }
     case UNIT_MESSAGE_SET:
       return {
         ...state,
-        message: action.payload
+        message: action.payload,
       }
     case UNIT_ERROR_CLEAN:
       return {
         ...state,
-        error: ''
+        error: '',
       }
     case UNIT_ERROR_SET:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
       }
     default:
-      return state;
+      return state
   }
-
 }
-
 
 export default unitReducer

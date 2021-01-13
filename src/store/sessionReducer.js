@@ -1,19 +1,23 @@
 import axios from 'axios'
+import { CONDO_SELECT, CONDO_SELECT_CLEAN } from './condoReducer'
+import { MESSAGE_LIST_CLEAN } from './messageReducer'
 
 export const LOGGED_ADMIN = 'LOGGED_ADMIN'
 export const LOGGED_RESIDENT = 'LOGGED_RESIDENT'
 export const SIGNOUT = 'SIGNOUT'
+export const SET_CURRENT_OPTION = 'SET_CURRENT_OPTION'
 
 export function signoutDispatch() {
-  return {
-    type: SIGNOUT,
+  return function (dispatch) {
+    dispatch({ type: SIGNOUT })
+    dispatch({ type: CONDO_SELECT_CLEAN })
+    dispatch({ type: MESSAGE_LIST_CLEAN })
   }
 }
 
-export function verifyUser(history) {
+export function verifyUser(history, token) {
   return async function (dispatch) {
-    const token = localStorage.getItem('token')
-
+    
     try {
       var getAdmin = await axios({
         method: 'GET',
@@ -23,6 +27,7 @@ export function verifyUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
+      dispatch({ type: LOGGED_ADMIN })
     } catch (err) {}
 
     try {
@@ -34,14 +39,18 @@ export function verifyUser(history) {
           Authorization: `Bearer ${token}`,
         },
       })
+      dispatch({ type: LOGGED_RESIDENT })
     } catch (err) {}
 
+    dispatch({ type: MESSAGE_LIST_CLEAN })
+
     if (getAdmin) {
-      dispatch({ type: LOGGED_ADMIN })
       return { getAdmin, type: 'admin' }
+
     } else if (getResident) {
-      dispatch({ type: LOGGED_RESIDENT })
+      dispatch({ type: CONDO_SELECT, payload: {id: getResident.data.condoId, condoName: getResident.data.condoName} })
       return { getResident, type: 'resident' }
+
     } else {
       localStorage.removeItem('token')
       history.push('/login')
@@ -79,10 +88,10 @@ export function globalHandleChange(e, reducer) {
   }
 }
 
-export function globalCreateDocument(endpoint, document) {
+export function globalCreateDocument(endpoint, document, token) {
   return async function (dispatch) {
     try {
-      const token = localStorage.getItem('token')
+      
       const { data } = await axios({
         method: 'POST',
         baseURL: process.env.REACT_APP_SERVER_URL,
@@ -150,12 +159,37 @@ export function globalRemoveDocument(endpoint, documentid, documents = null) {
   }
 }
 
-const initialState = {
-  admin: false,
-  resident: false,
+export function globalRemoveDocument(endpoint, documentid, documents = null) {
+  return async function (dispatch) {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await axios({
+        method: 'DELETE',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/${endpoint}/${documentid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const filteredDocuments = documents.filter(document => {
+        return document._id !== documentid
+      })
+      dispatch({
+        type: `${endpoint.toUpperCase()}_DELETE`,
+        payload: filteredDocuments,
+      })
+    } catch (err) {}
+  }
 }
 
-function sessionReducer(state = initialState, action) {
+export const initialState = {
+  admin: false,
+  resident: false,
+  currentOption: ''
+}
+
+export function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case LOGGED_ADMIN:
       return {
@@ -173,6 +207,11 @@ function sessionReducer(state = initialState, action) {
         admin: false,
         resident: false,
       }
+    case SET_CURRENT_OPTION:
+        return {
+          ...state,
+          currentOption: action.payload
+        }
     default:
       return state
   }

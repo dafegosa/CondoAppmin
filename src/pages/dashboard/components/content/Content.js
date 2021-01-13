@@ -1,12 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
-import ContentAddResident from './add-residents/ContentAddResident'
 import Condos from './condos/Condos'
 import Units from './units/Units'
-import ContentMessages from './allMessages/CentralMessagesList'
-import ContentMessagesForm from './allMessages/MessageForm'
-import ShowMessage from './allMessages/ShowMessage'
+import Residents from './residents/Residents'
+import { SET_CURRENT_OPTION } from '../../../../store/sessionReducer'
+import Tickets from './tickets/Tickets'
 
 const ContentDiv = styled.main`
   display: grid;
@@ -25,23 +25,25 @@ const ContentDiv = styled.main`
 `
 
 function Content() {
+  const dispatch = useDispatch()
   const history = useHistory()
+  const {
+    location: { pathname },
+  } = history
 
   const renderContent = () => {
-    const urlItems = history.location.pathname.split('/')
-    switch (urlItems[2]) {
+    const urlItems = pathname.substr(1).split('/')
+
+    dispatch({ type: SET_CURRENT_OPTION, payload: `${urlItems[1]}` })
+    switch (urlItems[1]) {
       case 'condo':
         return <Condos />
       case 'unit':
         return <Units />
-      case 'addresident':
-        return <ContentAddResident />
-      case 'tickets':
-        return <ContentMessages />
-      case 'messagesform':
-        return <ContentMessagesForm />
+      case 'resident':
+        return <Residents />
       case 'ticket':
-        return <ShowMessage />
+        return <Tickets />
       default:
         return <h1>Bienvenido al Dashboard</h1>
     }

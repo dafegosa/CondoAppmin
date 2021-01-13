@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { CONDO_SELECT_CLEAN } from './condoReducer'
 import { LOGGED_ADMIN, LOGGED_RESIDENT } from './sessionReducer'
 
 export const LOGIN_HANDLE_CHANGE = 'LOGIN_HANDLE_CHANGE'
@@ -18,17 +19,19 @@ export function userLogin(history, user, type) {
       localStorage.setItem('token', data.token)
       if (type === 'admin') {
         dispatch({ type: LOGGED_ADMIN })
+        dispatch({ type: CONDO_SELECT_CLEAN })
       } else {
         dispatch({ type: LOGGED_RESIDENT })
+        dispatch({ type: CONDO_SELECT_CLEAN })
       }
 
-      dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Inicio de sesión exisoso' })
+      dispatch({ type: SET_LOGIN_MESSAGE, payload: 'Inicio de sesión exitoso' })
       history.push('/dashboard')
       dispatch({ type: CLEAN_LOGIN })
     } catch (err) {
       dispatch({
         type: SET_LOGIN_MESSAGE,
-        payload: 'Usuario o contraseña inválida',
+        payload: err.response.data.message,
       })
     }
   }

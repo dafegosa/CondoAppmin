@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import messageReducer, {
+import {
   retrieveMessages,
   readMessage,
   retrieveResidentTickets,
 } from '../../../store/messageReducer'
-import sessionReducer, { verifyUser } from '../../../store/sessionReducer'
+import { verifyUser } from '../../../store/sessionReducer'
 
 const MessageContainer = styled.section`
   grid-area: 2 / 11 / 9 / 13;
@@ -87,9 +87,9 @@ function MessagesArea(props) {
   const { messages } = useSelector(({ messageReducer: { messages } }) => {
     return { messages }
   })
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { currentCondoId, currentCondoName } = useSelector(
+    ({ condoReducer: { currentCondoId, currentCondoName } }) => {
+      return { currentCondoId, currentCondoName }
     }
   )
   let history = useHistory()
@@ -103,11 +103,21 @@ function MessagesArea(props) {
 
   useEffect(() => {
     async function getTickets() {
-      const { getResident, getAdmin } = await dispatch(verifyUser(history))
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
 
       if (messages.length === 0) {
         if (getAdmin) {
-          dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '?read=false'))
+          dispatch(
+            retrieveMessages(
+              getAdmin.data.id,
+              'ticket',
+              '?read=false',
+              currentCondoId
+            )
+          )
         } else if (getResident) {
           dispatch(
             retrieveResidentTickets(
@@ -120,9 +130,10 @@ function MessagesArea(props) {
       }
     }
     getTickets()
-  }, [])
+  }, [currentCondoId])
+
   return (
-    <MessageContainer>
+    <MessageContainer data-testid='messages-area'>
       <p className='secction-title top-title'>
         <br />
         <strong>TICKETS</strong>

@@ -1,8 +1,8 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styled from "styled-components"
+import styled from 'styled-components'
 import { CONDO_SELECT, getCondos } from '../../../../store/condoReducer'
-import { globalHandleChange } from '../../../../store/sessionReducer'
+import { globalHandleChange } from '../../../../store/sessionReducer'
 
 const ChooseCondoDiv = styled.div`
   box-sizing: border-box;
@@ -11,22 +11,23 @@ const ChooseCondoDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
 `
 const ChooseCondoForm = styled.form`
   display: flex;
   height: 20px;
 `
 
-function ChooseCondo () {
-  
-  const { chosenCondo, condos } = useSelector(({ condoReducer: { chosenCondo, condos } }) => {
-    return { chosenCondo, condos }
-  })
+function ChooseCondo() {
+  const { chosenCondo, condos } = useSelector(
+    ({ condoReducer: { chosenCondo, condos } }) => {
+      return { chosenCondo, condos }
+    }
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCondos())
+    const token = localStorage.getItem('token')
+    dispatch(getCondos(token))
   }, [])
 
   const handleChange = (e) => {
@@ -35,25 +36,27 @@ function ChooseCondo () {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
-    const condo = condos.find(condo => condo._id === chosenCondo)
-    dispatch({type: CONDO_SELECT, payload: { id: chosenCondo, condoName: condo.name } })
+
+    const condo = condos.find((condo) => condo._id === chosenCondo)
+    dispatch({
+      type: CONDO_SELECT,
+      payload: { id: chosenCondo, condoName: condo.name },
+    })
   }
 
   return (
     <ChooseCondoDiv>
       <ChooseCondoForm onSubmit={handleSubmit}>
         <select
-          name="chosenCondo"
-          id="condo-select"
+          name='chosenCondo'
+          id='condo-select'
           value={chosenCondo}
           onChange={handleChange}
           required
         >
-          <option>
-            {"Escoge condominio"}
-          </option>
-          {condos && condos.length > 0 &&
+          <option>{'Escoge condominio'}</option>
+          {condos &&
+            condos.length > 0 &&
             condos.map((condo) => {
               return (
                 <option value={condo._id} key={condo._id}>
@@ -62,10 +65,10 @@ function ChooseCondo () {
               )
             })}
         </select>
-        <button type="submit">Seleccionar</button>
+        <button type='submit'>Seleccionar</button>
       </ChooseCondoForm>
     </ChooseCondoDiv>
   )
 }
 
-export default ChooseCondo;
+export default ChooseCondo

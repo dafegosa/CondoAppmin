@@ -70,13 +70,13 @@ function Condos () {
       case 'list':
         return <ContentGetCondos />
       default:
-        break;
+        return <p>You're on condos page</p>
     }
   }
 
   return (
     !admin ? <Redirect to='/dashboard' /> : (
-    <CondosOuterDiv>
+    <CondosOuterDiv data-testid="condos">
       <ContentTopBar>
         <ContentTopBarTab onClick={pickTab}>Agregar Condominio</ContentTopBarTab>
         <ContentTopBarTab onClick={pickTab}>Ver Condominios</ContentTopBarTab>

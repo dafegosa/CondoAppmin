@@ -37,7 +37,7 @@ const UnitsForm = styled.form`
   }
 `
 
-function ContentAddUnit () {
+function ContentPostUnit () {
 
   const { unitName, message } = useSelector(
     ({ unitReducer: { unitName, message } }) => {
@@ -68,8 +68,8 @@ function ContentAddUnit () {
       name: unitName,
       condoId: currentCondoId,
     }
-
-    dispatch(globalCreateDocument('unit', newDocument))
+    const token = localStorage.getItem('token')
+    dispatch(globalCreateDocument('unit', newDocument, token))
   }
   
   return (
@@ -94,4 +94,4 @@ function ContentAddUnit () {
   )
 }
 
-export default ContentAddUnit
+export default ContentPostUnit

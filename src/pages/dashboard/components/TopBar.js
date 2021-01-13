@@ -21,7 +21,7 @@ export const TopBarDiv = styled.header`
 
 const TopBar = (props) => {
   return (
-    <TopBarDiv>
+    <TopBarDiv data-testid="top-bar">
       <UserSection name={props.name} />
     </TopBarDiv>
   )

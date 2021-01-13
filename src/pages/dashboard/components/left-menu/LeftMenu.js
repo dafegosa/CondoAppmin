@@ -5,7 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import ChooseCondo from './ChooseCondo'
 import { getCondos } from '../../../../store/condoReducer'
-import { verifyUser } from '../../../../store/sessionReducer'
+import {
+  SET_CURRENT_OPTION,
+  verifyUser,
+} from '../../../../store/sessionReducer'
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
@@ -39,8 +42,10 @@ const Select = styled.div`
   color: #0a0f0f;
   width: 100%;
   box-sizing: border-box;
+  transition: 300ms;
 
-  &:hover {
+  &:hover,
+  &.active-item {
     background-color: white;
   }
   & i {
@@ -50,6 +55,7 @@ const Select = styled.div`
     margin-right: 15px;
   }
 `
+const liClass = 'menu-item'
 
 const Picture = styled.div`
   padding: 40px;
@@ -57,17 +63,21 @@ const Picture = styled.div`
 `
 
 const LeftMenu = () => {
-  const { admin, resident } = useSelector(
-    ({ sessionReducer: { admin, resident } }) => {
-      return { admin, resident }
+  const { admin, resident, currentOption } = useSelector(
+    ({ sessionReducer: { admin, resident, currentOption } }) => {
+      return { admin, resident, currentOption }
     }
   )
   const { condos } = useSelector(({ condoReducer: { condos } }) => {
     return { condos }
   })
+
   const dispatch = useDispatch()
 
   let history = useHistory()
+  const {
+    location: { pathname },
+  } = history
 
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
@@ -76,7 +86,7 @@ const LeftMenu = () => {
     { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'tickets' },
     { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
-    { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venues' },
+    { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venue' },
   ]
   if (resident) leftMenuNav.splice(0, 3)
 
@@ -85,19 +95,32 @@ const LeftMenu = () => {
   }
 
   useEffect(() => {
-    async function checkForCondos () {
-      const { getResident, getAdmin, type } = await dispatch(verifyUser(history))
+    async function checkForCondos() {
+      const token = localStorage.getItem('token')
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
       if (getAdmin) {
-        dispatch(getCondos())
+        const token = localStorage.getItem('token')
+        dispatch(getCondos(token))
       }
     }
-
     checkForCondos()
   }, [])
 
+  const addClassToMenuItem = (link) => {
+    if (link === currentOption) {
+      return 'active-item'
+    } else {
+      return
+    }
+  }
+
   return (
-    <Container>
-      {admin && condos.length > 0 ? <ChooseCondo /> : (
+    <Container data-testid='left-menu'>
+      {admin && condos.length > 0 ? (
+        <ChooseCondo />
+      ) : (
         <Logo>
           <img src={logo} alt='logo' />
         </Logo>
@@ -107,8 +130,12 @@ const LeftMenu = () => {
           {!!leftMenuNav &&
             leftMenuNav.length > 0 &&
             leftMenuNav.map((el, i) => (
-              <li>
-                <Select key={el.name} onClick={leftMenuRouter.bind(i, el.link)}>
+              <li key={el.name}>
+                <Select
+                  data-testid={el.link}
+                  onClick={leftMenuRouter.bind(i, el.link)}
+                  className={addClassToMenuItem(el.link)}
+                >
                   <i className={el.icon}></i>
                   <span>{el.name}</span>
                 </Select>
