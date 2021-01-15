@@ -9,6 +9,7 @@ import residentReducer from './residentReducer'
 import messageReducer from './messageReducer'
 import messageFormReducer from './messageFormReducer'
 import subTicketReducer from './subTicketReducer'
+import paymentReducer from './paymentReducer'
 
 const rootReducer = combineReducers({
   loginReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   messageReducer,
   messageFormReducer,
   subTicketReducer,
+  paymentReducer
 })
 const middlewares = applyMiddleware(thunk)
 
