@@ -47,7 +47,7 @@ function Content() {
     }
   }
 
-  return <ContentDiv>{renderContent()}</ContentDiv>
+  return <ContentDiv data-testid="content">{renderContent()}</ContentDiv>
 }
 
 export default Content

@@ -34,7 +34,7 @@ const ResidentsForm = styled.form`
 
 function ContentPostResident () {
 
-  const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error } = useSelector(( { unitReducer: { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }}) => {
+  const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error } = useSelector(( { residentReducer: { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }}) => {
     return { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }
   })
   const { units } = useSelector(( { unitReducer: { units }}) => {
@@ -74,6 +74,7 @@ function ContentPostResident () {
       unitId: resUnit,
       condoId: currentCondoId
     }
+    console.log('residente', newDocument)
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('resident', newDocument, token))
   }
