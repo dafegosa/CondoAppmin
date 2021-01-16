@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import ContentPostPayment from './ContentPostPayment'
 import ContentPaymentsSettings from './ContentPaymentsSettings'
 import ContentGetPayments from './ContentGetPayments'
+import ContentViewPayment from './ContentViewPayment'
 
 export const PaymentsOuterDiv = styled.div`
   width: 100%;
@@ -57,10 +58,10 @@ function Payments () {
     e.preventDefault()
     const { outerText } = e.target
 
-    let selectedButtons = document.querySelectorAll('.active')
-    selectedButtons.forEach(button => button.classList.remove('active'))
+    let selectedButtons = document.querySelectorAll('.active-tab')
+    selectedButtons.forEach(button => button.classList.remove('active-tab'))
 
-    e.target.classList.add('active')
+    e.target.classList.add('active-tab')
     console.log('outertext', outerText)
     switch (outerText) {
       case 'Configuraciones':
@@ -69,7 +70,10 @@ function Payments () {
       case 'Generar Pagos':
         history.push('/dashboard/payment/add')
         return 
-      case 'Ver Historial de Pagos':
+      case 'Todos los pagos':
+        history.push('/dashboard/payment/list')
+        return
+      case 'Mis pagos':
         history.push('/dashboard/payment/list')
         return
       default:
@@ -100,6 +104,8 @@ function Payments () {
         return <ContentPaymentsSettings  />
       case 'list':
         return <ContentGetPayments  />
+      case 'view':
+        return <ContentViewPayment  />
       default:
         return <p>You're on payments page</p>
     }
@@ -110,8 +116,8 @@ function Payments () {
       <ContentTopBar>
         {!!admin && <ContentTopBarTab onClick={pickTab}>Configuraciones</ContentTopBarTab>}
         {!!admin && <ContentTopBarTab onClick={pickTab}>Generar Pagos</ContentTopBarTab>}
-        {!admin && <ContentTopBarTab onClick={pickTab}>Ver Historial de Pagos</ContentTopBarTab>}
-        {!admin && <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>Ver Pago</ContentTopBarTab>}
+        <ContentTopBarTab onClick={pickTab}>{admin ? 'Todos los pagos' : 'Mis pagos'}</ContentTopBarTab>
+        <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>Ver Pago</ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </PaymentsOuterDiv>

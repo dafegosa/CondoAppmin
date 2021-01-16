@@ -7,7 +7,7 @@ import { globalHandleChange, globalCreateDocument } from '../../../../../store/s
 import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
 
 export const AddResidentDiv = styled.div`
-  padding: 10px;
+  padding: 10px 0;
   width: 100%;
   display: flex;
   flex-direction: column;

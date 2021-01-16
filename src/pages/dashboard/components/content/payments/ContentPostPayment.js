@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
 import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
 import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
+import { PAYMENTS_SET_MESSAGE, PAYMENTS_SET_ERROR, PAYMENTS_CLEAN_ERROR, PAYMENTS_CLEAN_MESSAGE, PAYMENTS_FORM_CLEAN } from '../../../../../store/paymentReducer'
 
 export const AddPaymentDiv = styled.div`
   padding: 10px;
@@ -50,10 +51,12 @@ function ContentPostPayment () {
 
   useEffect(() => {
     async function getUnits () {
+      dispatch({type: PAYMENTS_CLEAN_ERROR})
+      dispatch({type: PAYMENTS_CLEAN_MESSAGE})
+      dispatch({type: PAYMENTS_FORM_CLEAN})
+
       await dispatch(retrieveUnits(currentCondoId))
     }
-    dispatch({ type: RESIDENT_FORM_CLEAN })
-    dispatch({ type: RESIDENT_MESSAGE_CLEAN })
     getUnits()
   }, [currentCondoId])
 
@@ -64,21 +67,34 @@ function ContentPostPayment () {
   const createDocument = async (e) => {
     e.preventDefault()
 
-    const { data } = await getAdmin()
+    dispatch({type: PAYMENTS_CLEAN_ERROR})
+    dispatch({type: PAYMENTS_CLEAN_MESSAGE})
 
-    const newDocument = {
-      admin: data.id,
-      resident: '', 
-      condo: currentCondoId, 
-      unit: unit, 
-      service: service, 
-      value: value, 
-      dueDate: dueDate, 
+    try {
+      const { data } = await getAdmin()
+      const chosenUnit = units.find(singleUnit => singleUnit._id === unit)
+      console.log('chosenUnit', chosenUnit.resident._id)
+
+      const newDocument = {
+        admin: data.id,
+        resident: chosenUnit.resident._id, 
+        condo: currentCondoId, 
+        unit: unit, 
+        service: service, 
+        value: value, 
+        dueDate: dueDate, 
+      }
+      console.log('payment', newDocument)
+      const token = localStorage.getItem('token')
+      dispatch(globalCreateDocument('payment', newDocument, token))
+
+    } catch (err) {
+      dispatch({ type: PAYMENTS_SET_ERROR, payload: 'Asigne un residente a esa unidad' })
     }
-    console.log('residente', newDocument)
-    const token = localStorage.getItem('token')
-    dispatch(globalCreateDocument('payment', newDocument, token))
+   
   }
+  console.log('units', units)
+  console.log('unit', unit)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddPaymentDiv>
@@ -121,17 +137,17 @@ function ContentPostPayment () {
             Escoge unidad
           </option>
           {!!units &&
-            units.length &&
+            units.length > 0 &&
             units.map((unit) => {
               return (
                 <option value={unit._id} key={unit._id}>
                   {unit.name}
                 </option>
-              );
+              )
             })}
         </select>
         <button type='submit'>Submit</button>
-        {message || error}
+        {error ? <p style={{color: "red"}}>{error}</p> : <p>{message}</p>}
       </PaymentsForm>
     </AddPaymentDiv>
   )
