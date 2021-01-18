@@ -8,6 +8,7 @@ import Residents from './residents/Residents'
 import { SET_CURRENT_OPTION } from '../../../../store/sessionReducer'
 import Tickets from './tickets/Tickets'
 import Payments from './payments/Payments'
+import PaymentResponse from './payments/PaymentResponse'
 
 const ContentDiv = styled.main`
   display: grid;
@@ -45,6 +46,8 @@ function Content() {
         return <Tickets />
       case 'payment':
         return <Payments />
+      case 'response':
+        return <PaymentResponse />
       default:
         return <h1>Bienvenido al Dashboard</h1>
     }

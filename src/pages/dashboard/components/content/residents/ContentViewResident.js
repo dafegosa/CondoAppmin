@@ -6,7 +6,7 @@ import { getPayments } from "../../../../../store/paymentReducer"
 import { retrieveSingleResident } from "../../../../../store/residentReducer"
 import { AddResidentDiv as ViewResidentDiv, SectionTitle } from "./ContentPostResident"
 
-const ResidentInfoDiv = styled.div`
+export const ResidentInfoDiv = styled.div`
   display: flex;
   border-bottom: 3px solid rgba(96, 125, 139, 1);
   width: 100%;
@@ -27,7 +27,7 @@ export const ResidentInfoOuterDiv = styled.div`
     width: 100%;
   }
 `
-const ResidentInfoInnerDiv = styled.div`
+export const ResidentInfoInnerDiv = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@ export const ResidentInfoTitle = styled.h2`
     text-align: center;
   }
 `
-const ResidentInfoValue = styled.p`
+export const ResidentInfoValue = styled.p`
   font-weight: 300;
   font-size: 16px;
 `

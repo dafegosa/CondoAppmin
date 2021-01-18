@@ -9,13 +9,18 @@ export const PAYMENTS_SET_ERROR = 'PAYMENTS_SET_ERROR'
 export const PAYMENTS_CLEAN_ERROR = 'PAYMENTS_CLEAN_ERROR'
 export const PAYMENTS_FORM_CLEAN = 'PAYMENTS_FORM_CLEAN'
 export const PAYMENTS_CLEAN = 'PAYMENTS_CLEAN'
+export const SET_CURRENT_PAYMENT = 'SET_CURRENT_PAYMENT'
+export const SET_CURRENT_PAYMENT_ID = 'SET_CURRENT_PAYMENT_ID'
 
-export function getPayments (option, optionId, token, usertype = null) {
+export function getPayments (option, optionId = null, token, usertype = null) {
   return async function (dispatch) {
     let url = ''
-    console.log('option', option)
     if (option === 'resident') {
-      url = `/payment/${usertype}/${optionId}`
+      if (usertype === 'admin') {
+        url = `/payment/many/${usertype}/${optionId}`
+      } else if (usertype === 'resident') {
+        url = `/payment/many/${usertype}`
+      }
     } else if (option === 'condo') {
       url = `/payment/condo/${optionId}`
     }
@@ -35,7 +40,28 @@ export function getPayments (option, optionId, token, usertype = null) {
   }
 }
 
+export function retrieveSinglePayment (paymentid, usertype, token) {
+  return async function (dispatch) {
+
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/payment/single/${usertype}/${paymentid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      dispatch({ type: SET_CURRENT_PAYMENT, payload: data.data })
+    } catch (err) {
+      dispatch({ type: PAYMENTS_SET_ERROR, payload: err})
+    }
+  }
+}
+
 const initialState = {
+  currentPayment: {},
+  currentPaymentId: '',
   payments: [],
   adminPay: '',
   resident: '', 
@@ -101,6 +127,16 @@ function paymentReducer(state = initialState, action) {
       return {
         ...state,
         payments: []
+      }
+    case SET_CURRENT_PAYMENT:
+      return {
+        ...state,
+        currentPayment: {...action.payload}
+      }
+    case SET_CURRENT_PAYMENT_ID:
+      return {
+        ...state,
+        currentPaymentId: action.payload
       }
     default:
       return state;

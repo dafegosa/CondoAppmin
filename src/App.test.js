@@ -41,7 +41,6 @@ describe('App', () => {
     expect(message).toMatch(/cuenta creada exitosamente/i)
     await page.click('a[href="/login"]')
 
-    
   }, 60000)
 
   it('should log in an admin succesfully', async () => {

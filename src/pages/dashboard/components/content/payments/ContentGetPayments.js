@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPayments, PAYMENTS_CLEAN } from '../../../../../store/paymentReducer'
+import { getPayments, PAYMENTS_CLEAN, SET_CURRENT_PAYMENT, SET_CURRENT_PAYMENT_ID } from '../../../../../store/paymentReducer'
 import styled from 'styled-components'
 import { ResidentPaymentsList, 
   ResidentInfoOuterDiv, 
@@ -13,6 +13,7 @@ import { ResidentPaymentsList,
   PaymentsTd, 
   PaymentsTh, 
   Theading } from '../residents/ContentViewResident'
+import { getResident } from '../../../../../store/sessionReducer'
 
 export const GetPaymentsDiv = styled.div`
   padding: 10px;
@@ -45,18 +46,25 @@ const ContentGetPayments = () => {
 
   const history = useHistory()
 
-  useEffect(() => {
+  useEffect(async () => {
     const token = localStorage.getItem('token')
+
     dispatch({ type: PAYMENTS_CLEAN })
+
     if (admin) dispatch(getPayments('condo', currentCondoId, token))
-    if (!admin) dispatch(getPayments('resident', currentCondoId, token, 'resident'))
+
+    if (!admin) {
+      const { data } = await getResident(token)
+      dispatch(getPayments('resident', data.id, token, 'resident'))
+    }
     
   }, [currentCondoId])
 
   const seePayment = (paymentid) => {
+    dispatch({type: SET_CURRENT_PAYMENT_ID, payload: paymentid})
     history.push(`/dashboard/payment/view/${paymentid}`)
   }
-
+  //console.log('payments', payments)
   return (
     <GetPaymentsDiv>
       <ResidentPaymentsList>
@@ -66,6 +74,7 @@ const ContentGetPayments = () => {
           <PaymentsTable>
             <PaymentsThead>
               <PaymentsTr>
+                {!!admin && <PaymentsTh><Theading>Unidad</Theading></PaymentsTh>}
                 <PaymentsTh><Theading>Servicio</Theading></PaymentsTh>
                 <PaymentsTh><Theading>Valor</Theading></PaymentsTh>
                 <PaymentsTh><Theading>Plazo de Pago</Theading></PaymentsTh>
@@ -79,6 +88,7 @@ const ContentGetPayments = () => {
                     className={!payment.isPayed && Date.parse(payment.dueDate) < Date.now() ? 'overdue' : ''}
                     onClick={seePayment.bind(this, payment._id)}
                   >
+                    {!!admin && <PaymentsTd>{payment.unit.name}</PaymentsTd>}
                     <PaymentsTd>{payment.service}</PaymentsTd>
                     <PaymentsTd>{`$${payment.value}`}</PaymentsTd>
                     <PaymentsTd>{payment.dueDate.split('T')[0]}</PaymentsTd>
