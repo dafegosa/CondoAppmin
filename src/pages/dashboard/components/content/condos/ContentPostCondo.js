@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
-import { CONDO_FORM_CLEAN, CONDO_MESSAGE_CLEAN } from '../../../../../store/condoReducer'
+import {
+  getAdmin,
+  globalHandleChange,
+  globalCreateDocument,
+} from '../../../../../store/sessionReducer'
+import {
+  CONDO_FORM_CLEAN,
+  CONDO_MESSAGE_CLEAN,
+} from '../../../../../store/condoReducer'
 
 export const AddCondoDiv = styled.div`
   padding: 0 10px;
@@ -13,7 +20,8 @@ export const AddCondoDiv = styled.div`
   align-items: center;
   box-sizing: border-box;
 
-  & input, & select {
+  & input,
+  & select {
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
@@ -38,15 +46,19 @@ const CondosForm = styled.form`
   }
 `
 
-function ContentPostCondo () {
-
+function ContentPostCondo() {
   const { currentCondoId, condoName, condoAddress, message } = useSelector(
-    ({ condoReducer: { currentCondoId, condoName, condoAddress, message } }) => {
-    return { currentCondoId, condoName, condoAddress, message }
-    }) 
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
-  })
+    ({
+      condoReducer: { currentCondoId, condoName, condoAddress, message },
+    }) => {
+      return { currentCondoId, condoName, condoAddress, message }
+    }
+  )
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -65,46 +77,47 @@ function ContentPostCondo () {
     const newDocument = {
       name: condoName,
       address: condoAddress,
-      admin: data.id
+      admin: data.id,
     }
 
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('condo', newDocument, token))
     dispatch({ type: CONDO_FORM_CLEAN })
-
   }
 
-  return (
-    !admin ? <Redirect to="/dashboard" /> :
-    (<AddCondoDiv>
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
+    <AddCondoDiv>
       <SectionTitle>Agregar Condominio</SectionTitle>
       <CondosForm onSubmit={createDocument}>
         <div>
-          <label htmlFor="condoName">Nombre</label>
+          <label htmlFor='condoName'>Nombre</label>
           <input
-            id="condoName"
-            name="condoName"
-            type="text"
+            id='condoName'
+            name='condoName'
+            type='text'
             onChange={handleChange}
             value={condoName}
           />
         </div>
         <div>
-          <label htmlFor="condoAddress">Dirección</label>
+          <label htmlFor='condoAddress'>Dirección</label>
           <input
-            id="condoAddress"
-            name="condoAddress"
-            type="text"
+            id='condoAddress'
+            name='condoAddress'
+            type='text'
             onChange={handleChange}
             value={condoAddress}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button id='buttonSubmit' type='submit'>
+          Submit
+        </button>
         {message && message}
       </CondosForm>
-    </AddCondoDiv>)
+    </AddCondoDiv>
   )
 }
-
 
 export default ContentPostCondo

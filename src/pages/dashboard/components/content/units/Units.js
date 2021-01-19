@@ -1,11 +1,15 @@
-import { CondosOuterDiv as UnitsOuterDiv, ContentTopBar, ContentTopBarTab } from '../condos/Condos'
+import {
+  CondosOuterDiv as UnitsOuterDiv,
+  ContentTopBar,
+  ContentTopBarTab,
+} from '../condos/Condos'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ContentPostUnit from './ContentPostUnit'
 import ContentGetUnits from './ContentGetUnits'
 import { Redirect } from 'react-router-dom'
 
-function Units () {
+function Units() {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
@@ -16,20 +20,20 @@ function Units () {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active')
-    selectedButtons.forEach(button => button.classList.remove('active'))
+    selectedButtons.forEach((button) => button.classList.remove('active'))
 
     e.target.classList.add('active')
 
     switch (outerText) {
       case 'Agregar Unidad':
         history.push('/dashboard/unit/add')
-        return 
+        return
       case 'Ver Unidades':
         history.push('/dashboard/unit/list')
-        return 
+        return
       default:
         history.push('/dashboard/unit')
-        break;
+        break
     }
   }
   const renderTab = () => {
@@ -41,20 +45,24 @@ function Units () {
       case 'list':
         return <ContentGetUnits />
       default:
-        break;
+        break
     }
   }
 
-  return (
-    !admin ? <Redirect to='/dashboard' /> : (
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <UnitsOuterDiv>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>Agregar Unidad</ContentTopBarTab>
-        <ContentTopBarTab onClick={pickTab}>Ver Unidades</ContentTopBarTab>
+        <ContentTopBarTab id='addUnit' onClick={pickTab}>
+          Agregar Unidad
+        </ContentTopBarTab>
+        <ContentTopBarTab id='myUnits' onClick={pickTab}>
+          Ver Unidades
+        </ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </UnitsOuterDiv>
-    )
   )
 }
 

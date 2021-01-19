@@ -3,8 +3,14 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
-import { globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
-import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
+import {
+  globalHandleChange,
+  globalCreateDocument,
+} from '../../../../../store/sessionReducer'
+import {
+  RESIDENT_FORM_CLEAN,
+  RESIDENT_MESSAGE_CLEAN,
+} from '../../../../../store/residentReducer'
 
 export const AddResidentDiv = styled.div`
   padding: 10px 0;
@@ -40,16 +46,18 @@ function ContentPostResident () {
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
   })
-  const { currentCondoId } = useSelector(({ condoReducer: { currentCondoId } }) => {
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
       return { currentCondoId }
-  })
+    }
+  )
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
   const dispatch = useDispatch()
 
   useEffect(() => {
-    async function getUnits () {
+    async function getUnits() {
       await dispatch(retrieveUnits(currentCondoId))
     }
     dispatch({ type: RESIDENT_FORM_CLEAN })
@@ -72,13 +80,14 @@ function ContentPostResident () {
       email: resEmail,
       password: resPassword,
       unitId: resUnit,
-      condoId: currentCondoId
+      condoId: currentCondoId,
     }
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('resident', newDocument, token))
   }
-  return (
-    !admin ? <Redirect to="/dashboard" /> :
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <AddResidentDiv>
       <SectionTitle>Agregar Residentes</SectionTitle>
       <ResidentsForm onSubmit={createDocument}>
@@ -131,9 +140,7 @@ function ContentPostResident () {
           onChange={handleChange}
           required
         >
-          <option>
-            Escoge unidad
-          </option>
+          <option>Escoge unidad</option>
           {!!units &&
             units.length &&
             units.map((unit) => {
@@ -141,10 +148,10 @@ function ContentPostResident () {
                 <option value={unit._id} key={unit._id}>
                   {unit.name}
                 </option>
-              );
+              )
             })}
         </select>
-        <label htmlFor="resPassword">password</label>
+        <label htmlFor='resPassword'>password</label>
         <input
           id='resPassword'
           name='resPassword'
@@ -152,7 +159,9 @@ function ContentPostResident () {
           onChange={handleChange}
           value={resPassword}
         />
-        <button type='submit'>Submit</button>
+        <button id='buttonAddResident' type='submit'>
+          Submit
+        </button>
         {message || error}
       </ResidentsForm>
     </AddResidentDiv>

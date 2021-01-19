@@ -15,8 +15,8 @@ export const CHOSEN_CONDO_CLEAN = 'CHOSEN_CONDO_CLEAN'
 
 export function getCondos(token) {
   return async function (dispatch) {
-     try {
-      const { data } = await axios({
+    try {
+      const { data } = await axios({
         method: 'GET',
         baseURL: process.env.REACT_APP_SERVER_URL,
         url: '/condo',
@@ -28,7 +28,6 @@ export function getCondos(token) {
         type: CONDOS_RETRIEVE,
         payload: data.data,
       })
-
     } catch (err) {
       dispatch({ type: CONDO_ERROR_SET, payload: err.response.data.message })
     }
@@ -110,7 +109,7 @@ function condoReducer(state = initialState, action) {
       }
     case CHOSEN_CONDO_CLEAN:
       return {
-        chosenCondo: ''
+        chosenCondo: '',
       }
     default:
       return state

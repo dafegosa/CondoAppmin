@@ -104,13 +104,27 @@ function MessagesArea(props) {
   useEffect(() => {
     async function getTickets() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
 
       if (messages.length === 0) {
         if (getAdmin) {
-          dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '?read=false', currentCondoId))
+          dispatch(
+            retrieveMessages(
+              getAdmin.data.id,
+              'ticket',
+              '?read=false',
+              currentCondoId
+            )
+          )
         } else if (getResident) {
-          dispatch(retrieveResidentTickets(getResident.data.email, 'ticket', '?read=false')
+          dispatch(
+            retrieveResidentTickets(
+              getResident.data.email,
+              'ticket',
+              '?read=false'
+            )
           )
         }
       }
@@ -119,7 +133,7 @@ function MessagesArea(props) {
   }, [currentCondoId])
 
   return (
-    <MessageContainer data-testid="messages-area">
+    <MessageContainer data-testid='messages-area'>
       <p className='secction-title top-title'>
         <br />
         <strong>TICKETS</strong>

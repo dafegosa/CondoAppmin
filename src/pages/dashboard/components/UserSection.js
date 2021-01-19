@@ -15,7 +15,7 @@ export const UserTopBarDiv = styled.div`
   position: relative;
   display: flex;
   padding: 15px;
-  color: white;
+  color: rgba(96, 125, 139, 1);
   align-items: center;
   box-sizing: border-box;
 `
@@ -62,17 +62,19 @@ export const UserOptionsListItem = styled.li`
   padding: 10px 0;
   text-align: center;
   list-style: none;
-
+  border-left: 1px solid rgba(96, 125, 139, 1);
+  border-right: 1px solid rgba(96, 125, 139, 1);
   &:hover {
     cursor: pointer;
     font-weight: 400;
+    color: white;
   }
 `
 
 function UserSection() {
   const [renderOptions, setRenderOptions] = useState(false)
   const [currentUserName, setCurrentUserName] = useState('')
- 
+
   let history = useHistory()
   const dispatch = useDispatch()
 
@@ -103,10 +105,7 @@ function UserSection() {
     <UserTopBarDiv>
       <WelcomeMsg> ¡Hola, {currentUserName}!</WelcomeMsg>
       <AccountCircleIcon />
-      <IconButton 
-        style={{ padding: '0px' }}
-        onClick={userSectionOptionsClick}
-      >
+      <IconButton style={{ padding: '0px' }} onClick={userSectionOptionsClick}>
         <ArrowDropDownIcon
           className='arrow-drop-down-icon'
           style={{ color: 'white', fontSize: '28px' }}

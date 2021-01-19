@@ -5,7 +5,10 @@ import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import ChooseCondo from './ChooseCondo'
 import { getCondos } from '../../../../store/condoReducer'
-import { SET_CURRENT_OPTION, verifyUser } from '../../../../store/sessionReducer'
+import {
+  SET_CURRENT_OPTION,
+  verifyUser,
+} from '../../../../store/sessionReducer'
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
@@ -72,8 +75,10 @@ const LeftMenu = () => {
   const dispatch = useDispatch()
 
   let history = useHistory()
-  const { location: { pathname } } = history
-  
+  const {
+    location: { pathname },
+  } = history
+
   const leftMenuNav = [
     { name: 'Condominios', icon: 'fas fa-building', link: 'condo' },
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
@@ -90,9 +95,11 @@ const LeftMenu = () => {
   }
 
   useEffect(() => {
-    async function checkForCondos () {
+    async function checkForCondos() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
       if (getAdmin) {
         const token = localStorage.getItem('token')
         dispatch(getCondos(token))
@@ -105,31 +112,31 @@ const LeftMenu = () => {
     if (link === currentOption) {
       return 'active-item'
     } else {
-      return 
+      return
     }
   }
 
   return (
-    <Container data-testid="left-menu">
-      {admin && condos.length > 0 ? <ChooseCondo /> : (
-        <Logo>
-          <img src={logo} alt='logo' />
-        </Logo>
-      )}
+    <Container data-testid='left-menu'>
+      <Logo>
+        <img src={logo} alt='logo' />
+      </Logo>
+      {admin && condos.length > 0 ? <ChooseCondo /> : null}
       <SideMenu>
         <ul>
-          {!!leftMenuNav && leftMenuNav.length > 0 && 
-          leftMenuNav.map((el, i) => (
-          <li key={el.name}>
-            <Select
-              data-testid={el.link}
-              onClick={leftMenuRouter.bind(i, el.link)}
-              className={addClassToMenuItem(el.link)}
-            >
-              <i className={el.icon}></i>
-              <span>{el.name}</span>
-            </Select>
-          </li>
+          {!!leftMenuNav &&
+            leftMenuNav.length > 0 &&
+            leftMenuNav.map((el, i) => (
+              <li key={el.name}>
+                <Select
+                  data-testid={el.link}
+                  onClick={leftMenuRouter.bind(i, el.link)}
+                  className={addClassToMenuItem(el.link)}
+                >
+                  <i className={el.icon}></i>
+                  <span>{el.name}</span>
+                </Select>
+              </li>
             ))}
         </ul>
       </SideMenu>

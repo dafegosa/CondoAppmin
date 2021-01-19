@@ -15,11 +15,30 @@ import {
   Paragraph,
 } from '../login/Login'
 
-function Register () {
-  
-  const { name, lastname, idnumber, phone, email, password, message } = useSelector(({ signupReducer: { name, lastname, idnumber, phone, email, password, message } }) => {
-    return  { name, lastname, idnumber, phone, email, password, message }
-  })
+function Register() {
+  const {
+    name,
+    lastname,
+    idnumber,
+    phone,
+    email,
+    password,
+    message,
+  } = useSelector(
+    ({
+      signupReducer: {
+        name,
+        lastname,
+        idnumber,
+        phone,
+        email,
+        password,
+        message,
+      },
+    }) => {
+      return { name, lastname, idnumber, phone, email, password, message }
+    }
+  )
   const dispatch = useDispatch()
 
   const handleInputChange = (e) => {
@@ -42,7 +61,7 @@ function Register () {
 
   return (
     <EnterFormDiv>
-      <EnterForm onSubmit={createUser} data-testid="register">
+      <EnterForm onSubmit={createUser} data-testid='register'>
         <FormHeading>Registrate</FormHeading>
         <FormDescription>
           Registrate para empezar a usar nuestros servicios
