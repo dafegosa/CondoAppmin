@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from  'react-redux'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import Condos from './condos/Condos'
@@ -15,7 +15,7 @@ const ContentDiv = styled.main`
   padding: 10px;
   box-sizing: border-box;
   display: flex;
-
+  overflow-y: scroll;
   @media (max-width: 768px) {
     grid-area: 2 / 2 / 9 / 13;
   }
@@ -27,11 +27,13 @@ const ContentDiv = styled.main`
 function Content() {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { location: { pathname } } = history
+  const {
+    location: { pathname },
+  } = history
 
   const renderContent = () => {
     const urlItems = pathname.substr(1).split('/')
-    
+
     dispatch({ type: SET_CURRENT_OPTION, payload: `${urlItems[1]}` })
     switch (urlItems[1]) {
       case 'condo':

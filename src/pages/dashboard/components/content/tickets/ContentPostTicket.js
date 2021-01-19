@@ -48,13 +48,10 @@ const Alert = styled.p`
 `
 
 const ContentPostTicket = (props) => {
-
   const token = localStorage.getItem('token')
-  const { admin } = useSelector(
-    ({ sessionReducer: { admin } }) => {
-      return { admin }
-    }
-  )
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
+  })
   const { currentCondoId } = useSelector(
     ({ condoReducer: { currentCondoId } }) => {
       return { currentCondoId }
@@ -80,7 +77,9 @@ const ContentPostTicket = (props) => {
   useEffect(() => {
     async function getUserEmail() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
       if (getAdmin) {
         setUserEmail(getAdmin.data.email)
       } else if (getResident) {
@@ -157,7 +156,7 @@ const ContentPostTicket = (props) => {
             date,
             read,
             ticketState: true,
-            condoId: currentCondoId
+            condoId: currentCondoId,
           },
           headers: {
             Authorization: `Bearer ${token}`,

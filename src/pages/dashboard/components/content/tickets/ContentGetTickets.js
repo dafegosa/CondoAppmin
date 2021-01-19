@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import WriteMessagessButton from './WriteMessagesButton'
@@ -9,6 +9,7 @@ import {
   selectedTicket,
 } from '../../../../../store/messageReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
+import axios from 'axios'
 
 const BigCentralMessagesContainer = styled.div`
   width: 100%;
@@ -75,18 +76,15 @@ const Message = styled.div`
   }
 `
 const ContentGetTickets = () => {
-
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
     ({ messageReducer: { messagesList } }) => {
       return { messagesList }
     }
   )
-  const { admin } = useSelector(
-    ({ sessionReducer: { admin } }) => {
-      return { admin }
-    }
-  )
+  const { admin } = useSelector(({ sessionReducer: { admin } }) => {
+    return { admin }
+  })
   const { currentCondoId } = useSelector(
     ({ condoReducer: { currentCondoId } }) => {
       return { currentCondoId }
@@ -100,13 +98,23 @@ const ContentGetTickets = () => {
   }
 
   useEffect(() => {
-    async function getTickets () {
+    async function getTickets() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin } = await dispatch(verifyUser(history, token))
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
       if (getAdmin) {
-        dispatch(retrieveMessages(getAdmin.data.id, 'ticket', '', currentCondoId))
+        dispatch(
+          retrieveMessages(getAdmin.data.id, 'ticket', '', currentCondoId)
+        )
       } else if (getResident) {
-        dispatch(retrieveResidentTickets(getResident.data.email, 'ticket', '', currentCondoId)
+        dispatch(
+          retrieveResidentTickets(
+            getResident.data.email,
+            'ticket',
+            '',
+            currentCondoId
+          )
         )
       }
     }
