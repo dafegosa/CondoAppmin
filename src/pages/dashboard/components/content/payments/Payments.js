@@ -62,7 +62,6 @@ function Payments () {
     selectedButtons.forEach(button => button.classList.remove('active-tab'))
 
     e.target.classList.add('active-tab')
-    console.log('outertext', outerText)
     switch (outerText) {
       case 'Configuraciones':
         history.push('/dashboard/payment/settings')

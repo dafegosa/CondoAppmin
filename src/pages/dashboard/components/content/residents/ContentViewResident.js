@@ -10,6 +10,9 @@ export const ResidentInfoDiv = styled.div`
   display: flex;
   border-bottom: 3px solid rgba(96, 125, 139, 1);
   width: 100%;
+  &.button {
+    border-bottom: 0px;
+  }
 `
 export const ResidentPaymentsList = styled.div`
   display: flex;

@@ -73,7 +73,6 @@ function ContentPostPayment () {
     try {
       const { data } = await getAdmin()
       const chosenUnit = units.find(singleUnit => singleUnit._id === unit)
-      console.log('chosenUnit', chosenUnit.resident._id)
 
       const newDocument = {
         admin: data.id,
@@ -84,7 +83,6 @@ function ContentPostPayment () {
         value: value, 
         dueDate: dueDate, 
       }
-      console.log('payment', newDocument)
       const token = localStorage.getItem('token')
       dispatch(globalCreateDocument('payment', newDocument, token))
 
@@ -93,8 +91,6 @@ function ContentPostPayment () {
     }
    
   }
-  console.log('units', units)
-  console.log('unit', unit)
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddPaymentDiv>

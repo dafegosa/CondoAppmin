@@ -74,7 +74,6 @@ function ContentPostResident () {
       unitId: resUnit,
       condoId: currentCondoId
     }
-    console.log('residente', newDocument)
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('resident', newDocument, token))
   }

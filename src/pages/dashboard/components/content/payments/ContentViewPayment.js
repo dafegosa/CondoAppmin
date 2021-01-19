@@ -9,9 +9,15 @@ ResidentInfoOuterDiv as PaymentInfoOuterDiv,
 ResidentInfoInnerDiv as PaymentInfoInnerDiv,
 ResidentInfoTitle as PaymentInfoTitle,
 ResidentInfoValue as PaymentInfoValue } from '../residents/ContentViewResident'
+import { definePaymentState } from './ContentGetPayments'
 import handler from '../../../../../utils/ePayco'
+import { getResident } from '../../../../../store/sessionReducer'
 
-
+const PayButton = styled.button`
+  &:hover{
+    cursor: pointer;
+  }
+`
 
 const ContentViewPayment = () => {
 
@@ -34,7 +40,11 @@ const ContentViewPayment = () => {
       dispatch(retrieveSinglePayment(currentPaymentId, 'admin', token))
     }
   }, [])
-  const makePayment = (value, service) => {
+
+  const makePayment = async (value, service, paymentid) => {
+    const token = localStorage.getItem('token')
+    const { data } = await getResident(token)
+
     handler.open({
       external: 'false',
       autoclick: false,
@@ -50,57 +60,61 @@ const ContentViewPayment = () => {
       tax_base: '0',
 
       invoice: '12345',
-      extra1: 'extra1',
+      extra1: paymentid,
       extra2: 'extra2',
       extra3: 'extra3',
 
       response: `${process.env.REACT_APP_BASE_URL}/dashboard/response`,
 
-      name_billing: 'Simon Hoyos',
-      address_billing: 'Calle 46 # 35 - 22',
+      name_billing: `${data.name} ${data.lastName}`,
       type_doc_billing: 'cc',
-      number_doc_billing: '432158907',
-      mobilephone_billing: '3504678291',
-
-      // methodsDisable: ["TDC", "PSE","SP","CASH","DP"],
     })
   }
-  console.log('currentpayment', currentPayment)
+
   return (
     <ViewPaymentDiv>
       <SectionTitle>Ver Información de Pago</SectionTitle>
       {currentPayment ? (
-        <PaymentInfoDiv>
-          <PaymentInfoOuterDiv>
-            <PaymentInfoInnerDiv>
-              <PaymentInfoTitle>Unidad</PaymentInfoTitle>
-              <PaymentInfoValue>{currentPayment.unit ? currentPayment.unit.name : ''}</PaymentInfoValue>
-            </PaymentInfoInnerDiv>
-            {!!admin && <PaymentInfoInnerDiv>
-              <PaymentInfoTitle>Residente</PaymentInfoTitle>
-              <PaymentInfoValue>{currentPayment.resident ? `${currentPayment.resident.name} ${currentPayment.resident.lastName}` : ''}</PaymentInfoValue>
-            </PaymentInfoInnerDiv>}
-            <PaymentInfoInnerDiv>
-              <PaymentInfoTitle>Servicio</PaymentInfoTitle>
-              <PaymentInfoValue>{currentPayment.service}</PaymentInfoValue>
-            </PaymentInfoInnerDiv>
-            <PaymentInfoInnerDiv>
-              <PaymentInfoTitle>Valor</PaymentInfoTitle>
-              <PaymentInfoValue>{`$${currentPayment.value}`}</PaymentInfoValue>
-            </PaymentInfoInnerDiv>
-            <PaymentInfoInnerDiv>
-              <PaymentInfoTitle>Fecha de Vencimiento</PaymentInfoTitle>
-              <PaymentInfoValue>{currentPayment.dueDate}</PaymentInfoValue>
-            </PaymentInfoInnerDiv>
-          </PaymentInfoOuterDiv>
-        </PaymentInfoDiv>
+      <PaymentInfoDiv>
+        <PaymentInfoOuterDiv>
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Unidad</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.unit ? currentPayment.unit.name : ''}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          {!!admin && <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Residente</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.resident ? `${currentPayment.resident.name} ${currentPayment.resident.lastName}` : ''}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>}
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Servicio</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.service}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Valor</PaymentInfoTitle>
+            <PaymentInfoValue>{`$${currentPayment.value}`}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Fecha de Vencimiento</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.dueDate}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Fecha de Pago</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.isPayed ? `${currentPayment.updatedAt}` : 'Sin pagar'}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Estado</PaymentInfoTitle>
+            <PaymentInfoValue>{definePaymentState(currentPayment.isPayed, currentPayment.dueDate)}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+        </PaymentInfoOuterDiv>
+      </PaymentInfoDiv>
       ) : <p>loading</p>}
-      {!admin && <PaymentInfoDiv>
-        <button 
+      {!admin && !currentPayment.isPayed && 
+      <PaymentInfoDiv className="button">
+        <PayButton 
           type="button" 
-          onClick={makePayment.bind(this, currentPayment.value, currentPayment.service)}
-        >Pagar</button>
-      </PaymentInfoDiv>}
+          onClick={makePayment.bind(this, currentPayment.value, currentPayment.service, currentPayment._id)}
+        >Pagar</PayButton>
+      </PaymentInfoDiv> }
     </ViewPaymentDiv>
   )
 }

@@ -61,7 +61,6 @@ const ContentPaymentsSettings = () => {
       name: name,
       value: value, 
     }
-    console.log('residente', newDocument)
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('service', newDocument, token))
   }

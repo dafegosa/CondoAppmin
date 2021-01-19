@@ -30,6 +30,16 @@ export const GetPaymentsDiv = styled.div`
   }
 `
 
+export const definePaymentState = (isPayed, dueDate) => {
+    
+  if (isPayed) return 'Pagado'
+  if (Date.parse(dueDate) > Date.now())  {
+    return 'Vigente'
+  } else {
+    return 'Vencido'
+  }
+}
+
 const ContentGetPayments = () => {
 
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
@@ -50,12 +60,16 @@ const ContentGetPayments = () => {
     const token = localStorage.getItem('token')
 
     dispatch({ type: PAYMENTS_CLEAN })
+    try {
+      if (admin) dispatch(getPayments('condo', currentCondoId, token))
+  
+      if (!admin) {
+        const { data } = await getResident(token)
+        dispatch(getPayments('resident', data.id, token, 'resident'))
+      }
 
-    if (admin) dispatch(getPayments('condo', currentCondoId, token))
-
-    if (!admin) {
-      const { data } = await getResident(token)
-      dispatch(getPayments('resident', data.id, token, 'resident'))
+    } catch (err) {
+      
     }
     
   }, [currentCondoId])
@@ -64,7 +78,8 @@ const ContentGetPayments = () => {
     dispatch({type: SET_CURRENT_PAYMENT_ID, payload: paymentid})
     history.push(`/dashboard/payment/view/${paymentid}`)
   }
-  //console.log('payments', payments)
+
+  
   return (
     <GetPaymentsDiv>
       <ResidentPaymentsList>
@@ -75,6 +90,7 @@ const ContentGetPayments = () => {
             <PaymentsThead>
               <PaymentsTr>
                 {!!admin && <PaymentsTh><Theading>Unidad</Theading></PaymentsTh>}
+                {!!admin && <PaymentsTh><Theading>Residente</Theading></PaymentsTh>}
                 <PaymentsTh><Theading>Servicio</Theading></PaymentsTh>
                 <PaymentsTh><Theading>Valor</Theading></PaymentsTh>
                 <PaymentsTh><Theading>Plazo de Pago</Theading></PaymentsTh>
@@ -89,10 +105,11 @@ const ContentGetPayments = () => {
                     onClick={seePayment.bind(this, payment._id)}
                   >
                     {!!admin && <PaymentsTd>{payment.unit.name}</PaymentsTd>}
+                    {!!admin && <PaymentsTd>{`${payment.resident.name} ${payment.resident.lastName}`}</PaymentsTd>}
                     <PaymentsTd>{payment.service}</PaymentsTd>
                     <PaymentsTd>{`$${payment.value}`}</PaymentsTd>
                     <PaymentsTd>{payment.dueDate.split('T')[0]}</PaymentsTd>
-                    <PaymentsTd>{!payment.isPayed && Date.parse(payment.dueDate) < Date.now() ? 'Vencido' : 'Vigente'}</PaymentsTd>
+                    <PaymentsTd>{definePaymentState(payment.isPayed, payment.dueDate)}</PaymentsTd>
                   </PaymentsTr>
                 )
               })}

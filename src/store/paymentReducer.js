@@ -59,6 +59,25 @@ export function retrieveSinglePayment (paymentid, usertype, token) {
   }
 }
 
+export function updatePayment (paymentid, token) {
+  return async function (dispatch) {
+
+    try {
+      const { data } = await axios({
+        method: 'PUT',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/payment/${paymentid}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      dispatch({ type: SET_CURRENT_PAYMENT, payload: data.data })
+    } catch (err) {
+      dispatch({ type: PAYMENTS_SET_ERROR, payload: err})
+    }
+  }
+}
+
 const initialState = {
   currentPayment: {},
   currentPaymentId: '',
