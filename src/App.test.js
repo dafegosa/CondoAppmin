@@ -1,9 +1,9 @@
 import puppeteer from 'puppeteer'
-const mockUserEmail = 'julian4@test.com'
-const mockUserId = '165493246a'
+const mockUserEmail = 'julian@test.com'
+const mockUserId = '165493246'
 
 describe('App', () => {
-  xit('Should register a New Admin and redirect to login after succesfully sining up', async () => {
+  it('Should register a New Admin and redirect to login after succesfully sining up', async () => {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
 
@@ -21,7 +21,7 @@ describe('App', () => {
     await page.type('#password', '123456', { delay: 100 })
     await page.click('button[class="sc-dFJsGO bVUtYL"]')
     await page.waitForSelector('#successMessage')
-    await page.waitFor(1000)
+    await page.waitFor(2000)
     await browser.close()
   }, 30000)
 
@@ -35,10 +35,10 @@ describe('App', () => {
     await page.type('#email', mockUserEmail, { delay: 100 })
     await page.type('#password', '123456', { delay: 100 })
     await page.click('button[class="sc-dFJsGO bVUtYL"]')
-
+    await page.waitFor(2000)
     await page.waitForSelector('div[data-testid="condo"]')
     await page.click('div[data-testid="condo"]')
-
+    await page.waitFor(1000)
     await page.waitForSelector('#addCondo')
     await page.click('#addCondo')
 
@@ -50,10 +50,10 @@ describe('App', () => {
     await page.click('#myCondos')
     await page.type('select#condo-select', 'Quintas del Marquez')
     await page.click('#buttonSelectCondo')
-    await page.waitFor(3000)
+    await page.waitFor(2000)
 
     await page.click('div[data-testid="unit"]')
-
+    await page.waitFor(1000)
     await page.waitForSelector('#addUnit')
     await page.click('#addUnit')
 
@@ -63,10 +63,10 @@ describe('App', () => {
     await page.click('#buttonAddUnit')
     await page.waitFor(1000)
     await page.click('#myUnits')
-    await page.waitFor(3000)
+    await page.waitFor(2000)
 
     await page.click('div[data-testid="resident"]')
-
+    await page.waitFor(1000)
     await page.waitForSelector('#addResident')
     await page.click('#addResident')
 
@@ -79,8 +79,150 @@ describe('App', () => {
     await page.type('select#service-select', 'Apto. 103 - Torre 1')
     await page.type('#resPassword', '123456', { delay: 100 })
     await page.click('#buttonAddResident')
-    await page.waitFor(3000)
+    await page.waitFor(2000)
 
+    await page.waitFor(2000)
+    await page.click('button[class="MuiButtonBase-root MuiIconButton-root"]')
+    await page.waitFor(2000)
+    await page.click('#logout')
     await browser.close()
   }, 60000)
 })
+it('Should login a resident user and sent a ticket to admin', async () => {
+  const browser = await puppeteer.launch({ headless: false })
+  const page = await browser.newPage()
+
+  await page.goto('http://localhost:3000/login')
+
+  await page.waitForSelector('#resident')
+  await page.click('#resident')
+  await page.type('#email', 'adriana@test.com', { delay: 100 })
+  await page.type('#password', '123456', { delay: 100 })
+  await page.click('button[class="sc-dFJsGO bVUtYL"]')
+  await page.waitFor(2000)
+  await page.waitForSelector('div[data-testid="ticket"]')
+  await page.click('div[data-testid="ticket"]')
+
+  await page.waitForSelector('#addTicket')
+  await page.click('#addTicket')
+
+  await page.waitForSelector('#to')
+  await page.type('#to', mockUserEmail, { delay: 100 })
+  await page.type('#subject', 'Mi primer ticket', { delay: 100 })
+  await page.type(
+    'div[role="textbox"]',
+    'Hola Admin, Este es un Ticket de prueba.',
+    { delay: 100 }
+  )
+  await page.click('#buttonAddTicket')
+  await page.waitFor(3000)
+  await page.click('#myTickets')
+  await page.waitFor(3000)
+  await page.click('button[class="MuiButtonBase-root MuiIconButton-root"]')
+  await page.waitFor(3000)
+  await page.click('#logout')
+  await page.waitFor(3000)
+  await browser.close()
+}, 60000)
+it('Should login a admin and answer a ticket recived', async () => {
+  const browser = await puppeteer.launch({ headless: false })
+  const page = await browser.newPage()
+
+  await page.goto('http://localhost:3000/login')
+
+  await page.waitForSelector('#admin')
+  await page.click('#admin')
+  await page.type('#email', mockUserEmail, { delay: 100 })
+  await page.type('#password', '123456', { delay: 100 })
+  await page.click('button[class="sc-dFJsGO bVUtYL"]')
+  await page.waitFor(2000)
+
+  await page.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
+  await page.waitFor(2000)
+  await page.type('select#condo-select', 'Quintas del Marquez')
+  await page.waitFor(1000)
+  await page.click('#buttonSelectCondo')
+  await page.waitFor(2000)
+
+  await page.click('#ticketReceived')
+  await page.waitFor(2000)
+
+  await page.type(
+    'div[role="textbox"]',
+    'Hola Adriana, recibido el ticket, ¿En qué te puedo servir?',
+    { delay: 100 }
+  )
+  await page.waitFor(2000)
+  await page.click('#response')
+  await page.waitFor(4000)
+  await page.click('button[class="MuiButtonBase-root MuiIconButton-root"]')
+  await page.waitFor(2000)
+  await page.click('#logout')
+  await browser.close()
+}, 60000)
+it('Should login a admin and answer a subTicket recived', async () => {
+  const browser = await puppeteer.launch({ headless: false })
+  const page = await browser.newPage()
+
+  await page.goto('http://localhost:3000/login')
+
+  await page.waitForSelector('#resident')
+  await page.click('#resident')
+  await page.type('#email', 'adriana@test.com', { delay: 100 })
+  await page.type('#password', '123456', { delay: 100 })
+  await page.click('button[class="sc-dFJsGO bVUtYL"]')
+  await page.waitFor(2000)
+  await page.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
+  await page.waitFor(2000)
+  await page.click('#ticketReceived')
+  await page.waitFor(2000)
+
+  await page.type(
+    'div[role="textbox"]',
+    'Necesito una persona del quipo de mantenimiento',
+    { delay: 100 }
+  )
+  await page.waitFor(2000)
+  await page.click('#response')
+  await page.waitFor(4000)
+  await page.click('button[class="MuiButtonBase-root MuiIconButton-root"]')
+  await page.waitFor(2000)
+  await page.click('#logout')
+  await browser.close()
+}, 60000)
+
+it('Should solve a ticket', async () => {
+  const browser = await puppeteer.launch({ headless: false })
+  const page = await browser.newPage()
+
+  await page.goto('http://localhost:3000/login')
+
+  await page.waitForSelector('#admin')
+  await page.click('#admin')
+  await page.type('#email', mockUserEmail, { delay: 100 })
+  await page.type('#password', '123456', { delay: 100 })
+  await page.click('button[class="sc-dFJsGO bVUtYL"]')
+  await page.waitFor(2000)
+
+  await page.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] })
+  await page.waitFor(2000)
+  await page.type('select#condo-select', 'Quintas del Marquez')
+  await page.click('#buttonSelectCondo')
+  await page.waitFor(2000)
+
+  await page.click('#ticketReceived')
+  await page.waitFor(2000)
+  await page.click('#buttonAddTicket')
+  await page.waitForSelector('div[data-testid="ticket"]')
+  await page.click('div[data-testid="ticket"]')
+  await page.waitForSelector('#myTickets')
+  await page.click('#myTickets')
+  await page.waitForSelector('#ticketReceived')
+  await page.click('#ticketReceived')
+  await page.waitFor(2000)
+
+  await page.click('button[class="MuiButtonBase-root MuiIconButton-root"]')
+  await page.waitFor(2000)
+  await page.click('#logout')
+  await browser.close()
+}, 60000)

@@ -123,7 +123,9 @@ function UserSection(props) {
         <UserOptionsDiv>
           <ul>
             <UserOptionsListItem>Profile</UserOptionsListItem>
-            <UserOptionsListItem onClick={signout}>Logout</UserOptionsListItem>
+            <UserOptionsListItem id='logout' onClick={signout}>
+              Logout
+            </UserOptionsListItem>
           </ul>
         </UserOptionsDiv>
       </CSSTransition>
