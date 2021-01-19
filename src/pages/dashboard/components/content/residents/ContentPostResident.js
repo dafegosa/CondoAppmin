@@ -192,7 +192,9 @@ function ContentPostResident() {
           onChange={handleChange}
           value={resPassword}
         />
-        <button type='submit'>Submit</button>
+        <button id='buttonAddResident' type='submit'>
+          Submit
+        </button>
         {message || error}
       </ResidentsForm>
     </AddResidentDiv>

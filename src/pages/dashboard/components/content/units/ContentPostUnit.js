@@ -70,7 +70,6 @@ function ContentPostUnit() {
 
   const createDocument = async (e) => {
     e.preventDefault()
-    console.log('current Condo Id', currentCondoId)
     const newDocument = {
       name: unitName,
       condoId: currentCondoId,
@@ -95,7 +94,9 @@ function ContentPostUnit() {
             value={unitName}
           />
         </div>
-        <button type='submit'>Submit</button>
+        <button id='buttonAddUnit' type='submit'>
+          Submit
+        </button>
         {message}
       </UnitsForm>
     </AddUnitDiv>

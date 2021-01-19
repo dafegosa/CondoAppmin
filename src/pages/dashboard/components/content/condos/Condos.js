@@ -34,7 +34,7 @@ export const ContentTopBarTab = styled.button`
   }
 `
 
-function Condos () {
+function Condos() {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
@@ -45,20 +45,20 @@ function Condos () {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active')
-    selectedButtons.forEach(button => button.classList.remove('active'))
+    selectedButtons.forEach((button) => button.classList.remove('active'))
 
     e.target.classList.add('active')
 
     switch (outerText) {
       case 'Agregar Condominio':
         history.push('/dashboard/condo/add')
-        return 
+        return
       case 'Ver Condominios':
         history.push('/dashboard/condo/list')
-        return 
+        return
       default:
         history.push('/dashboard/condo')
-        break;
+        break
     }
   }
   const renderTab = () => {
@@ -74,16 +74,20 @@ function Condos () {
     }
   }
 
-  return (
-    !admin ? <Redirect to='/dashboard' /> : (
-    <CondosOuterDiv data-testid="condos">
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
+    <CondosOuterDiv data-testid='condos'>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>Agregar Condominio</ContentTopBarTab>
-        <ContentTopBarTab onClick={pickTab}>Ver Condominios</ContentTopBarTab>
+        <ContentTopBarTab id='addCondo' onClick={pickTab}>
+          Agregar Condominio
+        </ContentTopBarTab>
+        <ContentTopBarTab id='myCondos' onClick={pickTab}>
+          Ver Condominios
+        </ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </CondosOuterDiv>
-    )
   )
 }
 

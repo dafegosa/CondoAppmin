@@ -91,7 +91,6 @@ const LeftMenu = () => {
   if (resident) leftMenuNav.splice(0, 3)
 
   const leftMenuRouter = (el) => {
-    console.log('Enlace del LeftMenu', el)
     history.push(`/dashboard/${el.toLowerCase()}`)
   }
 

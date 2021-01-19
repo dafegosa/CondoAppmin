@@ -32,7 +32,6 @@ const TopBar = (props) => {
       return { currentCondoId, currentCondoName }
     }
   )
-  console.log(currentCondoName)
   return (
     <TopBarDiv data-testid='top-bar'>
       <CondoName>{currentCondoName}</CondoName>

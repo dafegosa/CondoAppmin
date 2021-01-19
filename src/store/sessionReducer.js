@@ -86,7 +86,6 @@ export function globalHandleChange(e, reducer) {
       name,
       value,
     }
-    console.log('condoooo', newState)
     dispatch({ type: `${reducer}_HANDLE_CHANGE`, payload: newState })
   }
 }
@@ -141,29 +140,6 @@ export function globalUpdateDocument(
     }
   }
 }
-// export function globalRemoveDocument(endpoint, documentid, documents = null) {
-//   return async function (dispatch) {
-//     try {
-//       const token = localStorage.getItem('token')
-//       const response = await axios({
-//         method: 'DELETE',
-//         baseURL: process.env.REACT_APP_SERVER_URL,
-//         url: `/${endpoint}/${documentid}`,
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       })
-
-//       const filteredDocuments = documents.filter(unit => {
-//         return unit._id !== documentid
-//       })
-//       dispatch({
-//         type: `${endpoint.toUpperCase()}_DELETE`,
-//         payload: filteredDocuments,
-//       })
-//     } catch (err) {}
-//   }
-// }
 
 export function globalRemoveDocument(endpoint, documentid, documents = null) {
   return async function (dispatch) {

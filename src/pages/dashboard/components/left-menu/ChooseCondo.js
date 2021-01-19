@@ -57,7 +57,9 @@ function ChooseCondo() {
   return (
     <ChooseCondoDiv>
       <ChooseCondoForm onSubmit={handleSubmit}>
-        <Button type='submit'>Seleccionar</Button>
+        <Button id='buttonSelectCondo' type='submit'>
+          Seleccionar
+        </Button>
         <select
           name='chosenCondo'
           id='condo-select'
