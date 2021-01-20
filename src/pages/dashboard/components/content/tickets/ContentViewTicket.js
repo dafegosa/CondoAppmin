@@ -192,6 +192,7 @@ const ContentViewTicket = (props) => {
       <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
+            id='response'
             type='button'
             className='toRight'
             value='Responder'

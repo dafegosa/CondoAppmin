@@ -28,7 +28,6 @@ const WriteMessagessButton = (props) => {
 
   const { thisId } = state
   if (props.value === 'Ticket Solucionado') {
-
     var newMessage = () => {
       axios({
         method: 'PUT',
@@ -55,7 +54,7 @@ const WriteMessagessButton = (props) => {
   }
 
   return (
-    <Button class={props.className} onClick={newMessage}>
+    <Button id='buttonAddTicket' class={props.className} onClick={newMessage}>
       {props.value}
     </Button>
   )

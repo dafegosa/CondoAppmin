@@ -145,6 +145,7 @@ function MessagesArea(props) {
             <Message
               key={tickets._id}
               onClick={ticketRead.bind(indx, tickets._id)}
+              id='ticketReceived'
             >
               <h6> {tickets.from} </h6>
               <p className='dateSize'> {tickets.date} </p>
