@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { retrieveSinglePayment, sendEmailReminder } from '../../../../../store/paymentReducer'
+import { retrieveSinglePayment, sendEmailReminder, PAYMENTS_CLEAN_MESSAGE, PAYMENTS_CLEAN_ERROR } from '../../../../../store/paymentReducer'
 import { AddResidentDiv as ViewPaymentDiv, SectionTitle } from '../residents/ContentPostResident'
 import { ResidentInfoDiv as PaymentInfoDiv,
 ResidentInfoOuterDiv as PaymentInfoOuterDiv,
@@ -24,8 +24,8 @@ const ContentViewPayment = () => {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
-  const { currentPayment, currentPaymentId } = useSelector(({ paymentReducer: { currentPayment, currentPaymentId } }) => {
-    return { currentPayment, currentPaymentId }
+  const { currentPayment, currentPaymentId, message, error } = useSelector(({ paymentReducer: { currentPayment, currentPaymentId, message, error } }) => {
+    return { currentPayment, currentPaymentId, message, error }
   })
   const dispatch = useDispatch()
 
@@ -34,6 +34,8 @@ const ContentViewPayment = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
+    dispatch({ type: PAYMENTS_CLEAN_MESSAGE })
+    dispatch({ type: PAYMENTS_CLEAN_ERROR })
     if (!admin) {
       dispatch(retrieveSinglePayment(currentPaymentId, 'resident', token))
     } else {
@@ -75,10 +77,17 @@ const ContentViewPayment = () => {
     const token = localStorage.getItem('token')
     const paymentDueDate = new Date(currentPayment.dueDate)
     const now = new Date(Date.now())
-    const message = {
-      message: `El presente es para recordarle que su pago de ${currentPayment.service} 
+    
+    const message = {}
+
+    if (paymentDueDate < now) {
+      message.message = `El presente es para recordarle que su pago de ${currentPayment.service} 
+      venció el ${paymentDueDate}.`
+    } else {
+      message.message = `El presente es para recordarle que su pago de ${currentPayment.service} 
       vence en ${now.getDate() - paymentDueDate.getDate()} días`
     }
+    
     dispatch(sendEmailReminder(currentPaymentId, token, message))
   }
   
@@ -110,7 +119,7 @@ const ContentViewPayment = () => {
           </PaymentInfoInnerDiv>
           <PaymentInfoInnerDiv>
             <PaymentInfoTitle>Fecha de Vencimiento</PaymentInfoTitle>
-            <PaymentInfoValue>{currentPayment.dueDate.split('T')[0]}</PaymentInfoValue>
+            <PaymentInfoValue>{currentPayment.dueDate ? currentPayment.dueDate.split('T')[0] : ''}</PaymentInfoValue>
           </PaymentInfoInnerDiv>
           <PaymentInfoInnerDiv>
             <PaymentInfoTitle>Fecha de Pago</PaymentInfoTitle>
@@ -136,6 +145,7 @@ const ContentViewPayment = () => {
           type="button" 
           onClick={sendEmail}
         >Enviar recordatorio</PayButton>
+        {error ? <p>{error}</p> : <p>{message}</p>}
       </PaymentInfoDiv> }
     </ViewPaymentDiv>
   )

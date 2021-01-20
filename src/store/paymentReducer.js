@@ -91,7 +91,7 @@ export function sendEmailReminder (paymentid, token, message) {
           Authorization: `Bearer ${token}`,
         },
       })
-      console.log('data', data)
+      dispatch({ type: PAYMENTS_SET_MESSAGE, payload: data.message })
     } catch (err) {
       dispatch({ type: PAYMENTS_SET_ERROR, payload: err})
     }
