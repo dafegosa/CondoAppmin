@@ -1,4 +1,7 @@
-import { CondosOuterDiv as TicketsOuterDiv, ContentTopBar } from '../condos/Condos'
+import {
+  CondosOuterDiv as TicketsOuterDiv,
+  ContentTopBar,
+} from '../condos/Condos'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -30,18 +33,17 @@ const ContentTopBarTab = styled.button`
 `
 
 const Tickets = () => {
-
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
 
   const history = useHistory()
-  const { location: { pathname } } = history
+  const {
+    location: { pathname },
+  } = history
   const urlItems = pathname.substr(1).split('/')
 
-
   const renderTab = () => {
-
     switch (urlItems[2]) {
       case 'add':
         return <ContentPostTicket />
@@ -50,9 +52,9 @@ const Tickets = () => {
       case 'view':
         return <ContentViewTicket />
       case 'edit':
-        return 
+        return
       default:
-        break;
+        break
     }
   }
 
@@ -61,7 +63,9 @@ const Tickets = () => {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active-ticket-tab')
-    selectedButtons.forEach(button => button.classList.remove('active-ticket-tab'))
+    selectedButtons.forEach((button) =>
+      button.classList.remove('active-ticket-tab')
+    )
 
     e.target.classList.add('active-ticket-tab')
 
@@ -77,16 +81,17 @@ const Tickets = () => {
         return
       default:
         history.push('/dashboard/ticket')
-        break;
+        break
     }
   }
 
   const seeTabClassAssign = () => {
-    
     let selectedButtons = document.querySelectorAll('.active-ticket-tab')
 
     if (urlItems[2] === 'view') {
-      selectedButtons.forEach(button => button.classList.remove('active-ticket-tab'))
+      selectedButtons.forEach((button) =>
+        button.classList.remove('active-ticket-tab')
+      )
       return 'unhidden'
     } else {
       return 'hidden'
@@ -96,10 +101,18 @@ const Tickets = () => {
   return (
     <TicketsOuterDiv>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>{admin ? 'Ver Tickets' : 'Tickets Enviados'}</ContentTopBarTab>
-        { !admin && <ContentTopBarTab onClick={pickTab}>Nuevo Ticket</ContentTopBarTab> }
-        <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>{`Ver ticket`}</ContentTopBarTab>
-        
+        <ContentTopBarTab id='myTickets' onClick={pickTab}>
+          {admin ? 'Ver Tickets' : 'Tickets Enviados'}
+        </ContentTopBarTab>
+        {!admin && (
+          <ContentTopBarTab id='addTicket' onClick={pickTab}>
+            Nuevo Ticket
+          </ContentTopBarTab>
+        )}
+        <ContentTopBarTab
+          className={seeTabClassAssign()}
+          onClick={pickTab}
+        >{`Ver ticket`}</ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </TicketsOuterDiv>

@@ -137,6 +137,7 @@ const ContentGetTickets = () => {
             <Message
               key={tickets.id}
               onClick={ticketRead.bind(indx, tickets._id)}
+              id='ticketReceived'
             >
               {tickets.ticketState === true && <h5> {tickets.from} </h5>}
               {tickets.ticketState === false && (
