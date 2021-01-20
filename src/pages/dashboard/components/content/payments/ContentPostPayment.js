@@ -35,8 +35,8 @@ const PaymentsForm = styled.form`
 
 function ContentPostPayment () {
 
-  const { unit, service, value, dueDate, message, error } = useSelector(( { paymentReducer: { unit, service, value, dueDate, message, error }}) => {
-    return { unit, service, value, dueDate, message, error }
+  const { unit, service, value, description, dueDate, message, error } = useSelector(( { paymentReducer: { unit, service, value, description, dueDate, message, error }}) => {
+    return { unit, service, value, description, dueDate, message, error }
   })
   const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
@@ -80,6 +80,7 @@ function ContentPostPayment () {
         condo: currentCondoId, 
         unit: unit, 
         service: service, 
+        description: description,
         value: value, 
         dueDate: dueDate, 
       }
@@ -88,9 +89,9 @@ function ContentPostPayment () {
 
     } catch (err) {
       dispatch({ type: PAYMENTS_SET_ERROR, payload: 'Asigne un residente a esa unidad' })
-    }
-   
+    } 
   }
+
   return (
     !admin ? <Redirect to="/dashboard" /> :
     <AddPaymentDiv>
@@ -112,6 +113,17 @@ function ContentPostPayment () {
           onChange={handleChange}
           value={value}
         />
+        <label htmlFor='description'>Concepto</label>
+        <textarea
+          id='description'
+          name='description'
+          rows='3'
+          onChange={handleChange}
+          value={description}
+          style={{display: 'block', width: '100%', marginBottom: '10px', boxSizing: 'border-box'}}
+        >
+          {description}
+        </textarea>
         <label htmlFor='dueDate'>Fecha límite de pago</label>
         <input
           id='dueDate'

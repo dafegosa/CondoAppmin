@@ -3,7 +3,24 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { updatePayment } from '../../../../../store/paymentReducer'
+import styled from 'styled-components'
+import { GetPaymentsDiv as PaymentResponseDiv } from './ContentGetPayments'
 
+const ReturnButton = styled.button`
+  display: inline;
+  &:hover {
+    cursor: pointer;
+  }
+`
+const InnerDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 80%;
+`
+const Message = styled.p`
+  font-size: 18px;
+`
 
 const PaymentResponse = () => {
   
@@ -44,12 +61,15 @@ const PaymentResponse = () => {
     getPaymentInfo()
   }, [search])
   
-  return (<>
-    <p>{`La transacción fue: ${response}`}</p>
-    <button 
-      type="button"
-      onClick={() => history.push('/dashboard/payment/list')}>Volver</button>
-    </>
+  return (
+    <PaymentResponseDiv>
+      <InnerDiv>
+        <Message>{`La transacción fue: ${response}`}</Message>
+        <ReturnButton 
+          type="button"
+          onClick={() => history.push('/dashboard/payment/list')}>Volver</ReturnButton>
+      </InnerDiv>
+    </PaymentResponseDiv>
   )
 }
 

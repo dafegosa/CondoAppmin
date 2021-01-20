@@ -42,6 +42,11 @@ export const EnterForm = styled.form`
   .Register-link {
     color: white;
   }
+  .forgot-password {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
   & div div {
     display: flex;
     flex-direction: row;
@@ -188,6 +193,9 @@ function Login () {
         </InputDiv>
         <Button type="submit">Ingresar</Button>
         {message && <p>{message}</p>}
+        <Link className="forgot-password">
+            Olvidé mi contraseña
+        </Link>
         <Paragraph>
           ¿No tienes una cuenta?{' '}
           <Link to="/register" className="Register-link">

@@ -10,6 +10,7 @@ import ContentViewPayment from './ContentViewPayment'
 export const PaymentsOuterDiv = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `
 
 export const ContentTopBar = styled.div`
@@ -20,6 +21,7 @@ export const ContentTopBar = styled.div`
   display: flex;
   position: sticky;
   top: 0;
+  z-index: 100000;
 `
 
 export const ContentTopBarTab = styled.button`
@@ -111,7 +113,7 @@ function Payments () {
   }
 
   return (
-    <PaymentsOuterDiv data-testid="condos">
+    <PaymentsOuterDiv data-testid="payments">
       <ContentTopBar>
         {!!admin && <ContentTopBarTab onClick={pickTab}>Configuraciones</ContentTopBarTab>}
         {!!admin && <ContentTopBarTab onClick={pickTab}>Generar Pagos</ContentTopBarTab>}

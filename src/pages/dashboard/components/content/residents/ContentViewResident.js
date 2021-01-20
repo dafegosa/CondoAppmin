@@ -59,6 +59,8 @@ export const PaymentsTable = styled.table`
 
 export const PaymentsThead = styled.thead`
   background-color: rgba(96,125,139,0.7);
+  position: sticky;
+  top: 0;
 `
 export const PaymentsTbody = styled.tbody`
   background-color: white;

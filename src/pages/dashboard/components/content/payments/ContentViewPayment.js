@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { retrieveSinglePayment } from '../../../../../store/paymentReducer'
+import { retrieveSinglePayment, sendEmailReminder } from '../../../../../store/paymentReducer'
 import { AddResidentDiv as ViewPaymentDiv, SectionTitle } from '../residents/ContentPostResident'
 import { ResidentInfoDiv as PaymentInfoDiv,
 ResidentInfoOuterDiv as PaymentInfoOuterDiv,
@@ -45,7 +45,7 @@ const ContentViewPayment = () => {
     const token = localStorage.getItem('token')
     const { data } = await getResident(token)
 
-    handler.open({
+    handler().open({
       external: 'false',
       autoclick: false,
 
@@ -71,6 +71,17 @@ const ContentViewPayment = () => {
     })
   }
 
+  const sendEmail = async () => {
+    const token = localStorage.getItem('token')
+    const paymentDueDate = new Date(currentPayment.dueDate)
+    const now = new Date(Date.now())
+    const message = {
+      message: `El presente es para recordarle que su pago de ${currentPayment.service} 
+      vence en ${now.getDate() - paymentDueDate.getDate()} días`
+    }
+    dispatch(sendEmailReminder(currentPaymentId, token, message))
+  }
+  
   return (
     <ViewPaymentDiv>
       <SectionTitle>Ver Información de Pago</SectionTitle>
@@ -94,8 +105,12 @@ const ContentViewPayment = () => {
             <PaymentInfoValue>{`$${currentPayment.value}`}</PaymentInfoValue>
           </PaymentInfoInnerDiv>
           <PaymentInfoInnerDiv>
+            <PaymentInfoTitle>Concepto</PaymentInfoTitle>
+            <PaymentInfoValue>{currentPayment.description ? currentPayment.description : ''}</PaymentInfoValue>
+          </PaymentInfoInnerDiv>
+          <PaymentInfoInnerDiv>
             <PaymentInfoTitle>Fecha de Vencimiento</PaymentInfoTitle>
-            <PaymentInfoValue>{currentPayment.dueDate}</PaymentInfoValue>
+            <PaymentInfoValue>{currentPayment.dueDate.split('T')[0]}</PaymentInfoValue>
           </PaymentInfoInnerDiv>
           <PaymentInfoInnerDiv>
             <PaymentInfoTitle>Fecha de Pago</PaymentInfoTitle>
@@ -114,6 +129,13 @@ const ContentViewPayment = () => {
           type="button" 
           onClick={makePayment.bind(this, currentPayment.value, currentPayment.service, currentPayment._id)}
         >Pagar</PayButton>
+      </PaymentInfoDiv> }
+      {!!admin && !currentPayment.isPayed && 
+      <PaymentInfoDiv className="button">
+        <PayButton 
+          type="button" 
+          onClick={sendEmail}
+        >Enviar recordatorio</PayButton>
       </PaymentInfoDiv> }
     </ViewPaymentDiv>
   )

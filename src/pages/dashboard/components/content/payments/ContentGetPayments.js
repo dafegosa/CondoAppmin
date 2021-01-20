@@ -22,6 +22,7 @@ export const GetPaymentsDiv = styled.div`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  overflow-y: scroll;
   & input,
   & select {
     box-sizing: border-box;

@@ -78,6 +78,27 @@ export function updatePayment (paymentid, token) {
   }
 }
 
+export function sendEmailReminder (paymentid, token, message) {
+  return async function (dispatch) {
+
+    try {
+      const { data } = await axios({
+        method: 'POST',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: `/payment/reminder/${paymentid}`,
+        data: message,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      console.log('data', data)
+    } catch (err) {
+      dispatch({ type: PAYMENTS_SET_ERROR, payload: err})
+    }
+  }
+}
+
+
 const initialState = {
   currentPayment: {},
   currentPaymentId: '',
@@ -88,6 +109,7 @@ const initialState = {
   unit: '', 
   service: '', 
   value: 0, 
+  description: '',
   dueDate: '', 
   message: '', 
   error: ''
