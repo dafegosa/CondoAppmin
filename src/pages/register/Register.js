@@ -133,7 +133,7 @@ function Register() {
           />
         </InputDiv>
         <Button type='submit'>Registrarme</Button>
-        {message && <p id='successMessage'>{message}</p>}
+        {message && <p id="message">{message}</p>}
         <Paragraph>
           ¿Ya tienes una cuenta?{' '}
           <Link to='/login' className='Login-link'>

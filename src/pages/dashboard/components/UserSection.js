@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { withTheme } from 'styled-components'
 import { IconButton } from '@material-ui/core'
@@ -71,7 +71,7 @@ export const UserOptionsListItem = styled.li`
   }
 `
 
-function UserSection(props) {
+function UserSection() {
   const [renderOptions, setRenderOptions] = useState(false)
   const [currentUserName, setCurrentUserName] = useState('')
 
@@ -81,9 +81,7 @@ function UserSection(props) {
   useEffect(() => {
     async function getName() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin, type } = await dispatch(
-        verifyUser(history, token)
-      )
+      const { getResident, getAdmin } = await dispatch(verifyUser(history,  token))
       if (getAdmin) {
         setCurrentUserName(getAdmin.data.name)
       } else if (getResident) {

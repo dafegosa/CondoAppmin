@@ -7,7 +7,7 @@ describe('App', () => {
     const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
 
-    await page.goto('http://localhost:3000/')
+    await page.goto('http://localhost:3000')
 
     await page.waitForSelector('a[href="/register"]')
     await page.click('a[href="/register"]')

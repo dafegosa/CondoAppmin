@@ -13,7 +13,7 @@ import {
 } from '../../../../../store/residentReducer'
 
 export const AddResidentDiv = styled.div`
-  padding: 10px;
+  padding: 10px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -38,45 +38,12 @@ const ResidentsForm = styled.form`
   width: 70%;
 `
 
-function ContentPostResident() {
-  const {
-    resName,
-    resLastname,
-    resIdNumber,
-    resPhone,
-    resEmail,
-    resPassword,
-    resUnit,
-    message,
-    error,
-  } = useSelector(
-    ({
-      residentReducer: {
-        resName,
-        resLastname,
-        resIdNumber,
-        resPhone,
-        resEmail,
-        resPassword,
-        resUnit,
-        message,
-        error,
-      },
-    }) => {
-      return {
-        resName,
-        resLastname,
-        resIdNumber,
-        resPhone,
-        resEmail,
-        resPassword,
-        resUnit,
-        message,
-        error,
-      }
-    }
-  )
-  const { units } = useSelector(({ unitReducer: { units } }) => {
+function ContentPostResident () {
+
+  const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error } = useSelector(( { residentReducer: { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }}) => {
+    return { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }
+  })
+  const { units } = useSelector(( { unitReducer: { units }}) => {
     return { units }
   })
   const { currentCondoId } = useSelector(
