@@ -49,12 +49,12 @@ const WriteMessagessButton = (props) => {
     var newMessage = () => {}
   } else {
     var newMessage = () => {
-      history.push('/dashboard/ticket/add')
+      history.push('/dashboard/messagesform')
     }
   }
 
   return (
-    <Button id='buttonAddTicket' class={props.className} onClick={newMessage}>
+    <Button class={props.className} onClick={newMessage}>
       {props.value}
     </Button>
   )

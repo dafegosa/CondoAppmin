@@ -84,10 +84,12 @@ function Condos() {
   ) : (
     <CondosOuterDiv data-testid='condos'>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>
+        <ContentTopBarTab id='addCondo' onClick={pickTab}>
           Agregar Condominio
         </ContentTopBarTab>
-        <ContentTopBarTab onClick={pickTab}>Ver Condominios</ContentTopBarTab>
+        <ContentTopBarTab id='myCondos' onClick={pickTab}>
+          Ver Condominios
+        </ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </CondosOuterDiv>

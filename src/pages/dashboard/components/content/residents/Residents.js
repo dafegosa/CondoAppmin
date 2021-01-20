@@ -116,8 +116,12 @@ function Residents() {
   ) : (
     <ResidentsOuterDiv>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>Agregar Residente</ContentTopBarTab>
-        <ContentTopBarTab onClick={pickTab}>Ver Residentes</ContentTopBarTab>
+        <ContentTopBarTab id='addResident' onClick={pickTab}>
+          Agregar Residente
+        </ContentTopBarTab>
+        <ContentTopBarTab id='myResidents' onClick={pickTab}>
+          Ver Residentes
+        </ContentTopBarTab>
         <ContentTopBarTab
           className={seeTabClassAssign()}
         >{`Ver ${currentResidentName}`}</ContentTopBarTab>

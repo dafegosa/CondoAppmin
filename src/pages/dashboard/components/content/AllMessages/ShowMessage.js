@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { MessageContainerMenu } from './ContentGetTickets'
+import { MessageContainerMenu } from './CentralMessagesList'
 import { useHistory } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { verifyUser } from '../../../../../store/sessionReducer'
@@ -27,9 +27,6 @@ const BigCentarlMessagesContainer = styled.form`
   }
   .ck-content {
     height: 10%;
-    max-height: 500px;
-    margin-bottom: 0;
-    padding-bottom: 0;
   }
 `
 
@@ -41,9 +38,9 @@ const Input = styled.input`
 `
 const MessageZone = styled.div`
   width: 100%;
-  height: 70%;
+  height: 80%;
   background-color: white;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
   .ticketBody {
@@ -89,7 +86,7 @@ const SubTicket = styled.div`
 `
 const token = localStorage.getItem('token')
 
-const ContentViewTicket = (props) => {
+const ShowMessage = (props) => {
   let history = useHistory()
   const dispatch = useDispatch()
   const state = useSelector((state) => state.messageFormReducer)
@@ -102,10 +99,7 @@ const ContentViewTicket = (props) => {
   const [subTickets, setSubTickets] = useState([])
 
   useEffect(async () => {
-    const token = localStorage.getItem('token')
-    const { getResident, getAdmin, type } = await dispatch(
-      verifyUser(history, token)
-    )
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
     let user = ''
     let getUser = ''
     if (getAdmin) {
@@ -142,10 +136,7 @@ const ContentViewTicket = (props) => {
   }
 
   useEffect(async () => {
-    const token = localStorage.getItem('token')
-    const { getResident, getAdmin, type } = await dispatch(
-      verifyUser(history, token)
-    )
+    const { getResident, getAdmin, type } = await dispatch(verifyUser())
 
     if (getAdmin) {
       setUser('iAmAdmin')
@@ -192,7 +183,6 @@ const ContentViewTicket = (props) => {
       <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
-            id='response'
             type='button'
             className='toRight'
             value='Responder'
@@ -263,4 +253,4 @@ const ContentViewTicket = (props) => {
   )
 }
 
-export default ContentViewTicket
+export default ShowMessage

@@ -72,7 +72,6 @@ function ContentPostUnit() {
 
   const createDocument = async (e) => {
     e.preventDefault()
-
     const newDocument = {
       name: unitName,
       condoId: currentCondoId,
@@ -90,7 +89,6 @@ function ContentPostUnit() {
         <div>
           <label htmlFor='unitName'>Nomenclatura</label>
           <input
-            className='form-control'
             id='unitName'
             name='unitName'
             type='text'

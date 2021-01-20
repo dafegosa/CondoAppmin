@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import UserSection from './UserSection'
+import { useSelector, useDispatch } from 'react-redux'
 
 export const TopBarDiv = styled.header`
   background: linear-gradient(
@@ -12,7 +13,8 @@ export const TopBarDiv = styled.header`
 
   grid-area: 1 / 3 / 2 / 13;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  color: white;
   align-items: center;
   right: 0;
   box-sizing: border-box;
@@ -26,9 +28,19 @@ export const TopBarDiv = styled.header`
   }
 `
 
+export const CondoName = styled.h3`
+  padding: 10px;
+`
+
 const TopBar = (props) => {
+  const { currentCondoId, currentCondoName } = useSelector(
+    ({ condoReducer: { currentCondoId, currentCondoName } }) => {
+      return { currentCondoId, currentCondoName }
+    }
+  )
   return (
     <TopBarDiv data-testid='top-bar'>
+      <CondoName>{currentCondoName}</CondoName>
       <UserSection name={props.name} />
     </TopBarDiv>
   )

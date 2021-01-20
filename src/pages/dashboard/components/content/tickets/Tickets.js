@@ -103,11 +103,13 @@ const Tickets = () => {
   return (
     <TicketsOuterDiv>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>
+        <ContentTopBarTab id='myTickets' onClick={pickTab}>
           {admin ? 'Ver Tickets' : 'Tickets Enviados'}
         </ContentTopBarTab>
         {!admin && (
-          <ContentTopBarTab onClick={pickTab}>Nuevo Ticket</ContentTopBarTab>
+          <ContentTopBarTab id='addTicket' onClick={pickTab}>
+            Nuevo Ticket
+          </ContentTopBarTab>
         )}
         <ContentTopBarTab
           className={seeTabClassAssign()}
