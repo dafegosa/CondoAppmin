@@ -1,4 +1,7 @@
-import { CondosOuterDiv as ResidentsOuterDiv, ContentTopBar } from '../condos/Condos'
+import {
+  CondosOuterDiv as ResidentsOuterDiv,
+  ContentTopBar,
+} from '../condos/Condos'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,12 +13,14 @@ import { Redirect } from 'react-router-dom'
 import { useState } from 'react'
 
 const ContentTopBarTab = styled.button`
-  padding: 5px;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  padding: 0.2rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  margin-right: 1rem;
   cursor: pointer;
-  transition: 400ms;
+  border-radius: 0.6rem;
+  transition: all 0.1s linear;
+  background-color: #181838;
 
   &.active-tab {
     background-color: rgba(96, 125, 139, 0.7);
@@ -32,16 +37,20 @@ const ContentTopBarTab = styled.button`
   }
 `
 
-function Residents () {
+function Residents() {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
-  const { currentResidentName } = useSelector(({ residentReducer: { currentResidentName } }) => {
-    return { currentResidentName }
-  })
+  const { currentResidentName } = useSelector(
+    ({ residentReducer: { currentResidentName } }) => {
+      return { currentResidentName }
+    }
+  )
 
   let history = useHistory()
-  const { location: { pathname } } = history  
+  const {
+    location: { pathname },
+  } = history
 
   const urlItems = pathname.substr(1).split('/')
 
@@ -50,24 +59,23 @@ function Residents () {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active-tab')
-    selectedButtons.forEach(button => button.classList.remove('active-tab'))
+    selectedButtons.forEach((button) => button.classList.remove('active-tab'))
 
     e.target.classList.add('active-tab')
 
     switch (outerText) {
       case 'Agregar Residente':
         history.push('/dashboard/resident/add')
-        return 
+        return
       case 'Ver Residentes':
         history.push('/dashboard/resident/list')
         return
       default:
         history.push('/dashboard/resident')
-        break;
+        break
     }
   }
   const renderTab = () => {
-
     switch (urlItems[2]) {
       case 'add':
         return <ContentPostResident />
@@ -78,45 +86,47 @@ function Residents () {
       case 'edit':
         return <ContentEditResident />
       default:
-        break;
+        break
     }
   }
 
   const seeTabClassAssign = () => {
-    
     let selectedButtons = document.querySelectorAll('.active-tab')
 
     if (urlItems[2] === 'view') {
-      selectedButtons.forEach(button => button.classList.remove('active-tab'))
+      selectedButtons.forEach((button) => button.classList.remove('active-tab'))
       return 'unhidden'
     } else {
       return 'hidden'
     }
   }
   const editTabClassAssign = () => {
-    
     let selectedButtons = document.querySelectorAll('.active-tab')
 
     if (urlItems[2] === 'edit') {
-      selectedButtons.forEach(button => button.classList.remove('active-tab'))
+      selectedButtons.forEach((button) => button.classList.remove('active-tab'))
       return 'unhidden'
     } else {
       return 'hidden'
     }
   }
 
-  return (
-    !admin ? <Redirect to='/dashboard' /> : (
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <ResidentsOuterDiv>
       <ContentTopBar>
         <ContentTopBarTab onClick={pickTab}>Agregar Residente</ContentTopBarTab>
         <ContentTopBarTab onClick={pickTab}>Ver Residentes</ContentTopBarTab>
-        <ContentTopBarTab className={seeTabClassAssign()}>{`Ver ${currentResidentName}`}</ContentTopBarTab>
-        <ContentTopBarTab className={editTabClassAssign()}>{`Editar ${currentResidentName}`}</ContentTopBarTab>
+        <ContentTopBarTab
+          className={seeTabClassAssign()}
+        >{`Ver ${currentResidentName}`}</ContentTopBarTab>
+        <ContentTopBarTab
+          className={editTabClassAssign()}
+        >{`Editar ${currentResidentName}`}</ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </ResidentsOuterDiv>
-    )
   )
 }
 

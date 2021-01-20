@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { globalHandleChange } from '../../store/sessionReducer'
@@ -7,19 +8,38 @@ import {
   EnterFormDiv,
   EnterForm,
   FormHeading,
-  FormDescription,
   Input,
   Button,
   Label,
-  InputDiv,
   Paragraph,
+  InputDiv,
+  FormDescription,
 } from '../login/Login'
 
-function Register () {
-  
-  const { name, lastname, idnumber, phone, email, password, message } = useSelector(({ signupReducer: { name, lastname, idnumber, phone, email, password, message } }) => {
-    return  { name, lastname, idnumber, phone, email, password, message }
-  })
+function Register() {
+  const {
+    name,
+    lastname,
+    idnumber,
+    phone,
+    email,
+    password,
+    message,
+  } = useSelector(
+    ({
+      signupReducer: {
+        name,
+        lastname,
+        idnumber,
+        phone,
+        email,
+        password,
+        message,
+      },
+    }) => {
+      return { name, lastname, idnumber, phone, email, password, message }
+    }
+  )
   const dispatch = useDispatch()
 
   const handleInputChange = (e) => {
@@ -42,7 +62,7 @@ function Register () {
 
   return (
     <EnterFormDiv>
-      <EnterForm onSubmit={createUser} data-testid="register">
+      <EnterForm onSubmit={createUser} data-testid='register'>
         <FormHeading>Registrate</FormHeading>
         <FormDescription>
           Registrate para empezar a usar nuestros servicios

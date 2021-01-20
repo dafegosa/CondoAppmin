@@ -12,29 +12,34 @@ export const CondosOuterDiv = styled.div`
 
 export const ContentTopBar = styled.div`
   border-bottom: 3px solid rgba(96, 125, 139, 1);
-  background-color: rgb(239, 239, 239);
-  height: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 3.5rem;
   width: 100%;
   display: flex;
   position: sticky;
-  top: 0;
+  border-radius: 0.8rem;
 `
 
 export const ContentTopBarTab = styled.button`
-  padding: 5px;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  padding: 0.2rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  margin-right: 1rem;
   cursor: pointer;
-  transition: 400ms;
+  border-radius: 0.6rem;
+  transition: all 0.1s linear;
+  background-color: #181838;
 
-  &.active {
+  &:hover {
+    background-color: #7870a0;
+  }
+  &:active {
     background-color: rgba(96, 125, 139, 0.7);
     color: white;
   }
 `
 
-function Condos () {
+function Condos() {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
@@ -45,20 +50,20 @@ function Condos () {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active')
-    selectedButtons.forEach(button => button.classList.remove('active'))
+    selectedButtons.forEach((button) => button.classList.remove('active'))
 
     e.target.classList.add('active')
 
     switch (outerText) {
       case 'Agregar Condominio':
         history.push('/dashboard/condo/add')
-        return 
+        return
       case 'Ver Condominios':
         history.push('/dashboard/condo/list')
-        return 
+        return
       default:
         history.push('/dashboard/condo')
-        break;
+        break
     }
   }
   const renderTab = () => {
@@ -74,16 +79,18 @@ function Condos () {
     }
   }
 
-  return (
-    !admin ? <Redirect to='/dashboard' /> : (
-    <CondosOuterDiv data-testid="condos">
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
+    <CondosOuterDiv data-testid='condos'>
       <ContentTopBar>
-        <ContentTopBarTab onClick={pickTab}>Agregar Condominio</ContentTopBarTab>
+        <ContentTopBarTab onClick={pickTab}>
+          Agregar Condominio
+        </ContentTopBarTab>
         <ContentTopBarTab onClick={pickTab}>Ver Condominios</ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </CondosOuterDiv>
-    )
   )
 }
 

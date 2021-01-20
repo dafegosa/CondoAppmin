@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
-import { CONDO_FORM_CLEAN, CONDO_MESSAGE_CLEAN } from '../../../../../store/condoReducer'
+import {
+  getAdmin,
+  globalHandleChange,
+  globalCreateDocument,
+} from '../../../../../store/sessionReducer'
+import {
+  CONDO_FORM_CLEAN,
+  CONDO_MESSAGE_CLEAN,
+} from '../../../../../store/condoReducer'
 
 export const AddCondoDiv = styled.div`
+  margin-top: 20px;
   padding: 0 10px;
   width: 100%;
   display: flex;
@@ -13,7 +21,8 @@ export const AddCondoDiv = styled.div`
   align-items: center;
   box-sizing: border-box;
 
-  & input, & select {
+  & input,
+  & select {
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
@@ -21,15 +30,18 @@ export const AddCondoDiv = styled.div`
 `
 
 export const SectionTitle = styled.h2`
-  font-weight: 500;
-  font-size: 24px;
+  font-family: 'Cormorant Garamond';
+  margin: 10px 0 40px 0;
+  font-weight: 800;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.6);
 `
 
 const CondosForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
   box-sizing: border-box;
   width: 70%;
 
@@ -38,15 +50,19 @@ const CondosForm = styled.form`
   }
 `
 
-function ContentPostCondo () {
-
+function ContentPostCondo() {
   const { currentCondoId, condoName, condoAddress, message } = useSelector(
-    ({ condoReducer: { currentCondoId, condoName, condoAddress, message } }) => {
-    return { currentCondoId, condoName, condoAddress, message }
-    }) 
-  const { admin, resident } = useSelector(({ sessionReducer: { admin, resident } }) => {
-    return { admin, resident }
-  })
+    ({
+      condoReducer: { currentCondoId, condoName, condoAddress, message },
+    }) => {
+      return { currentCondoId, condoName, condoAddress, message }
+    }
+  )
+  const { admin, resident } = useSelector(
+    ({ sessionReducer: { admin, resident } }) => {
+      return { admin, resident }
+    }
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -65,46 +81,57 @@ function ContentPostCondo () {
     const newDocument = {
       name: condoName,
       address: condoAddress,
-      admin: data.id
+      admin: data.id,
     }
 
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('condo', newDocument, token))
     dispatch({ type: CONDO_FORM_CLEAN })
-
   }
 
-  return (
-    !admin ? <Redirect to="/dashboard" /> :
-    (<AddCondoDiv>
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
+    <AddCondoDiv>
       <SectionTitle>Agregar Condominio</SectionTitle>
       <CondosForm onSubmit={createDocument}>
         <div>
-          <label htmlFor="condoName">Nombre</label>
+          <label htmlFor='condoName'>Nombre</label>
           <input
-            id="condoName"
-            name="condoName"
-            type="text"
+            className='form-control'
+            id='condoName'
+            name='condoName'
+            type='text'
             onChange={handleChange}
             value={condoName}
           />
         </div>
         <div>
-          <label htmlFor="condoAddress">Dirección</label>
+          <label htmlFor='condoAddress'>Dirección</label>
           <input
-            id="condoAddress"
-            name="condoAddress"
-            type="text"
+            className='form-control'
+            id='condoAddress'
+            name='condoAddress'
+            type='text'
             onChange={handleChange}
             value={condoAddress}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button
+          type='submit'
+          className='btn btn-success'
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#505098',
+            border: 'none',
+          }}
+        >
+          Submit
+        </button>
         {message && message}
       </CondosForm>
-    </AddCondoDiv>)
+    </AddCondoDiv>
   )
 }
-
 
 export default ContentPostCondo

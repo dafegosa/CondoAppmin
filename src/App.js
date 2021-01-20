@@ -1,11 +1,16 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import Home from './pages/home/Home'
 import Dashboard from './pages/dashboard/Dashboard'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import PrivateRoute from './pages/dashboard/PrivateRoute'
+import './App.css'
 
 const theme = {
   mainColor: 'rgba(96, 125, 139, 1)',
@@ -20,7 +25,6 @@ class App extends React.Component {
         <Router>
           <ThemeProvider theme={theme}>
             <Switch>
-              <Route exact path='/' component={Home} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/register' component={Register} />
               <PrivateRoute
@@ -28,6 +32,7 @@ class App extends React.Component {
                 path='/dashboard/:path?/:innerpath?/:superinner?'
                 component={Dashboard}
               />
+              <Redirect to='login' />
             </Switch>
           </ThemeProvider>
         </Router>
