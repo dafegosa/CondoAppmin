@@ -61,6 +61,11 @@ export const EnterForm = styled.form`
   .Register-link {
     color: white;
   }
+  .forgot-password {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
   & div div {
     display: flex;
     flex-direction: row;

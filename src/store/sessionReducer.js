@@ -78,6 +78,22 @@ export async function getAdmin() {
     return
   }
 }
+export async function getResident(token) {
+
+  try {
+    const resident = await axios({
+      method: 'GET',
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: '/resident/getResident',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return resident
+  } catch (err) {
+    return
+  }
+}
 
 export function globalHandleChange(e, reducer) {
   return async function (dispatch) {

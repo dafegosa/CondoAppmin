@@ -276,21 +276,25 @@ function ContentGetCondos() {
                   </IconButton>
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
-                  <IconButton style={{ padding: '0px' }}>
+                  <IconButton 
+                    style={{ padding: '0px' }}
+                    onClick={onDeleteCondo.bind(this, condo._id)}
+                  >
                     <DeleteIcon
                       style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onDeleteCondo.bind(this, condo._id)}
                     />
                   </IconButton>
-                  <IconButton style={{ padding: '0px', display: 'block' }}>
+                  <IconButton 
+                    style={{ padding: '0px', display: 'block' }}
+                    onClick={onEditCondo.bind(
+                      this,
+                      condo._id,
+                      condo.name,
+                      condo.address
+                    )}
+                  >
                     <EditIcon
-                      style={{ color: 'white', fontSize: '24px' }}
-                      onClick={onEditCondo.bind(
-                        this,
-                        condo._id,
-                        condo.name,
-                        condo.address
-                      )}
+                      style={{ color: 'white', fontSize: '24px' }}                      
                     />
                   </IconButton>
                 </SingleCondoInnerDiv>

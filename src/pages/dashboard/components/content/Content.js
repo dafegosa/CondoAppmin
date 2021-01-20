@@ -7,6 +7,8 @@ import Units from './units/Units'
 import Residents from './residents/Residents'
 import { SET_CURRENT_OPTION } from '../../../../store/sessionReducer'
 import Tickets from './tickets/Tickets'
+import Payments from './payments/Payments'
+import PaymentResponse from './payments/PaymentResponse'
 
 const ContentDiv = styled.main`
   display: grid;
@@ -15,10 +17,14 @@ const ContentDiv = styled.main`
   padding: 10px;
   box-sizing: border-box;
   display: flex;
+<<<<<<< HEAD
   color: white;
   overflow-y: scroll;
   scrollbar-color: rgba(255, 255, 255, 0.1);
 
+=======
+  overflow-y: hidden;
+>>>>>>> 0dfb3f2073ca65f3d0eb20a3b6420bb9239aead5
   @media (max-width: 768px) {
     grid-area: 2 / 2 / 9 / 13;
   }
@@ -47,12 +53,16 @@ function Content() {
         return <Residents />
       case 'ticket':
         return <Tickets />
+      case 'payment':
+        return <Payments />
+      case 'response':
+        return <PaymentResponse />
       default:
         return <h1>Bienvenido</h1>
     }
   }
 
-  return <ContentDiv>{renderContent()}</ContentDiv>
+  return <ContentDiv data-testid="content">{renderContent()}</ContentDiv>
 }
 
 export default Content
