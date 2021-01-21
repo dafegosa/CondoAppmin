@@ -15,17 +15,22 @@ const MessageContainer = styled.section`
   flex-direction: column;
   align-items: flex-start;
   margin: 0;
-  background-color: rgba(96, 125, 139, 0.7);
+  background-color: #181838;
   .secction-title {
     color: rgba(255, 191, 91, 0.9);
   }
   .secction-title.top-title {
-    height: 40px;
+    height: 70px;
     width: 100%;
     padding-bottom: 10px;
-    background-color: #ffbf5b;
-    color: rgba(96, 125, 139, 1);
+    background-color: #7870a0;
+    color: #181838;
     text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: 0.1s linear;
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0);
+    }
   }
   .secction-title.bottom-title {
   }

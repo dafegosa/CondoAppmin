@@ -12,7 +12,7 @@ import {
 
 const Container = styled.section`
   grid-area: 1 / 1 / 9 / 3;
-  background-color: #ffbf5b;
+  background-color: #181838;
   min-width: 15vw;
   min-height: 100vh;
 `
@@ -39,18 +39,24 @@ const Select = styled.div`
   justify-content: end;
   align-items: center;
   padding: 10px 25px;
-  color: #0a0f0f;
+  color: #e0e0e8;
   width: 100%;
   box-sizing: border-box;
-  transition: 300ms;
+  transition: all 120ms linear;
 
   &:hover,
   &.active-item {
-    background-color: white;
+    background-color: #aaadc4;
+    transform: scale(1.05);
+    border-radius: 0 12px 12px 0;
+
+    & i {
+      color: #6068a0;
+    }
   }
   & i {
     display: inline-block;
-    color: #607d8b;
+    color: #9898b8;
     font-size: 1.2rem;
     margin-right: 15px;
   }
@@ -118,10 +124,11 @@ const LeftMenu = () => {
 
   return (
     <Container data-testid='left-menu'>
+      {/* {admin && condos.length > 0 ? <ChooseCondo /> : ( */}
       <Logo>
-        <img src={logo} alt='logo' />
+        <img src={logo} alt='logo' style={{ width: '8rem' }} />
       </Logo>
-      {admin && condos.length > 0 ? <ChooseCondo /> : null}
+      {/* )} */}
       <SideMenu>
         <ul>
           {!!leftMenuNav &&
@@ -142,6 +149,7 @@ const LeftMenu = () => {
       </SideMenu>
 
       <Picture></Picture>
+      {admin && condos.length > 0 ? <ChooseCondo /> : ''}
     </Container>
   )
 }

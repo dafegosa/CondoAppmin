@@ -3,9 +3,22 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
-import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
-import { RESIDENT_FORM_CLEAN, RESIDENT_MESSAGE_CLEAN } from '../../../../../store/residentReducer'
-import { PAYMENTS_SET_MESSAGE, PAYMENTS_SET_ERROR, PAYMENTS_CLEAN_ERROR, PAYMENTS_CLEAN_MESSAGE, PAYMENTS_FORM_CLEAN } from '../../../../../store/paymentReducer'
+import {
+  getAdmin,
+  globalHandleChange,
+  globalCreateDocument,
+} from '../../../../../store/sessionReducer'
+import {
+  RESIDENT_FORM_CLEAN,
+  RESIDENT_MESSAGE_CLEAN,
+} from '../../../../../store/residentReducer'
+import {
+  PAYMENTS_SET_MESSAGE,
+  PAYMENTS_SET_ERROR,
+  PAYMENTS_CLEAN_ERROR,
+  PAYMENTS_CLEAN_MESSAGE,
+  PAYMENTS_FORM_CLEAN,
+} from '../../../../../store/paymentReducer'
 
 export const AddPaymentDiv = styled.div`
   padding: 10px;
@@ -33,27 +46,48 @@ const PaymentsForm = styled.form`
   width: 70%;
 `
 
-function ContentPostPayment () {
-
-  const { unit, service, value, description, dueDate, message, error } = useSelector(( { paymentReducer: { unit, service, value, description, dueDate, message, error }}) => {
-    return { unit, service, value, description, dueDate, message, error }
-  })
-  const { units } = useSelector(( { unitReducer: { units }}) => {
+function ContentPostPayment() {
+  const {
+    unit,
+    service,
+    value,
+    description,
+    dueDate,
+    message,
+    error,
+  } = useSelector(
+    ({
+      paymentReducer: {
+        unit,
+        service,
+        value,
+        description,
+        dueDate,
+        message,
+        error,
+      },
+    }) => {
+      return { unit, service, value, description, dueDate, message, error }
+    }
+  )
+  const { units } = useSelector(({ unitReducer: { units } }) => {
     return { units }
   })
-  const { currentCondoId } = useSelector(({ condoReducer: { currentCondoId } }) => {
+  const { currentCondoId } = useSelector(
+    ({ condoReducer: { currentCondoId } }) => {
       return { currentCondoId }
-  })
+    }
+  )
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
   const dispatch = useDispatch()
 
   useEffect(() => {
-    async function getUnits () {
-      dispatch({type: PAYMENTS_CLEAN_ERROR})
-      dispatch({type: PAYMENTS_CLEAN_MESSAGE})
-      dispatch({type: PAYMENTS_FORM_CLEAN})
+    async function getUnits() {
+      dispatch({ type: PAYMENTS_CLEAN_ERROR })
+      dispatch({ type: PAYMENTS_CLEAN_MESSAGE })
+      dispatch({ type: PAYMENTS_FORM_CLEAN })
 
       await dispatch(retrieveUnits(currentCondoId))
     }
@@ -67,33 +101,36 @@ function ContentPostPayment () {
   const createDocument = async (e) => {
     e.preventDefault()
 
-    dispatch({type: PAYMENTS_CLEAN_ERROR})
-    dispatch({type: PAYMENTS_CLEAN_MESSAGE})
+    dispatch({ type: PAYMENTS_CLEAN_ERROR })
+    dispatch({ type: PAYMENTS_CLEAN_MESSAGE })
 
     try {
       const { data } = await getAdmin()
-      const chosenUnit = units.find(singleUnit => singleUnit._id === unit)
+      const chosenUnit = units.find((singleUnit) => singleUnit._id === unit)
 
       const newDocument = {
         admin: data.id,
-        resident: chosenUnit.resident._id, 
-        condo: currentCondoId, 
-        unit: unit, 
-        service: service, 
+        resident: chosenUnit.resident._id,
+        condo: currentCondoId,
+        unit: unit,
+        service: service,
         description: description,
-        value: value, 
-        dueDate: dueDate, 
+        value: value,
+        dueDate: dueDate,
       }
       const token = localStorage.getItem('token')
       dispatch(globalCreateDocument('payment', newDocument, token))
-
     } catch (err) {
-      dispatch({ type: PAYMENTS_SET_ERROR, payload: 'Asigne un residente a esa unidad' })
-    } 
+      dispatch({
+        type: PAYMENTS_SET_ERROR,
+        payload: 'Asigne un residente a esa unidad',
+      })
+    }
   }
 
-  return (
-    !admin ? <Redirect to="/dashboard" /> :
+  return !admin ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <AddPaymentDiv>
       <SectionTitle>Generar Pagos</SectionTitle>
       <PaymentsForm onSubmit={createDocument}>
@@ -104,6 +141,7 @@ function ContentPostPayment () {
           type='text'
           onChange={handleChange}
           value={service}
+          className='form-control'
         />
         <label htmlFor='value'>Valor</label>
         <input
@@ -112,6 +150,7 @@ function ContentPostPayment () {
           type='number'
           onChange={handleChange}
           value={value}
+          className='form-control'
         />
         <label htmlFor='description'>Concepto</label>
         <textarea
@@ -120,7 +159,13 @@ function ContentPostPayment () {
           rows='3'
           onChange={handleChange}
           value={description}
-          style={{display: 'block', width: '100%', marginBottom: '10px', boxSizing: 'border-box'}}
+          className='form-control'
+          style={{
+            display: 'block',
+            width: '100%',
+            marginBottom: '10px',
+            boxSizing: 'border-box',
+          }}
         >
           {description}
         </textarea>
@@ -131,6 +176,7 @@ function ContentPostPayment () {
           type='date'
           onChange={handleChange}
           value={dueDate}
+          className='form-control'
         />
         <label htmlFor='unit'>Unidad</label>
         <select
@@ -140,10 +186,9 @@ function ContentPostPayment () {
           value={unit}
           onChange={handleChange}
           required
+          className='form-control'
         >
-          <option>
-            Escoge unidad
-          </option>
+          <option>Escoge unidad</option>
           {!!units &&
             units.length > 0 &&
             units.map((unit) => {
@@ -154,8 +199,20 @@ function ContentPostPayment () {
               )
             })}
         </select>
-        <button type='submit'>Submit</button>
-        {error ? <p style={{color: "red"}}>{error}</p> : <p>{message}</p>}
+        <button
+          type='submit'
+          style={{
+            padding: '0.5rem 0.9rem',
+            backgroundColor: '#7078c8',
+            marginTop: '2rem',
+            border: 'none',
+            borderRadius: '0.5rem',
+            color: 'white',
+          }}
+        >
+          Submit
+        </button>
+        {error ? <p style={{ color: 'red' }}>{error}</p> : <p>{message}</p>}
       </PaymentsForm>
     </AddPaymentDiv>
   )

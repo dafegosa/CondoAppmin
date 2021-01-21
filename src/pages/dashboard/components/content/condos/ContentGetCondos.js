@@ -35,10 +35,11 @@ export const ListCondosDiv = styled.div`
 `
 
 export const GetCondosTitle = styled.h1`
-  margin: 20px 0 40px 0;
+  font-family: 'Cormorant Garamond';
+  margin: 30px 0 40px 0;
   font-weight: 500;
-  font-size: 28px;
-  color: rgba(96, 125, 139, 0.9);
+  font-size: 2.5rem;
+  color: white;
 `
 const CondoListSection = styled.div`
   width: 100%;
@@ -51,27 +52,29 @@ const CondoListSection = styled.div`
 const SingleCondoOuterDiv = styled.div`
   margin-bottom: 5px;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  /* align-items: baseline; */
+  /* justify-content: space-between; */
   border-radius: 5px;
   box-sizing: border-box;
   padding: 10px;
   width: 95%;
   color: white;
   border: 1px solid rgba(96, 125, 139, 0.7);
-  background-color: rgba(96, 125, 139, 0.6);
+  background-color: #202850;
   overflow: scroll;
+  overflow-x: hidden;
 
   &:last-child {
     margin-bottom: 0;
   }
 `
 const SingleCondoInnerDiv = styled.div`
-  padding: 5px;
+  padding: 8px;
   border-left: 1px solid white;
   width: 30%;
   &:first-child {
     border-left: 0px;
+    background-color: #505098;
   }
   &:last-child {
     border-left: 1px solid white;
@@ -227,7 +230,7 @@ function ContentGetCondos() {
           condos.map((condo) => {
             return (
               <SingleCondoOuterDiv key={condo._id} data-testid='condo'>
-                <SingleCondoInnerDiv>
+                <SingleCondoInnerDiv className='card-header'>
                   {showCondoInfo(condo._id, condo.name, condo.address)}
                 </SingleCondoInnerDiv>
                 <SingleCondoInnerDiv>
@@ -248,7 +251,9 @@ function ContentGetCondos() {
                     <p>N/A</p>
                   )}
                 </SingleCondoInnerDiv>
-                <SingleCondoInnerDiv>
+                <SingleCondoInnerDiv
+                  style={{ display: 'flex', justifyContent: 'space-around' }}
+                >
                   <IconButton
                     title='Borrar condominio'
                     style={{ padding: '0px' }}

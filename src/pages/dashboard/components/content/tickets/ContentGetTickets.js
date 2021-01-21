@@ -18,9 +18,10 @@ const BigCentralMessagesContainer = styled.div`
   flex-direction: column;
 `
 export const MessageContainerMenu = styled.div`
-  border-bottom: 3px solid rgba(96, 125, 139, 1);
-  height: 30px;
+  margin: 2rem;
+  height: auto;
   display: flex;
+  justify-content: center;
 `
 
 const MessageContainer = styled.div`

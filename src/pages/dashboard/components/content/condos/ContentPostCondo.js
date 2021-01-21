@@ -13,6 +13,7 @@ import {
 } from '../../../../../store/condoReducer'
 
 export const AddCondoDiv = styled.div`
+  margin-top: 20px;
   padding: 0 10px;
   width: 100%;
   display: flex;
@@ -29,15 +30,18 @@ export const AddCondoDiv = styled.div`
 `
 
 export const SectionTitle = styled.h2`
-  font-weight: 500;
-  font-size: 24px;
+  font-family: 'Cormorant Garamond';
+  margin: 10px 0 40px 0;
+  font-weight: 800;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.6);
 `
 
 const CondosForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
   box-sizing: border-box;
   width: 70%;
 
@@ -94,6 +98,7 @@ function ContentPostCondo() {
         <div>
           <label htmlFor='condoName'>Nombre</label>
           <input
+            className='form-control'
             id='condoName'
             name='condoName'
             type='text'
@@ -104,6 +109,7 @@ function ContentPostCondo() {
         <div>
           <label htmlFor='condoAddress'>Dirección</label>
           <input
+            className='form-control'
             id='condoAddress'
             name='condoAddress'
             type='text'
@@ -111,7 +117,15 @@ function ContentPostCondo() {
             value={condoAddress}
           />
         </div>
-        <button id='buttonSubmit' type='submit'>
+        <button
+          type='submit'
+          className='btn btn-success'
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#505098',
+            border: 'none',
+          }}
+        >
           Submit
         </button>
         {message && message}

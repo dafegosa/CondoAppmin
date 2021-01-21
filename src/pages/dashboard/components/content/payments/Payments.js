@@ -15,22 +15,23 @@ export const PaymentsOuterDiv = styled.div`
 
 export const ContentTopBar = styled.div`
   border-bottom: 3px solid rgba(96, 125, 139, 1);
-  background-color: rgb(239, 239, 239);
-  height: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 3.5rem;
   width: 100%;
   display: flex;
   position: sticky;
-  top: 0;
-  z-index: 100000;
+  border-radius: 0.8rem;
 `
 
 export const ContentTopBarTab = styled.button`
-  padding: 5px;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  padding: 0.2rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  margin-right: 1rem;
   cursor: pointer;
-  transition: 400ms;
+  border-radius: 0.6rem;
+  transition: all 0.1s linear;
+  background-color: #181838;
 
   &.active-tab {
     background-color: rgba(96, 125, 139, 0.7);
@@ -47,12 +48,14 @@ export const ContentTopBarTab = styled.button`
   }
 `
 
-function Payments () {
+function Payments() {
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
   let history = useHistory()
-  const { location: { pathname } } = history  
+  const {
+    location: { pathname },
+  } = history
 
   const urlItems = pathname.substr(1).split('/')
 
@@ -61,16 +64,16 @@ function Payments () {
     const { outerText } = e.target
 
     let selectedButtons = document.querySelectorAll('.active-tab')
-    selectedButtons.forEach(button => button.classList.remove('active-tab'))
+    selectedButtons.forEach((button) => button.classList.remove('active-tab'))
 
     e.target.classList.add('active-tab')
     switch (outerText) {
       case 'Configuraciones':
         history.push('/dashboard/payment/settings')
-        return 
+        return
       case 'Generar Pagos':
         history.push('/dashboard/payment/add')
-        return 
+        return
       case 'Todos los pagos':
         history.push('/dashboard/payment/list')
         return
@@ -79,16 +82,15 @@ function Payments () {
         return
       default:
         history.push('/dashboard/payment')
-        break;
+        break
     }
   }
 
   const seeTabClassAssign = () => {
-    
     let selectedButtons = document.querySelectorAll('.active-tab')
 
     if (urlItems[2] === 'view') {
-      selectedButtons.forEach(button => button.classList.remove('active-tab'))
+      selectedButtons.forEach((button) => button.classList.remove('active-tab'))
       return 'unhidden'
     } else {
       return 'hidden'
@@ -102,27 +104,35 @@ function Payments () {
       case 'add':
         return <ContentPostPayment />
       case 'settings':
-        return <ContentPaymentsSettings  />
+        return <ContentPaymentsSettings />
       case 'list':
-        return <ContentGetPayments  />
+        return <ContentGetPayments />
       case 'view':
-        return <ContentViewPayment  />
+        return <ContentViewPayment />
       default:
         return <p>You're on payments page</p>
     }
   }
 
   return (
-    <PaymentsOuterDiv data-testid="payments">
+    <PaymentsOuterDiv data-testid='payments'>
       <ContentTopBar>
-        {!!admin && <ContentTopBarTab onClick={pickTab}>Configuraciones</ContentTopBarTab>}
-        {!!admin && <ContentTopBarTab onClick={pickTab}>Generar Pagos</ContentTopBarTab>}
-        <ContentTopBarTab onClick={pickTab}>{admin ? 'Todos los pagos' : 'Mis pagos'}</ContentTopBarTab>
-        <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>Ver Pago</ContentTopBarTab>
+        {!!admin && (
+          <ContentTopBarTab onClick={pickTab}>Configuraciones</ContentTopBarTab>
+        )}
+        {!!admin && (
+          <ContentTopBarTab onClick={pickTab}>Generar Pagos</ContentTopBarTab>
+        )}
+        <ContentTopBarTab onClick={pickTab}>
+          {admin ? 'Todos los pagos' : 'Mis pagos'}
+        </ContentTopBarTab>
+        <ContentTopBarTab className={seeTabClassAssign()} onClick={pickTab}>
+          Ver Pago
+        </ContentTopBarTab>
       </ContentTopBar>
       {renderTab()}
     </PaymentsOuterDiv>
-    )
+  )
 }
 
 export default Payments

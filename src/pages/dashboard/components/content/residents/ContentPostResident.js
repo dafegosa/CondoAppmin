@@ -15,10 +15,12 @@ import {
 export const AddResidentDiv = styled.div`
   padding: 10px 0;
   width: 100%;
+  height: 120vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  overflow-y: scroll;
   & input,
   & select {
     box-sizing: border-box;
@@ -28,8 +30,10 @@ export const AddResidentDiv = styled.div`
 `
 
 export const SectionTitle = styled.h1`
+  margin: 30px 0 10px 0;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 28px;
+  color: rgba(96, 125, 139, 0.9);
 `
 
 const ResidentsForm = styled.form`
@@ -93,6 +97,7 @@ function ContentPostResident () {
       <ResidentsForm onSubmit={createDocument}>
         <label htmlFor='resName'>Nombre</label>
         <input
+          className='form-control'
           id='resName'
           name='resName'
           type='text'
@@ -101,6 +106,7 @@ function ContentPostResident () {
         />
         <label htmlFor='resLastname'>Apellido</label>
         <input
+          className='form-control'
           id='resLastname'
           name='resLastname'
           type='text'
@@ -109,6 +115,7 @@ function ContentPostResident () {
         />
         <label htmlFor='resIdNumber'>Cédula</label>
         <input
+          className='form-control'
           id='resIdNumber'
           name='resIdNumber'
           type='text'
@@ -117,6 +124,7 @@ function ContentPostResident () {
         />
         <label htmlFor='resPhone'>Teléfono</label>
         <input
+          className='form-control'
           id='resPhone'
           name='resPhone'
           type='resPhone'
@@ -125,6 +133,7 @@ function ContentPostResident () {
         />
         <label htmlFor='resEmail'>Email</label>
         <input
+          className='form-control'
           id='resEmail'
           name='resEmail'
           type='email'
@@ -133,6 +142,7 @@ function ContentPostResident () {
         />
         <label htmlFor='resUnit'>Unidad</label>
         <select
+          className='btn btn-outline-info'
           type='text'
           name='resUnit'
           id='service-select'
@@ -153,13 +163,14 @@ function ContentPostResident () {
         </select>
         <label htmlFor='resPassword'>password</label>
         <input
+          className='form-control'
           id='resPassword'
           name='resPassword'
           type='password'
           onChange={handleChange}
           value={resPassword}
         />
-        <button id='buttonAddResident' type='submit'>
+        <button type='submit' className='btn btn-success'>
           Submit
         </button>
         {message || error}

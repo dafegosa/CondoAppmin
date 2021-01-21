@@ -1,6 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { getAdmin, globalHandleChange, globalCreateDocument } from '../../../../../store/sessionReducer'
+import {
+  getAdmin,
+  globalHandleChange,
+  globalCreateDocument,
+} from '../../../../../store/sessionReducer'
 
 export const PaymentSettingsDiv = styled.div`
   padding: 10px;
@@ -44,10 +48,11 @@ const SettingOuterDiv = styled.div`
 `
 
 const ContentPaymentsSettings = () => {
-
-  const { name, value, settings, message, error } = useSelector(( { paymentReducer: { name, value, settings, message, error }}) => {
-    return { name, value, settings, message, error }
-  })
+  const { name, value, settings, message, error } = useSelector(
+    ({ paymentReducer: { name, value, settings, message, error } }) => {
+      return { name, value, settings, message, error }
+    }
+  )
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -59,7 +64,7 @@ const ContentPaymentsSettings = () => {
 
     const newDocument = {
       name: name,
-      value: value, 
+      value: value,
     }
     const token = localStorage.getItem('token')
     dispatch(globalCreateDocument('service', newDocument, token))
@@ -69,13 +74,14 @@ const ContentPaymentsSettings = () => {
     <PaymentSettingsDiv>
       <SectionTitle>Servicios a cobrar</SectionTitle>
       <SettingsForm onSubmit={createDocument}>
-      <label htmlFor='resLastname'>Servicio</label>
+        <label htmlFor='resLastname'>Servicio</label>
         <input
           id='name'
           name='name'
           type='text'
           onChange={handleChange}
           value={name}
+          className='form-control'
         />
         <label htmlFor='value'>Valor</label>
         <input
@@ -84,21 +90,32 @@ const ContentPaymentsSettings = () => {
           type='number'
           onChange={handleChange}
           value={value}
+          className='form-control'
         />
-        <button type='submit'>Submit</button>
+        <button
+          type='submit'
+          style={{
+            padding: '0.5rem 0.9rem',
+            backgroundColor: '#7078c8',
+            marginTop: '2rem',
+            border: 'none',
+            borderRadius: '0.5rem',
+            color: 'white',
+          }}
+        >
+          Submit
+        </button>
         {message || error}
       </SettingsForm>
       <SettingsListDiv>
         <SectionSubtitle>Listado de Servicios</SectionSubtitle>
-        {!!settings && settings.length > 0 ? 
-        settings.map(setting => {
-          return (
-            <SettingOuterDiv>
-
-            </SettingOuterDiv>
-          )
-        }) : <p>Aun no has agregado servicios</p>}
-
+        {!!settings && settings.length > 0 ? (
+          settings.map((setting) => {
+            return <SettingOuterDiv></SettingOuterDiv>
+          })
+        ) : (
+          <p>Aun no has agregado servicios</p>
+        )}
       </SettingsListDiv>
     </PaymentSettingsDiv>
   )
