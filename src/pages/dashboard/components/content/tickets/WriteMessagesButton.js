@@ -6,14 +6,17 @@ import { verifyUser } from '../../../../../store/sessionReducer'
 import axios from 'axios'
 
 export const Button = styled.button`
-  padding: 5px;
+  padding: 0.5rem 0.9rem;
   border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  color: #182040;
+  margin: 1rem 0 1rem 48rem;
   cursor: pointer;
-  transition: 400ms;
+  background-color: #c8c8d8;
+  border-radius: 0.5rem;
+  transition: 220ms;
+  width: auto;
 
-  &.active {
+  &:hover {
     background-color: rgba(96, 125, 139, 0.7);
     color: white;
   }

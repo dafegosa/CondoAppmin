@@ -27,6 +27,7 @@ const BigCentarlMessagesContainer = styled.form`
   }
   .ck-content {
     height: 10%;
+    color: black;
   }
 `
 

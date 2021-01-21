@@ -26,8 +26,10 @@ const AddUnitDiv = styled.div`
   }
 `
 export const SectionTitle = styled.h2`
+  margin: 10px 0 40px 0;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 28px;
+  color: rgba(96, 125, 139, 0.9);
 `
 
 const UnitsForm = styled.form`
@@ -94,7 +96,15 @@ function ContentPostUnit() {
             value={unitName}
           />
         </div>
-        <button id='buttonAddUnit' type='submit'>
+        <button
+          type='submit'
+          className='btn btn-success'
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#505098',
+            border: 'none',
+          }}
+        >
           Submit
         </button>
         {message}

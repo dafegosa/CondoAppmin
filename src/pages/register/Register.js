@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { globalHandleChange } from '../../store/sessionReducer'
@@ -7,12 +8,12 @@ import {
   EnterFormDiv,
   EnterForm,
   FormHeading,
-  FormDescription,
   Input,
   Button,
   Label,
-  InputDiv,
   Paragraph,
+  InputDiv,
+  FormDescription,
 } from '../login/Login'
 
 function Register() {
@@ -133,7 +134,7 @@ function Register() {
           />
         </InputDiv>
         <Button type='submit'>Registrarme</Button>
-        {message && <p id='successMessage'>{message}</p>}
+        {message && <p id="message">{message}</p>}
         <Paragraph>
           ¿Ya tienes una cuenta?{' '}
           <Link to='/login' className='Login-link'>

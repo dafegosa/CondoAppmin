@@ -9,6 +9,7 @@ const ChooseCondoDiv = styled.div`
   height: 12.5%;
   width: 60%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -56,16 +57,18 @@ function ChooseCondo() {
 
   return (
     <ChooseCondoDiv>
-      <ChooseCondoForm onSubmit={handleSubmit}>
-        <Button id='buttonSelectCondo' type='submit'>
-          Seleccionar
-        </Button>
+      <ChooseCondoForm
+        style={{ marginBottom: '120px' }}
+        onSubmit={handleSubmit}
+      >
         <select
+          className='btn btn-group btn-primary'
           name='chosenCondo'
           id='condo-select'
           value={chosenCondo}
           onChange={handleChange}
           required
+          style={{ backgroundColor: '#7870a0', padding: '.6rem 1.2rem' }}
         >
           <option>{'Escoge condominio'}</option>
           {condos &&
@@ -78,6 +81,17 @@ function ChooseCondo() {
               )
             })}
         </select>
+        <button
+          type='submit'
+          className='btn btn-outline-primary'
+          style={{
+            color: '#e0e0e8',
+            border: '1px solid #e0e0e8',
+            marginTop: '10px',
+          }}
+        >
+          Seleccionar
+        </button>
       </ChooseCondoForm>
     </ChooseCondoDiv>
   )

@@ -17,6 +17,7 @@ const BigCentarlMessagesContainer = styled.form`
   flex-direction: column;
   .ck-content {
     height: 300px;
+    color: black;
   }
   .alert {
     color: red;
@@ -179,15 +180,7 @@ const ContentPostTicket = (props) => {
           ).
         </p>
       )}
-      {openTicket.length === 0 && (
-        <MessageContainerMenu>
-          <WriteMessagessButton
-            type='submit'
-            className='toRight'
-            value='enviar'
-          />
-        </MessageContainerMenu>
-      )}
+      {openTicket.length === 0 && <MessageContainerMenu></MessageContainerMenu>}
 
       <p>
         Para
@@ -197,6 +190,7 @@ const ContentPostTicket = (props) => {
           type='email'
           required={true}
           onChange={handleInputChange}
+          className='form-control'
         />
       </p>
       <p>
@@ -208,6 +202,7 @@ const ContentPostTicket = (props) => {
           required={true}
           value={userEmail}
           readOnly
+          className='form-control'
         />
       </p>
       <p>
@@ -217,6 +212,7 @@ const ContentPostTicket = (props) => {
           name='subject'
           type='text'
           onChange={handleInputChange}
+          className='form-control'
         />
       </p>
 
@@ -238,6 +234,7 @@ const ContentPostTicket = (props) => {
         required
         onChange={handleChange}
       />
+      <WriteMessagessButton type='submit' className='toRight' value='enviar' />
     </BigCentarlMessagesContainer>
   )
 }

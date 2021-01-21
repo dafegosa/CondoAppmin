@@ -13,6 +13,7 @@ const middlewares  = [thunk]
 const mockRegisterReducer = configureStore(middlewares)
 
 describe('Sign Up form', () => {
+
   beforeEach(() => {
     moxios.install()
   })
