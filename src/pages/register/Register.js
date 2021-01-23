@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,8 +15,10 @@ import {
   InputDiv,
   FormDescription,
 } from '../login/Login'
+import Loader from '../dashboard/Loader'
 
 function Register() {
+  const [loading, setLoading] = useState(false)
   const {
     name,
     lastname,
@@ -48,7 +50,7 @@ function Register() {
 
   const createUser = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
     const newUser = {
       name,
       lastName: lastname,
@@ -57,11 +59,12 @@ function Register() {
       email,
       password,
     }
-    dispatch(userSignup(newUser))
+    dispatch(userSignup(newUser)).then(() => setLoading(false))
   }
 
   return (
     <EnterFormDiv>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
       <EnterForm onSubmit={createUser} data-testid='register'>
         <FormHeading>Registrate</FormHeading>
         <FormDescription>
@@ -134,7 +137,7 @@ function Register() {
           />
         </InputDiv>
         <Button type='submit'>Registrarme</Button>
-        {message && <p id="message">{message}</p>}
+        {message && <p id='message'>{message}</p>}
         <Paragraph>
           ¿Ya tienes una cuenta?{' '}
           <Link to='/login' className='Login-link'>

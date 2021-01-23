@@ -98,7 +98,7 @@ const ShowMessage = (props) => {
   const [message, setMessage] = useState('')
   const [addData, setVal] = useState('')
   const [subTickets, setSubTickets] = useState([])
-
+  const [loading, setLoading] = useState(false)
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
     let user = ''
@@ -148,8 +148,8 @@ const ShowMessage = (props) => {
   }, [])
 
   const createSubTicket = (e) => {
-    setMessage('Respuesta enviada')
     e.preventDefault()
+    setLoading(true)
     axios({
       method: 'POST',
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -163,24 +163,30 @@ const ShowMessage = (props) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => {
-      axios({
-        method: 'PUT',
-        baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/ticket/updateTicket`,
-        data: {
-          _id: thisId,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
     })
+      .then(() => {
+        setLoading(false)
+        setMessage('Respuesta enviada')
+      })
+      .then(() => {
+        axios({
+          method: 'PUT',
+          baseURL: process.env.REACT_APP_SERVER_URL,
+          url: `/ticket/updateTicket`,
+          data: {
+            _id: thisId,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
+      })
   }
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
       <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
