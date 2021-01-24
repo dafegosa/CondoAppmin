@@ -20,49 +20,48 @@ import {
 } from '../condos/ContentGetCondos'
 
 const ResidentListSection = styled.div`
-  width: auto;
+  width: 90%;
   padding-bottom: 50px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  align-content: flex-end;
+  justify-content: space-around;
 `
 
 const SingleResidentOuterDiv = styled.div`
+  overflow: hidden;
   margin-bottom: 15px;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   border-radius: 5px;
-  box-sizing: border-box;
   padding: 0px;
   width: 100%;
   color: white;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  background-color: rgba(96, 125, 139, 0.6);
-  overflow: scroll;
+  background-color: #202850;
+  overflow: hidden;
   transition: 400ms;
 `
 const SingleResidentInnerDiv = styled.div`
+  overflow: hidden;
   padding: 5px;
-  border-left: 1px solid white;
-  width: auto;
-  &:first-child {
-    border-left: 0px;
-  }
-  &:last-child {
-    border-left: 1px solid white;
-  }
+  width: 30vw;
+  padding: 1rem;
+
   &.icon-section {
-    width: auto;
+    width: 10rem;
+    display: flex;
+    justify-content: space-around;
+    align-self: stretch;
+    background-color: #505098;
   }
 `
 
 const SingleResidentInnerSectionDiv = styled.div`
+  overflow: hidden;
   display: flex;
-  transition: 400ms;
-  width: auto;
+  transition: 200ms;
+  background-color: #202850;
   &:hover {
     opacity: 0.6;
     cursor: pointer;
@@ -72,13 +71,7 @@ const SingleResidentInnerSectionDiv = styled.div`
 const ResidentName = styled.h2`
   margin: 0 0 10px 0;
   font-weight: 400;
-  font-size: 22px;
-`
-
-const CondoResidentsInfoTitle = styled.h3`
-  margin: 0 0 10px 0;
-  font-weight: 400;
-  font-size: 16px;
+  font-size: 1.2rem;
 `
 
 function ContentPostResident() {
@@ -180,9 +173,6 @@ function ContentPostResident() {
                     <ResidentName>{`${resident.name} ${resident.lastName}`}</ResidentName>
                   </SingleResidentInnerDiv>
                   <SingleResidentInnerDiv>
-                    <CondoResidentsInfoTitle>
-                      Unidad Ocupada
-                    </CondoResidentsInfoTitle>
                     <p>{resident.unitId.name}</p>
                   </SingleResidentInnerDiv>
                 </SingleResidentInnerSectionDiv>

@@ -16,7 +16,7 @@ const BigCentarlMessagesContainer = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -40,6 +40,7 @@ const Input = styled.input`
   width: 100%;
 `
 const MessageZone = styled.div`
+  background-color: green;
   width: 100%;
   height: 70%;
   background-color: white;

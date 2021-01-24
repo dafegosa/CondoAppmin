@@ -180,7 +180,7 @@ const ShowMessage = (props) => {
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
-      <MessageContainerMenu>
+      <MessageContainerMenu style={{ backgroundColor: 'pink' }}>
         {ticketState === true && (
           <SubTicketCreator
             type='button'

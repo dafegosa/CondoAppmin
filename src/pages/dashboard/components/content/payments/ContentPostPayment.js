@@ -21,7 +21,7 @@ import {
 } from '../../../../../store/paymentReducer'
 
 export const AddPaymentDiv = styled.div`
-  padding: 10px;
+  padding: 2rem 0 5rem 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -36,6 +36,7 @@ export const AddPaymentDiv = styled.div`
 `
 
 export const SectionTitle = styled.h1`
+  color: darkblue;
   font-weight: 500;
   font-size: 24px;
 `
@@ -44,6 +45,7 @@ const PaymentsForm = styled.form`
   margin-top: 30px;
   box-sizing: border-box;
   width: 70%;
+  color: black;
 `
 
 function ContentPostPayment() {
@@ -202,15 +204,15 @@ function ContentPostPayment() {
         <button
           type='submit'
           style={{
-            padding: '0.5rem 0.9rem',
-            backgroundColor: '#7078c8',
-            marginTop: '2rem',
-            border: 'none',
-            borderRadius: '0.5rem',
+            marginTop: '20px',
+            backgroundColor: '#505098',
+            border: '1px solid white',
+            padding: '0.7rem 1.1rem',
             color: 'white',
+            borderRadius: '.5rem',
           }}
         >
-          Submit
+          Generar
         </button>
         {error ? <p style={{ color: 'red' }}>{error}</p> : <p>{message}</p>}
       </PaymentsForm>

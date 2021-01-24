@@ -57,7 +57,20 @@ const WriteMessagessButton = (props) => {
   }
 
   return (
-    <Button id='buttonAddTicket' class={props.className} onClick={newMessage}>
+    <Button
+      id='buttonAddTicket'
+      class={props.className}
+      onClick={newMessage}
+      style={{
+        marginBottom: '10rem',
+        marginTop: '20px',
+        backgroundColor: '#505098',
+        border: '1px solid white',
+        padding: '0.7rem 1.1rem',
+        color: 'white',
+        borderRadius: '0.5rem',
+      }}
+    >
       {props.value}
     </Button>
   )

@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom'
 import { useState } from 'react'
 
 const ContentTopBarTab = styled.button`
-  padding: 0.2rem 1.1rem;
+  padding: 0.7rem 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: white;
   margin-right: 1rem;
@@ -21,11 +21,9 @@ const ContentTopBarTab = styled.button`
   border-radius: 0.6rem;
   transition: all 0.1s linear;
   background-color: #181838;
-
   &.active-tab {
-    background-color: rgba(96, 125, 139, 0.7);
+    background-color: #9898b8;
     color: white;
-    display: block;
   }
   &.hidden {
     display: none;

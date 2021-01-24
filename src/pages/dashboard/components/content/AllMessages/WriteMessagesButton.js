@@ -12,6 +12,7 @@ export const Button = styled.button`
   margin-right: 3px;
   cursor: pointer;
   transition: 400ms;
+  background-color: pink;
 
   &.active {
     background-color: rgba(96, 125, 139, 0.7);
