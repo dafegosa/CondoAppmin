@@ -10,7 +10,7 @@ import ContentViewTicket from './ContentViewTicket'
 import ContentPostTicket from './ContentPostTicket'
 
 const ContentTopBarTab = styled.button`
-  padding: 0.2rem 1.1rem;
+  padding: 0.7rem 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: white;
   margin-right: 1rem;
@@ -20,9 +20,8 @@ const ContentTopBarTab = styled.button`
   background-color: #181838;
 
   &.active-ticket-tab {
-    background-color: rgba(96, 125, 139, 0.7);
+    background-color: #9898b8;
     color: white;
-    display: block;
   }
   &.hidden {
     display: none;

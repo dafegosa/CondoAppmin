@@ -48,17 +48,17 @@ const MessageInternContainer = styled.div`
     display: none;
   }
   margin: 0;
-  background-color: rgba(96, 125, 139, 0.7);
+  background-color: wheat;
 `
 
 const Message = styled.div`
-  background-color: rgba(96, 125, 139, 1);
+  background-color: #7870a0;
   color: white;
   text-align: left;
-  margin: 2px;
+  margin: 0.1rem;
   width: 100%;
   h6 {
-    margin: 2%;
+    margin: 2% 0 2% 0.8rem;
   }
   p {
     font-size: 12.5px;

@@ -22,6 +22,7 @@ export const AddResidentDiv = styled.div`
   box-sizing: border-box;
   & input,
   & select {
+    color: black;
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 10px;
@@ -234,7 +235,7 @@ function ContentEditResident() {
               )
             })}
         </input>
-        <button type='submit'>Submit</button>
+        <button type='submit'>Enviar</button>
         {message || error}
       </ResidentsForm>
     </AddResidentDiv>

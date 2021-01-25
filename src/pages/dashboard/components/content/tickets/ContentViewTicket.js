@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import WriteMessagessButton from './WriteMessagesButton'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { MessageContainerMenu } from './ContentGetTickets'
+import MessageContainerMenu from './ContentGetTickets'
 import { useHistory } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { verifyUser } from '../../../../../store/sessionReducer'
@@ -16,7 +16,7 @@ const BigCentarlMessagesContainer = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -40,17 +40,23 @@ const Input = styled.input`
   width: 100%;
 `
 const MessageZone = styled.div`
-  width: 100%;
-  height: 70%;
-  background-color: white;
-  overflow-y: scroll;
+  background-color: green;
+  margin: 2rem auto;
+  width: 80%;
+  height: 100vh;
+  border-radius: 1rem;
+
+  color: white;
+  overflow: hidden;
   margin-bottom: 2%;
-  color: rgba(96, 125, 139, 1);
+  background-color: #304068;
   .ticketBody {
-    margin-left: 25px;
+    margin-left: 1rem;
+    padding-bottom: 2rem;
   }
   .ticketHeader {
-    color: #4f4e4d;
+    color: white;
+    margin: 1rem;
   }
 `
 const SuccessMessage = styled.p`
@@ -189,28 +195,6 @@ const ContentViewTicket = (props) => {
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
-      <MessageContainerMenu>
-        {ticketState === true && (
-          <SubTicketCreator
-            id='response'
-            type='button'
-            className='toRight'
-            value='Responder'
-            onClick={createSubTicket}
-          >
-            Responder
-          </SubTicketCreator>
-        )}
-        {user === 'iAmAdmin' && ticketState === true && (
-          <WriteMessagessButton
-            type='button'
-            className='toRight'
-            value='Ticket Solucionado'
-          />
-        )}
-        <SuccessMessage>{message}</SuccessMessage>
-      </MessageContainerMenu>
-
       <MessageZone>
         <p className='ticketHeader'>De: {from}</p>
         <p className='ticketHeader'>Asunto: {subject}</p>
@@ -243,6 +227,27 @@ const ContentViewTicket = (props) => {
             </SubTicket>
           ))}
       </MessageZone>
+      <MessageContainerMenu>
+        {ticketState === true && (
+          <SubTicketCreator
+            id='response'
+            type='button'
+            className='toRight'
+            value='Responder'
+            onClick={createSubTicket}
+          >
+            Responder
+          </SubTicketCreator>
+        )}
+        {user === 'iAmAdmin' && ticketState === true && (
+          <WriteMessagessButton
+            type='button'
+            className='toRight'
+            value='Ticket Solucionado'
+          />
+        )}
+        <SuccessMessage>{message}</SuccessMessage>
+      </MessageContainerMenu>
       {ticketState && (
         <CKEditor
           style={{ height: '300px', rows: '10' }}

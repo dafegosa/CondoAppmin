@@ -15,15 +15,18 @@ export const UserTopBarDiv = styled.div`
   position: relative;
   display: flex;
   padding: 15px;
-  color: rgba(96, 125, 139, 1);
+  color: #9898b8;
   align-items: center;
   box-sizing: border-box;
 `
 
 export const WelcomeMsg = styled.p`
+  display: inline-block;
+  align-self: center;
   color: white;
-  font-size: 14px;
-  margin-right: 5px;
+  font-size: 1rem;
+  margin-right: 0.3rem;
+  margin-bottom: 0;
 `
 
 export const UserOptionsDiv = styled.div`
@@ -31,7 +34,9 @@ export const UserOptionsDiv = styled.div`
   position: absolute;
   top: 100%;
   left: 0%;
-  background-color: ${(props) => props.theme.thirdColor};
+  background-color: #7078c8;
+  color: white;
+  border-radius: 0 0 0.5rem 0.5rem;
 
   & ul {
     padding-inline-start: 0;
@@ -58,12 +63,11 @@ export const UserOptionsDiv = styled.div`
 
 export const UserOptionsListItem = styled.li`
   font-weight: 300;
-  font-size: 14px;
+  font-size: 1rem;
   padding: 10px 0;
   text-align: center;
   list-style: none;
-  border-left: 1px solid rgba(96, 125, 139, 1);
-  border-right: 1px solid rgba(96, 125, 139, 1);
+
   &:hover {
     cursor: pointer;
     font-weight: 400;
@@ -81,7 +85,9 @@ function UserSection() {
   useEffect(() => {
     async function getName() {
       const token = localStorage.getItem('token')
-      const { getResident, getAdmin } = await dispatch(verifyUser(history,  token))
+      const { getResident, getAdmin } = await dispatch(
+        verifyUser(history, token)
+      )
       if (getAdmin) {
         setCurrentUserName(getAdmin.data.name)
       } else if (getResident) {
@@ -108,7 +114,7 @@ function UserSection() {
       <IconButton style={{ padding: '0px' }} onClick={userSectionOptionsClick}>
         <ArrowDropDownIcon
           className='arrow-drop-down-icon'
-          style={{ color: 'white', fontSize: '28px' }}
+          style={{ color: 'white', fontSize: '2.5rem' }}
         />
       </IconButton>
       <CSSTransition

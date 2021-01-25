@@ -196,11 +196,35 @@ const ContentViewPayment = () => {
         </PaymentInfoDiv>
       )}
       {!!admin && !currentPayment.isPayed && (
-        <PaymentInfoDiv className='button'>
-          <PayButton type='button' onClick={sendEmail}>
+        <PaymentInfoDiv
+          className='button'
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            position: 'relative',
+          }}
+        >
+          <PayButton
+            type='button'
+            onClick={sendEmail}
+            style={{
+              marginTop: '20px',
+              backgroundColor: '#505098',
+              border: '1px solid white',
+              padding: '0.7rem 1.1rem',
+              color: 'white',
+              borderRadius: '0.5rem',
+            }}
+          >
             Enviar recordatorio
           </PayButton>
-          {error ? <p>{error}</p> : <p>{message}</p>}
+          {error ? (
+            <p>{error}</p>
+          ) : (
+            <p style={{ position: 'absolute', left: '2rem', top: '1rem' }}>
+              {message}
+            </p>
+          )}
         </PaymentInfoDiv>
       )}
     </ViewPaymentDiv>

@@ -16,9 +16,13 @@ const BigCentarlMessagesContainer = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 3rem;
+  overflow: scroll;
+
   .ck-content {
-    height: 300px;
-    color: black;
+    /* height: 300px;
+    color: black; */
+    height: 50vh;
   }
   .alert {
     color: red;
@@ -195,6 +199,7 @@ const ContentPostTicket = (props) => {
           required={true}
           onChange={handleInputChange}
           className='form-control'
+          style={{ border: '1px solid #9898b8' }}
         />
       </p>
       <p>
@@ -217,6 +222,7 @@ const ContentPostTicket = (props) => {
           type='text'
           onChange={handleInputChange}
           className='form-control'
+          style={{ border: '1px solid #9898b8' }}
         />
       </p>
 

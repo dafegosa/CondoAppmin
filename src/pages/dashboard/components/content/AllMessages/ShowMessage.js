@@ -187,7 +187,7 @@ const ShowMessage = (props) => {
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
       {loading ? <Loader show={loading}>Cargando...</Loader> : null}
-      <MessageContainerMenu>
+      <MessageContainerMenu style={{ backgroundColor: 'pink' }}>
         {ticketState === true && (
           <SubTicketCreator
             type='button'

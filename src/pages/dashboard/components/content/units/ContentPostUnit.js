@@ -26,10 +26,10 @@ const AddUnitDiv = styled.div`
   }
 `
 export const SectionTitle = styled.h2`
-  margin: 10px 0 40px 0;
+  margin: 2rem 0 0rem 0;
   font-weight: 500;
-  font-size: 28px;
-  color: rgba(96, 125, 139, 0.9);
+  font-size: 2.5rem;
+  color: #181838;
 `
 
 const UnitsForm = styled.form`
@@ -39,6 +39,7 @@ const UnitsForm = styled.form`
   margin-top: 30px;
   box-sizing: border-box;
   width: 70%;
+  color: black;
 
   & div {
     width: 45%;
@@ -94,6 +95,7 @@ function ContentPostUnit() {
             type='text'
             onChange={handleChange}
             value={unitName}
+            className='form-control'
           />
         </div>
         <button
@@ -102,7 +104,8 @@ function ContentPostUnit() {
           style={{
             marginTop: '20px',
             backgroundColor: '#505098',
-            border: 'none',
+            border: '1px solid white',
+            padding: '0.7rem 1.1rem',
           }}
         >
           Submit

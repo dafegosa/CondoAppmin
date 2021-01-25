@@ -19,12 +19,13 @@ import {
 export const ListCondosDiv = styled.div`
   padding: 0 10px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  overflow-y: scroll;
+  overflow: scroll;
+  padding-bottom: 10rem;
 
   & input,
   & select {
@@ -35,11 +36,10 @@ export const ListCondosDiv = styled.div`
 `
 
 export const GetCondosTitle = styled.h1`
-  font-family: 'Cormorant Garamond';
   margin: 30px 0 40px 0;
   font-weight: 500;
-  font-size: 2.5rem;
-  color: white;
+  font-size: 2.1rem;
+  color: #181838;
 `
 const CondoListSection = styled.div`
   width: 100%;
@@ -61,8 +61,6 @@ const SingleCondoOuterDiv = styled.div`
   color: white;
   border: 1px solid rgba(96, 125, 139, 0.7);
   background-color: #202850;
-  overflow: scroll;
-  overflow-x: hidden;
 
   &:last-child {
     margin-bottom: 0;
@@ -273,29 +271,6 @@ function ContentGetCondos() {
                     data-testid='edit'
                   >
                     <EditIcon style={{ color: 'white', fontSize: '24px' }} />
-                  </IconButton>
-                </SingleCondoInnerDiv>
-                <SingleCondoInnerDiv>
-                  <IconButton 
-                    style={{ padding: '0px' }}
-                    onClick={onDeleteCondo.bind(this, condo._id)}
-                  >
-                    <DeleteIcon
-                      style={{ color: 'white', fontSize: '24px' }}
-                    />
-                  </IconButton>
-                  <IconButton 
-                    style={{ padding: '0px', display: 'block' }}
-                    onClick={onEditCondo.bind(
-                      this,
-                      condo._id,
-                      condo.name,
-                      condo.address
-                    )}
-                  >
-                    <EditIcon
-                      style={{ color: 'white', fontSize: '24px' }}                      
-                    />
                   </IconButton>
                 </SingleCondoInnerDiv>
               </SingleCondoOuterDiv>
