@@ -12,19 +12,16 @@ import PaymentResponse from './payments/PaymentResponse'
 
 const ContentDiv = styled.main`
   display: grid;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: white;
+  color: #202850;
+
   grid-area: 2 / 3 / 9 / 11;
   padding: 10px;
   box-sizing: border-box;
-  display: flex;
-<<<<<<< HEAD
-  color: white;
-  overflow-y: scroll;
-  scrollbar-color: rgba(255, 255, 255, 0.1);
 
-=======
-  overflow-y: hidden;
->>>>>>> 0dfb3f2073ca65f3d0eb20a3b6420bb9239aead5
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
   @media (max-width: 768px) {
     grid-area: 2 / 2 / 9 / 13;
   }
@@ -62,7 +59,7 @@ function Content() {
     }
   }
 
-  return <ContentDiv data-testid="content">{renderContent()}</ContentDiv>
+  return <ContentDiv data-testid='content'>{renderContent()}</ContentDiv>
 }
 
 export default Content

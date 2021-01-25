@@ -11,9 +11,8 @@ export const CondosOuterDiv = styled.div`
 `
 
 export const ContentTopBar = styled.div`
-  border-bottom: 3px solid rgba(96, 125, 139, 1);
   background-color: rgba(255, 255, 255, 0.1);
-  height: 3.5rem;
+  height: auto;
   width: 100%;
   display: flex;
   position: sticky;
@@ -21,7 +20,7 @@ export const ContentTopBar = styled.div`
 `
 
 export const ContentTopBarTab = styled.button`
-  padding: 0.2rem 1.1rem;
+  padding: 0.7rem 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: white;
   margin-right: 1rem;
@@ -34,7 +33,7 @@ export const ContentTopBarTab = styled.button`
     background-color: #7870a0;
   }
   &:active {
-    background-color: rgba(96, 125, 139, 0.7);
+    background-color: #9898b8;
     color: white;
   }
 `
@@ -75,7 +74,7 @@ function Condos() {
       case 'list':
         return <ContentGetCondos />
       default:
-        return <p>You're on condos page</p>
+        return <p>You're on condos page!!!</p>
     }
   }
 

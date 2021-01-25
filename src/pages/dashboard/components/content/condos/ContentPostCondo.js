@@ -30,11 +30,11 @@ export const AddCondoDiv = styled.div`
 `
 
 export const SectionTitle = styled.h2`
-  font-family: 'Cormorant Garamond';
+  /* font-family: 'Cormorant Garamond'; */
   margin: 10px 0 40px 0;
-  font-weight: 800;
-  font-size: 28px;
-  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  font-size: 32px;
+  color: #181838;
 `
 
 const CondosForm = styled.form`
@@ -44,6 +44,7 @@ const CondosForm = styled.form`
   margin-top: 10px;
   box-sizing: border-box;
   width: 70%;
+  color: black;
 
   & div {
     width: 45%;
@@ -93,7 +94,7 @@ function ContentPostCondo() {
     <Redirect to='/dashboard' />
   ) : (
     <AddCondoDiv>
-      <SectionTitle>Agregar Condominio</SectionTitle>
+      <SectionTitle>Ingresa un nuevo condominio</SectionTitle>
       <CondosForm onSubmit={createDocument}>
         <div>
           <label htmlFor='condoName'>Nombre</label>
@@ -123,7 +124,8 @@ function ContentPostCondo() {
           style={{
             marginTop: '20px',
             backgroundColor: '#505098',
-            border: 'none',
+            border: '1px solid white',
+            padding: '0.7rem 1.1rem',
           }}
         >
           Submit

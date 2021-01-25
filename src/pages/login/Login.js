@@ -10,14 +10,19 @@ import '../../App.css'
 const LoginContainer = styled.div`
   display: flex;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 `
 
 const LoginBackground = styled.div`
   width: 50%;
   background-size: cover;
-  background-position: center;
-  background-image: url('https://pixabay.com/get/55e5d3434351af14f6d1867dda2f3376103fd8e24e507748752672d49644c4_1920.jpg');
+  background-position: bottom;
+  background-image: linear-gradient(
+      120deg,
+      rgba(24, 24, 56, 0.1) 25%,
+      rgba(24, 24, 56, 0.3) 50%
+    ),
+    url('https://pixabay.com/get/gea0aca8dfcea542ac8e3611aa848ea569f7231e516f3aa6f7ba36871abcb2203a2f9e7b8832f9945c999bdacf5887175_1920.jpg');
 `
 
 export const EnterFormDiv = styled.div`
@@ -229,6 +234,7 @@ function Login() {
             />
           </InputDiv>
           <Button type='submit'>Ingresar</Button>
+          <Link className='forgot-password'>Olvidé mi contraseña</Link>
           {message && <p>{message}</p>}
           <Paragraph>
             ¿No tienes una cuenta?{' '}

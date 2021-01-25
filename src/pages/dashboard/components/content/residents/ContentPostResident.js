@@ -13,14 +13,16 @@ import {
 } from '../../../../../store/residentReducer'
 
 export const AddResidentDiv = styled.div`
-  padding: 10px 0;
+  padding: 1rem 0 10rem 0;
+  margin-bottom: 5rem;
   width: 100%;
-  height: 120vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-  overflow-y: scroll;
+  overflow: scroll;
+  color: black;
+
   & input,
   & select {
     box-sizing: border-box;
@@ -33,7 +35,7 @@ export const SectionTitle = styled.h1`
   margin: 30px 0 10px 0;
   font-weight: 500;
   font-size: 28px;
-  color: rgba(96, 125, 139, 0.9);
+  color: black;
 `
 
 const ResidentsForm = styled.form`
@@ -42,12 +44,45 @@ const ResidentsForm = styled.form`
   width: 70%;
 `
 
-function ContentPostResident () {
-
-  const { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error } = useSelector(( { residentReducer: { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }}) => {
-    return { resName, resLastname, resIdNumber, resPhone, resEmail, resPassword, resUnit, message, error }
-  })
-  const { units } = useSelector(( { unitReducer: { units }}) => {
+function ContentPostResident() {
+  const {
+    resName,
+    resLastname,
+    resIdNumber,
+    resPhone,
+    resEmail,
+    resPassword,
+    resUnit,
+    message,
+    error,
+  } = useSelector(
+    ({
+      residentReducer: {
+        resName,
+        resLastname,
+        resIdNumber,
+        resPhone,
+        resEmail,
+        resPassword,
+        resUnit,
+        message,
+        error,
+      },
+    }) => {
+      return {
+        resName,
+        resLastname,
+        resIdNumber,
+        resPhone,
+        resEmail,
+        resPassword,
+        resUnit,
+        message,
+        error,
+      }
+    }
+  )
+  const { units } = useSelector(({ unitReducer: { units } }) => {
     return { units }
   })
   const { currentCondoId } = useSelector(
@@ -170,8 +205,18 @@ function ContentPostResident () {
           onChange={handleChange}
           value={resPassword}
         />
-        <button type='submit' className='btn btn-success'>
-          Submit
+        <button
+          type='submit'
+          className='btn btn-success'
+          style={{
+            marginTop: '20px',
+            backgroundColor: '#505098',
+            border: '1px solid white',
+            padding: '0.7rem 1.1rem',
+            letterSpacing: '1.1px',
+          }}
+        >
+          Agregar
         </button>
         {message || error}
       </ResidentsForm>

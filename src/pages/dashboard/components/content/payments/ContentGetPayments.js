@@ -28,12 +28,10 @@ export const GetPaymentsDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-  overflow-y: scroll;
+  overflow: hidden;
   & input,
   & select {
-    box-sizing: border-box;
-    width: 100%;
+    width: 90%;
     margin-bottom: 10px;
   }
 `
@@ -88,7 +86,9 @@ const ContentGetPayments = () => {
       <ResidentPaymentsList>
         {!!payments && payments.length > 0 ? (
           <ResidentInfoOuterDiv className='list'>
-            <ResidentInfoTitle className='payments'>Pagos</ResidentInfoTitle>
+            <ResidentInfoTitle className='payments' style={{ margin: '2rem ' }}>
+              Pagos
+            </ResidentInfoTitle>
             <PaymentsTable>
               <PaymentsThead>
                 <PaymentsTr>

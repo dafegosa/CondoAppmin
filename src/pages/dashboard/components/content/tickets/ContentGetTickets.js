@@ -13,30 +13,43 @@ import axios from 'axios'
 
 const BigCentralMessagesContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-bottom: 15rem;
+  overflow: scroll;
 `
 export const MessageContainerMenu = styled.div`
   margin: 2rem;
-  height: auto;
+  position: absolute;
+  height: 50vh;
+  width: 60%;
   display: flex;
   justify-content: center;
 `
-
+const SectionTitles = styled.div`
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-left: 0;
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+`
 const MessageContainer = styled.div`
-  flex-direction: row-reverse;
+  overflow: scroll;
+  width: 90%;
+  display: flex;
   align-items: center;
+  display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  margin: 0;
-  padding: 10px;
-  overflow-y: scroll;
+  margin: 0 auto;
+  padding: 1rem;
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ffbf5b;
     border-radius: 4px;
   }
   .secction-title {
@@ -49,16 +62,16 @@ const MessageContainer = styled.div`
 `
 
 const Message = styled.div`
-  color: black;
-  border-bottom: solid 1px rgba(96, 125, 139, 1);
-  text-align: left;
-  width: 100%;
+  background-color: #384878;
+  color: white;
   display: flex;
-  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 0.5rem;
+
   &:hover {
     cursor: pointer;
-    margin-top: 0.5%;
-    box-shadow: -2px 7px 8px 0px rgba(255, 191, 91, 0.9);
+    background-color: #505098;
   }
   h5 {
     margin: 2%;
@@ -67,15 +80,17 @@ const Message = styled.div`
   .h6 {
     margin: 2%;
     width: 33%;
+    color: white;
   }
   p {
     font-size: 12.5px;
-    color: black;
-    margin: 2% 6%;
+    color: white;
+    margin: 1rem auto;
     line-height: 1.2;
     width: 33%;
   }
 `
+
 const ContentGetTickets = () => {
   const dispatch = useDispatch()
   const { messagesList } = useSelector(
@@ -128,9 +143,19 @@ const ContentGetTickets = () => {
   }
   return (
     <BigCentralMessagesContainer>
-      <MessageContainerMenu>
-        {!admin && <WriteMessagessButton value='Nuevo Ticket' />}
-      </MessageContainerMenu>
+      {/* <MessageContainerMenu>
+        {!admin && <WriteMessagessButton value='Nuevo Tickets' />}
+      </MessageContainerMenu> */}
+      {!!messagesListReverse && messagesListReverse.length > 0 ? (
+        <SectionTitles>
+          <h3>Residente</h3>
+          <h3>Asunto</h3>
+          <h3>Fecha</h3>
+        </SectionTitles>
+      ) : (
+        ''
+      )}
+
       <MessageContainer>
         {!!messagesListReverse &&
           messagesListReverse.length > 0 &&

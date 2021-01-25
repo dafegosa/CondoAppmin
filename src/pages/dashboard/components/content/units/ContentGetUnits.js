@@ -22,49 +22,36 @@ import {
 
 const UnitListSection = styled.div`
   width: 80%;
-  padding-bottom: 50px;
+  padding-bottom: 3rem;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  align-content: flex-end;
+  align-items: stretch;
+  justify-content: flex-start;
 `
 
 const SingleUnitOuterDiv = styled.div`
   margin-bottom: 15px;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   justify-content: space-between;
   border-radius: 5px;
   box-sizing: border-box;
   padding: 10px;
-  width: 45%;
+  width: 20%;
+  margin: 1rem;
   color: white;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  background-color: rgba(96, 125, 139, 0.6);
-  overflow: scroll;
+  background-color: #182040;
 `
 const SingleUnitInnerDiv = styled.div`
-  padding: 5px;
-  border-left: 1px solid white;
+  display: flex;
+  padding: 0.2rem;
   width: 30%;
-  &:first-child {
-    border-left: 0px;
-  }
-  &:last-child {
-    border-left: 1px solid white;
-  }
 `
 
 const UnitName = styled.h2`
-  margin: 0 0 10px 0;
-  font-weight: 400;
-  font-size: 22px;
-`
-const CondoUnitsTitle = styled.h3`
-  margin: 0 0 10px 0;
-  font-weight: 400;
-  font-size: 18px;
+  font-weight: 800;
+  color: #6068a0;
+  font-size: 2rem;
 `
 
 const UnitNameInput = styled.input``
@@ -194,25 +181,30 @@ function ContentGetUnits() {
                 </SingleUnitInnerDiv>
                 {unit.resident ? (
                   <SingleUnitInnerDiv>
-                    <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
+                    {/* <CondoUnitsTitle>Residente Principal</CondoUnitsTitle> */}
                     <p>{`${unit.resident.name} ${unit.resident.lastName}`}</p>
                   </SingleUnitInnerDiv>
                 ) : (
                   <SingleUnitInnerDiv>
-                    <CondoUnitsTitle>Residente Principal</CondoUnitsTitle>
+                    {/* <CondoUnitsTitle>Residente Principal</CondoUnitsTitle> */}
                     <p>No asignado</p>
                   </SingleUnitInnerDiv>
                 )}
-                <SingleUnitInnerDiv>
+                <SingleUnitInnerDiv
+                  style={{
+                    backgroundColor: '#7078c8',
+                    width: '100%',
+                    justifyContent: 'center',
+                  }}
+                >
                   <IconButton
-                    style={{ padding: '0px' }}
+                    // style={{ padding: '0px' }}
                     onClick={onDeleteUnit.bind(unit, unit._id)}
                     data-testid='delete'
                   >
                     <DeleteIcon style={{ color: 'white', fontSize: '24px' }} />
                   </IconButton>
                   <IconButton
-                    style={{ padding: '0px', display: 'block' }}
                     onClick={onEditUnit.bind(unit, unit._id, unit.name)}
                     data-testid='edit'
                   >
