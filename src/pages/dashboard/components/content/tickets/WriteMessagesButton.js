@@ -6,15 +6,16 @@ import { verifyUser } from '../../../../../store/sessionReducer'
 import axios from 'axios'
 
 export const Button = styled.button`
-  padding: 0.5rem 0.9rem;
   border: 1px solid rgba(96, 125, 139, 0.7);
+  padding: 0.7rem 1.1rem;
   color: #182040;
-  margin: 1rem 0 1rem 48rem;
+  margin-top: 0;
+  height: 2.5rem;
   cursor: pointer;
   background-color: #c8c8d8;
   border-radius: 0.5rem;
   transition: 220ms;
-  width: auto;
+  width: 50%;
 
   &:hover {
     background-color: rgba(96, 125, 139, 0.7);
@@ -57,20 +58,7 @@ const WriteMessagessButton = (props) => {
   }
 
   return (
-    <Button
-      id='buttonAddTicket'
-      class={props.className}
-      onClick={newMessage}
-      style={{
-        marginBottom: '10rem',
-        marginTop: '20px',
-        backgroundColor: '#505098',
-        border: '1px solid white',
-        padding: '0.7rem 1.1rem',
-        color: 'white',
-        borderRadius: '0.5rem',
-      }}
-    >
+    <Button id='buttonAddTicket' class={props.className} onClick={newMessage}>
       {props.value}
     </Button>
   )

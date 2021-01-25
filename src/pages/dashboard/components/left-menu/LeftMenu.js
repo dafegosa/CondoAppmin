@@ -96,9 +96,7 @@ const LeftMenu = () => {
     { name: 'Unidades', icon: 'fas fa-tag', link: 'unit' },
     { name: 'Residentes', icon: 'fas fa-address-card', link: 'resident' },
     { name: 'Tickets', icon: 'fas fa-comment-dots', link: 'ticket' },
-    { name: 'Mensajes', icon: 'fas fa-envelope', link: 'message' },
     { name: 'Pagos', icon: 'fas fa-money-check-alt', link: 'payment' },
-    { name: 'Areas Comunes', icon: 'fas fa-table-tennis', link: 'venue' },
   ]
   if (resident) leftMenuNav.splice(0, 3)
 

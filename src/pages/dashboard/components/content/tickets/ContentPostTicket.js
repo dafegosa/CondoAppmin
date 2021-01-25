@@ -92,7 +92,7 @@ const ContentPostTicket = (props) => {
       } else if (getResident) {
         setUserEmail(getResident.data.email)
         axios
-          .get('http://localhost:8000/ticket', {
+          .get(`${process.env.REACT_APP_SERVER_URL}/ticket`, {
             url: `/${getResident.data.id}/resident`,
             headers: {
               Authorization: `Bearer ${token}`,
@@ -238,7 +238,7 @@ const ContentPostTicket = (props) => {
         name='body'
         config={{
           ckfinder: {
-            uploadUrl: 'http://localhost:8000/uploads',
+            uploadUrl: `${process.env.REACT_APP_SERVER_URL}/uploads`,
           },
         }}
         required

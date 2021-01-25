@@ -31,17 +31,11 @@ const BigCentarlMessagesContainer = styled.form`
   }
 `
 
-const Input = styled.input`
-  background-color: none;
-  border: none;
-  border-bottom: 1px solud rgba(96, 125, 139, 1);
-  width: 100%;
-`
 const MessageZone = styled.div`
   width: 100%;
   height: 80%;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
   .ticketBody {
@@ -55,11 +49,6 @@ const SuccessMessage = styled.p`
   color: green;
   margin: 5px;
   width: 65%;
-`
-const Alert = styled.p`
-  color: red;
-  margin: 5px;
-  width: 35%;
 `
 const SubTicketCreator = styled.button`
   padding: 5px;
@@ -187,7 +176,7 @@ const ShowMessage = (props) => {
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
       {loading ? <Loader show={loading}>Cargando...</Loader> : null}
-      <MessageContainerMenu style={{ backgroundColor: 'pink' }}>
+      <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
             type='button'
@@ -247,7 +236,7 @@ const ShowMessage = (props) => {
           name='body'
           config={{
             ckfinder: {
-              uploadUrl: 'http://localhost:8000/uploads',
+              uploadUrl: `${process.env.REACT_APP_SERVER_URL}/uploads`,
             },
           }}
           required

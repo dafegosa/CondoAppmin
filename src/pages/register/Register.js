@@ -31,7 +31,7 @@ const RegisterBackground = styled.div`
       rgba(24, 24, 56, 0.5) 25%,
       rgba(24, 24, 56, 0.7) 50%
     ),
-    url('https://pixabay.com/get/g2d16fd87ac1b50370757d79b53e6596da5aeadff60d64e0f62b6e425cfd898611c38498364eb22d4791964ab09c46d97_1920.jpg');
+    url('https://res.cloudinary.com/dafegosa/image/upload/v1611614912/condo-2414328_1920_mlbaxx.jpg');
 `
 
 function Register() {

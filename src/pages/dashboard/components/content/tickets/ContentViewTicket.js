@@ -16,7 +16,7 @@ const BigCentarlMessagesContainer = styled.form`
   height: 100%;
   display: flex;
   flex-direction: column;
-
+  overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -41,14 +41,22 @@ const Input = styled.input`
 `
 const MessageZone = styled.div`
   background-color: green;
-  margin: 2rem auto;
-  width: 80%;
-  height: 100vh;
+  margin-top: 1rem;
+  width: 100%;
+  height: 60vh;
   border-radius: 1rem;
-
+  display: flex;
+  flex-direction: column;
   color: white;
-  overflow: hidden;
-  margin-bottom: 2%;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 4px;
+  }
   background-color: #304068;
   .ticketBody {
     margin-left: 1rem;
@@ -56,7 +64,7 @@ const MessageZone = styled.div`
   }
   .ticketHeader {
     color: white;
-    margin: 1rem;
+    margin-bottom: 0;
   }
 `
 const SuccessMessage = styled.p`
@@ -64,16 +72,16 @@ const SuccessMessage = styled.p`
   margin: 5px;
   width: 65%;
 `
-const Alert = styled.p`
-  color: red;
-  margin: 5px;
-  width: 35%;
-`
 const SubTicketCreator = styled.button`
-  padding: 5px;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  border: 1px solid white;
+  margin-top: 0;
+  background-color: rgb(80, 80, 152);
+  padding: 0.7rem 1.1rem;
+  color: white;
+  border-radius: 0.5rem;
+  align-items: center;
+  height: 2.5rem;
+  width: auto;
   cursor: pointer;
   transition: 400ms;
 
@@ -89,7 +97,7 @@ const SubTicket = styled.div`
     font-size: 9px;
   }
   .body {
-    color: #4f4e4d;
+    color: white;
     margin-left: 50px;
   }
 `
@@ -195,39 +203,64 @@ const ContentViewTicket = (props) => {
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
-      <MessageZone>
-        <p className='ticketHeader'>De: {from}</p>
-        <p className='ticketHeader'>Asunto: {subject}</p>
-        <br></br>
-        <p
-          name='body'
-          readOnly
-          className='ticketBody'
-          dangerouslySetInnerHTML={{
-            __html: body,
-          }}
-        />
-        <br></br>
-        <br></br>
-        {!!subTickets &&
-          subTickets.length > 0 &&
-          subTickets.map((subTickets, indx) => (
-            <SubTicket>
-              <p> {subTickets.from}: </p>
-              <p className='date'> {subTickets.date} </p>
-              <br></br>
-              <p
-                className='body'
-                dangerouslySetInnerHTML={{
-                  __html: subTickets.body,
-                }}
-              />
-              <br></br>
-              <br></br>
-            </SubTicket>
-          ))}
-      </MessageZone>
-      <MessageContainerMenu>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: '0',
+          borderTop: '0',
+        }}
+      >
+        <MessageZone>
+          <p className='ticketHeader'>De: {from}</p>
+          <p className='ticketHeader'>Asunto: {subject}</p>
+          <br></br>
+          <p
+            name='body'
+            readOnly
+            className='ticketBody'
+            dangerouslySetInnerHTML={{
+              __html: body,
+            }}
+          />
+          <br></br>
+          <hr style={{ backgroundColor: 'white', height: '5px' }}></hr>
+          {!!subTickets &&
+            subTickets.length > 0 &&
+            subTickets.map((subTickets, indx) => (
+              <SubTicket>
+                <p> {subTickets.from}: </p>
+                <p className='date'> {subTickets.date} </p>
+                <br></br>
+                <p
+                  className='body'
+                  dangerouslySetInnerHTML={{
+                    __html: subTickets.body,
+                  }}
+                />
+                <br></br>
+                <br></br>
+              </SubTicket>
+            ))}
+        </MessageZone>
+        {ticketState && (
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+            <SubTicketCreator
+              id='response'
+              type='button'
+              value='Responder'
+              onClick={createSubTicket}
+              style={{ width: user === 'iAmAdmin' ? '50%' : '100%' }}
+            >
+              Responder
+            </SubTicketCreator>
+            {user === 'iAmAdmin' && (
+              <WriteMessagessButton type='button' value='Ticket Solucionado' />
+            )}
+          </div>
+        )}
+      </div>
+      {/* <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
             id='response'
@@ -247,7 +280,7 @@ const ContentViewTicket = (props) => {
           />
         )}
         <SuccessMessage>{message}</SuccessMessage>
-      </MessageContainerMenu>
+      </MessageContainerMenu> */}
       {ticketState && (
         <CKEditor
           style={{ height: '300px', rows: '10' }}
@@ -255,7 +288,7 @@ const ContentViewTicket = (props) => {
           name='body'
           config={{
             ckfinder: {
-              uploadUrl: 'http://localhost:8000/uploads',
+              uploadUrl: `${process.env.REACT_APP_SERVER_URL}/uploads`,
             },
           }}
           required
