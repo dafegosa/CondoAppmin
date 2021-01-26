@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -22,6 +22,7 @@ import {
 import { definePaymentState } from './ContentGetPayments'
 import handler from '../../../../../utils/ePayco'
 import { getResident } from '../../../../../store/sessionReducer'
+import Loader from '../../../Loader'
 
 const PayButton = styled.button`
   &:hover {
@@ -30,6 +31,7 @@ const PayButton = styled.button`
 `
 
 const ContentViewPayment = () => {
+  const [loading, setLoading] = useState(false)
   const { admin } = useSelector(({ sessionReducer: { admin } }) => {
     return { admin }
   })
@@ -89,6 +91,7 @@ const ContentViewPayment = () => {
   }
 
   const sendEmail = async () => {
+    setLoading(true)
     const token = localStorage.getItem('token')
     const paymentDueDate = new Date(currentPayment.dueDate)
     const now = new Date(Date.now())
@@ -105,14 +108,15 @@ const ContentViewPayment = () => {
       vence en ${now.getDate() - paymentDueDate.getDate()} días`
     }
 
-    dispatch(sendEmailReminder(currentPaymentId, token, message))
+    dispatch(sendEmailReminder(currentPaymentId, token, message)).then(() => {
+      setLoading(false)
+    })
   }
 
   return (
-    <ViewPaymentDiv style={{ overflow: 'hidden' }}>
-      <SectionTitle style={{ marginBottom: '2rem' }}>
-        Ver Información de Pago
-      </SectionTitle>
+    <ViewPaymentDiv>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
+      <SectionTitle>Ver Información de Pago</SectionTitle>
       {currentPayment ? (
         <PaymentInfoDiv>
           <PaymentInfoOuterDiv>

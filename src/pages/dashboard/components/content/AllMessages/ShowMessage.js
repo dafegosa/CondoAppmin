@@ -27,20 +27,15 @@ const BigCentarlMessagesContainer = styled.form`
   }
   .ck-content {
     height: 10%;
+    color: black;
   }
 `
 
-const Input = styled.input`
-  background-color: none;
-  border: none;
-  border-bottom: 1px solud rgba(96, 125, 139, 1);
-  width: 100%;
-`
 const MessageZone = styled.div`
   width: 100%;
   height: 80%;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-bottom: 2%;
   color: rgba(96, 125, 139, 1);
   .ticketBody {
@@ -54,11 +49,6 @@ const SuccessMessage = styled.p`
   color: green;
   margin: 5px;
   width: 65%;
-`
-const Alert = styled.p`
-  color: red;
-  margin: 5px;
-  width: 35%;
 `
 const SubTicketCreator = styled.button`
   padding: 5px;
@@ -97,7 +87,7 @@ const ShowMessage = (props) => {
   const [message, setMessage] = useState('')
   const [addData, setVal] = useState('')
   const [subTickets, setSubTickets] = useState([])
-
+  const [loading, setLoading] = useState(false)
   useEffect(async () => {
     const { getResident, getAdmin, type } = await dispatch(verifyUser())
     let user = ''
@@ -147,8 +137,8 @@ const ShowMessage = (props) => {
   }, [])
 
   const createSubTicket = (e) => {
-    setMessage('Respuesta enviada')
     e.preventDefault()
+    setLoading(true)
     axios({
       method: 'POST',
       baseURL: process.env.REACT_APP_SERVER_URL,
@@ -162,25 +152,31 @@ const ShowMessage = (props) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then(() => {
-      axios({
-        method: 'PUT',
-        baseURL: process.env.REACT_APP_SERVER_URL,
-        url: `/ticket/updateTicket`,
-        data: {
-          _id: thisId,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
     })
+      .then(() => {
+        setLoading(false)
+        setMessage('Respuesta enviada')
+      })
+      .then(() => {
+        axios({
+          method: 'PUT',
+          baseURL: process.env.REACT_APP_SERVER_URL,
+          url: `/ticket/updateTicket`,
+          data: {
+            _id: thisId,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        dispatch({ type: 'RENDER_SUBTICKETS', payload: { renderSubTicket } })
+      })
   }
 
   return (
     <BigCentarlMessagesContainer onSubmit={createSubTicket}>
-      <MessageContainerMenu style={{ backgroundColor: 'pink' }}>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
+      <MessageContainerMenu>
         {ticketState === true && (
           <SubTicketCreator
             type='button'
@@ -240,7 +236,7 @@ const ShowMessage = (props) => {
           name='body'
           config={{
             ckfinder: {
-              uploadUrl: 'http://localhost:8000/uploads',
+              uploadUrl: `${process.env.REACT_APP_SERVER_URL}/uploads`,
             },
           }}
           required

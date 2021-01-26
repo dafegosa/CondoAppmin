@@ -141,7 +141,7 @@ function MessagesArea(props) {
     <MessageContainer data-testid='messages-area'>
       <p className='secction-title top-title'>
         <br />
-        <strong>TICKETS</strong>
+        <strong>Notificaciones</strong>
       </p>
       <MessageInternContainer>
         {!!messages &&

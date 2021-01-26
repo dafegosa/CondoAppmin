@@ -22,7 +22,7 @@ const LoginBackground = styled.div`
       rgba(24, 24, 56, 0.1) 25%,
       rgba(24, 24, 56, 0.3) 50%
     ),
-    url('https://pixabay.com/get/gea0aca8dfcea542ac8e3611aa848ea569f7231e516f3aa6f7ba36871abcb2203a2f9e7b8832f9945c999bdacf5887175_1920.jpg');
+    url('https://res.cloudinary.com/dafegosa/image/upload/v1611614912/condo-2414328_1920_mlbaxx.jpg');
 `
 
 export const EnterFormDiv = styled.div`

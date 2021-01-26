@@ -9,6 +9,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { MessageContainerMenu } from './ContentGetTickets'
 import { CREATE_MESSAGE } from '../../../../../store/messageFormReducer'
 import { verifyUser } from '../../../../../store/sessionReducer'
+import Loader from '../../../Loader'
 
 const BigCentarlMessagesContainer = styled.form`
   width: 100%;
@@ -19,6 +20,8 @@ const BigCentarlMessagesContainer = styled.form`
   overflow: scroll;
 
   .ck-content {
+    /* height: 300px;
+    color: black; */
     height: 50vh;
   }
   .alert {
@@ -61,6 +64,7 @@ const ContentPostTicket = (props) => {
     }
   )
   const state = useSelector((state) => state.messageFormReducer)
+  const [loading, setLoading] = useState(false)
   const [userEmail, setUserEmail] = useState('')
   const [openTicket, setOpenTicket] = useState([])
   const [message, setMessage] = useState('')
@@ -88,7 +92,7 @@ const ContentPostTicket = (props) => {
       } else if (getResident) {
         setUserEmail(getResident.data.email)
         axios
-          .get('http://localhost:8000/ticket', {
+          .get(`${process.env.REACT_APP_SERVER_URL}/ticket`, {
             url: `/${getResident.data.id}/resident`,
             headers: {
               Authorization: `Bearer ${token}`,
@@ -125,7 +129,7 @@ const ContentPostTicket = (props) => {
   }
   const createTicket = (e) => {
     e.preventDefault()
-
+    setLoading(true)
     const token = localStorage.getItem('token')
     const { from, to, subject, body, date, read, ticketState } = state
 
@@ -165,6 +169,7 @@ const ContentPostTicket = (props) => {
             Authorization: `Bearer ${token}`,
           },
         })
+          .then(setLoading(false))
           .then(setMessage('¡Ticket Enviado!'))
           .then(setUserEmail(''))
       })
@@ -175,6 +180,7 @@ const ContentPostTicket = (props) => {
 
   return (
     <BigCentarlMessagesContainer onSubmit={createTicket}>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
       {openTicket.length > 0 && (
         <p className='alert'>
           Usted Tiene un ticket en estado activo. (Asunto:{' '}
@@ -232,7 +238,7 @@ const ContentPostTicket = (props) => {
         name='body'
         config={{
           ckfinder: {
-            uploadUrl: 'http://localhost:8000/uploads',
+            uploadUrl: `${process.env.REACT_APP_SERVER_URL}/uploads`,
           },
         }}
         required

@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import ContentGetTickets from './ContentGetTickets'
 import ContentViewTicket from './ContentViewTicket'
 import ContentPostTicket from './ContentPostTicket'
+import WriteMessagessButton from '../allMessages/WriteMessagesButton'
 
 const ContentTopBarTab = styled.button`
   padding: 0.7rem 1.1rem;

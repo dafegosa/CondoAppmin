@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,6 +19,7 @@ import {
   PAYMENTS_CLEAN_MESSAGE,
   PAYMENTS_FORM_CLEAN,
 } from '../../../../../store/paymentReducer'
+import Loader from '../../../Loader'
 
 export const AddPaymentDiv = styled.div`
   padding: 2rem 0 5rem 0;
@@ -49,6 +50,7 @@ const PaymentsForm = styled.form`
 `
 
 function ContentPostPayment() {
+  const [loading, setLoading] = useState(false)
   const {
     unit,
     service,
@@ -102,7 +104,7 @@ function ContentPostPayment() {
 
   const createDocument = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
     dispatch({ type: PAYMENTS_CLEAN_ERROR })
     dispatch({ type: PAYMENTS_CLEAN_MESSAGE })
 
@@ -121,7 +123,9 @@ function ContentPostPayment() {
         dueDate: dueDate,
       }
       const token = localStorage.getItem('token')
-      dispatch(globalCreateDocument('payment', newDocument, token))
+      dispatch(globalCreateDocument('payment', newDocument, token)).then(() => {
+        setLoading(false)
+      })
     } catch (err) {
       dispatch({
         type: PAYMENTS_SET_ERROR,
@@ -134,6 +138,7 @@ function ContentPostPayment() {
     <Redirect to='/dashboard' />
   ) : (
     <AddPaymentDiv>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
       <SectionTitle>Generar Pagos</SectionTitle>
       <PaymentsForm onSubmit={createDocument}>
         <label htmlFor='resLastname'>Servicio</label>

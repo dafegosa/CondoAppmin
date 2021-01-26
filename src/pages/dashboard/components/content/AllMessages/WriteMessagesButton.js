@@ -6,18 +6,22 @@ import { verifyUser } from '../../../../../store/sessionReducer'
 import axios from 'axios'
 
 export const Button = styled.button`
-  padding: 5px;
-  border: 1px solid rgba(96, 125, 139, 0.7);
-  color: rgba(96, 125, 139, 0.7);
-  margin-right: 3px;
+  /* margin-top: 0;
+  background-color: rgb(80, 80, 152);
+  border: 1px solid white;
+  padding: 0.7rem 1.1rem;
+  color: white;
+  border-radius: 0.5rem;
+  align-items: center;
+  height: 2.5rem;
+  width: auto;
   cursor: pointer;
   transition: 400ms;
-  background-color: pink;
 
   &.active {
     background-color: rgba(96, 125, 139, 0.7);
     color: white;
-  }
+  } */
 `
 
 const WriteMessagessButton = (props) => {

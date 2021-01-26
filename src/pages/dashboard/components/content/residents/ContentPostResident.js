@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { retrieveUnits } from '../../../../../store/unitReducer'
+import Loader from '../../../Loader'
 import {
   globalHandleChange,
   globalCreateDocument,
@@ -45,6 +46,7 @@ const ResidentsForm = styled.form`
 `
 
 function ContentPostResident() {
+  const [loading, setLoading] = useState(false)
   const {
     resName,
     resLastname,
@@ -110,7 +112,7 @@ function ContentPostResident() {
 
   const createDocument = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
     const newDocument = {
       name: resName,
       lastName: resLastname,
@@ -122,12 +124,15 @@ function ContentPostResident() {
       condoId: currentCondoId,
     }
     const token = localStorage.getItem('token')
-    dispatch(globalCreateDocument('resident', newDocument, token))
+    dispatch(globalCreateDocument('resident', newDocument, token)).then(() =>
+      setLoading(false)
+    )
   }
   return !admin ? (
     <Redirect to='/dashboard' />
   ) : (
     <AddResidentDiv>
+      {loading ? <Loader show={loading}>Cargando...</Loader> : null}
       <SectionTitle>Agregar Residentes</SectionTitle>
       <ResidentsForm onSubmit={createDocument}>
         <label htmlFor='resName'>Nombre</label>
